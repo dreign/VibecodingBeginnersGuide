@@ -69,3 +69,8 @@ out/
 ########
 .cache/
 .temp/
+
+# Claude-specific files #
+#########################
+.claude/
+CLAUDE.md

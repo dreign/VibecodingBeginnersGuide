@@ -1,8 +1,8 @@
-# Vibe Coding 从入门到精通
+# Vibe Coding 入门宝典
 
-> 《Vibe Coding 从入门到精通：AI 原生开发实战指南》
+> 《Vibe Coding 入门宝典：非程序员的AI开发指南》
 
-一本面向创作者、独立开发者和传统程序员的 AI 原生开发实战指南，带你完成从传统软件工程到 AI 原生 "Vibe Coding" 的范式转变。
+一本面向非程序员的 AI 开发实战指南，带你开启 Vibe Coding 之旅，用自然语言创造软件。
 
 ---
 
