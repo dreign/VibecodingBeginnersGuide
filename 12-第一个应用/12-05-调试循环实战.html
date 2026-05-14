@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12.5 调试循环实战</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #8a7a6a, #b8a898, #8a7a6a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #8a7a6a; }
+  .title-divider { background: #b8a898; }
+  strong { color: #8a7a6a; }
+  .img-icon { color: #b8a898; }
+  .img-label { color: #8a7a6a; }
+  .img-caption { color: #8a7a6a; }
+  .takeaways-title { color: #8a7a6a; }
+  .takeaways li::before { color: #b8a898; }
+  .vibe-label { color: #8a7a6a; }
+  .vibe-prompt::before { color: #b8a898; }
+  blockquote { border-left-color: #b8a898; }
+  th { color: #8a7a6a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第十二章 · 第一个应用</div>
+  <h1>12.5 调试循环实战</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-13<br>  验证环境：Node.js v22.x, Claude Code v1.x, 现代浏览器（Chrome/Firefox/Edge）</div>
+
+  <h2>红屏不恐慌</h2>
+
+  <p>如果你是编程新手，遇到错误提示时第一反应可能是慌张——满屏的英文错误信息、看不懂的堆栈跟踪、浏览器控制台里的红色警告。</p>
+
+  <p>在 Vibe Coding 中，你的应对方式很简单：</p>
+
+  <p><strong>看到错误 → 复制错误信息 → 贴回 Claude Code → 让 AI 修复。</strong></p>
+
+  <p>不恐慌，不瞎猜，不问 ChatGPT"这是什么意思"。你只需要做搬运工。</p>
+
+  <p><strong>如何打开浏览器控制台：</strong></p>
+
+  <ul>
+<li>Chrome/Edge：按 F12 或 Ctrl+Shift+I，切换到 Console 标签</li>
+<li>Firefox：按 F12 或 Ctrl+Shift+I</li>
+<li>Safari：先启用"开发"菜单（偏好设置 → 高级 → 显示开发菜单），然后 Cmd+Option+C</li>
+</ul>
+
+  <p>控制台是你调试时最重要的信息来源。所有错误信息都会在这里显示。</p>
+
+  <h2>常见的调试循环</h2>
+
+  <p>在实际开发过程中，你会反复经历这个循环：</p>
+
+  <pre><code>运行 → 出错 → 复制错误 → AI 修复 → 重新运行 → 确认通过</code></pre>
+
+  <p>看起来简单，但这个循环比你想象的强大。下面是在 MP3-Visualization 项目中可能遇到的真实场景。</p>
+
+  <p><strong>场景 1：AudioContext 未启动</strong></p>
+
+  <p>错误信息：</p>
+
+  <pre><code>Uncaught (in promise) DOMException: The AudioContext was not allowed to start.</code></pre>
+
+  <p>你的操作：</p>
+
+  <p>将错误信息完整复制，回到 Claude Code 终端，输入：</p>
+
+  <blockquote>
+
+  <p>"浏览器报了这个错误：Uncaught (in promise) DOMException: The AudioContext was not allowed to start. 怎么修复？"</p>
+
+  </blockquote>
+
+  <p>AI 会解释这是浏览器的自动播放策略——用户交互之前不允许音频自动播放。修复方案是：在用户点击"播放"按钮时才创建或恢复 AudioContext。</p>
+
+  <p><strong>场景 2：Canvas 尺寸不对</strong></p>
+
+  <p>你的描述：</p>
+
+  <blockquote>
+
+  <p>"可视化画布显示变形了，柱状条被拉伸了，看起来比例不对。"</p>
+
+  </blockquote>
+
+  <p>AI 会检查 Canvas 的 CSS 尺寸和属性尺寸是否一致，然后修复：</p>
+
+  <pre><code>// 修复前
+canvas.width = 800;
+canvas.height = 400;
+
+// 修复后
+canvas.width = canvas.clientWidth;
+canvas.height = canvas.clientHeight;</code></pre>
+
+  <p>这个问题通常出现在 Canvas 的 CSS 尺寸和实际绘制尺寸不匹配时。AI 会把 <code>width/height</code> 属性设置为 CSS 尺寸。</p>
+
+  <p><strong>场景 3：录制无声</strong></p>
+
+  <p>你的描述：</p>
+
+  <blockquote>
+
+  <p>"录制下来的视频没有声音，画面正常。"</p>
+
+  </blockquote>
+
+  <p>AI 会检查 MediaRecorder 的配置，发现没有将音频流传递给 MediaRecorder。修复方案：用 <code>Canvas.captureStream(30)</code> 获取画面流，用 <code>AudioContext.createMediaStreamDestination()</code> 获取音频流，然后合并。</p>
+
+  <p><strong>场景 4：文件路径错误</strong></p>
+
+  <p>你的描述：</p>
+
+  <blockquote>
+
+  <p>"打开 index.html 时在浏览器中看到空白页面，控制台报 404 错误。"</p>
+
+  </blockquote>
+
+  <p>AI 会检查你的文件引用路径。常见问题：<code><script src="app.js"></code> 写成 <code><script src="./js/app.js"></code>，而文件实际上在根目录。</p>
+
+  <p><strong>场景 5：音频文件加载失败</strong></p>
+
+  <p>你的描述：</p>
+
+  <blockquote>
+
+  <p>"选择 MP3 文件后，点击播放没有声音，控制台没有报错。"</p>
+
+  </blockquote>
+
+  <p>AI 会检查你的音频加载逻辑——可能是 <code>audio.src</code> 设置后没有等待 <code>canplaythrough</code> 事件就调用了 <code>play()</code>，或者是 <code>ObjectURL</code> 没有正确释放。</p>
+
+  <h2>如何向 AI 描述错误</h2>
+
+  <p>这是调试循环中最关键的一步——<strong>准确描述问题</strong>。这里有几个实用的技巧：</p>
+
+  <p><strong>技巧 1：贴完整错误信息</strong></p>
+
+  <p>最省力也是最高效的方式。不要自己总结，直接把控制台里的错误信息原样复制。</p>
+
+  <p>✅ "控制台报错：Uncaught TypeError: Cannot read properties of undefined (reading 'frequencyBinCount')"</p>
+
+  <p>❌ "好像获取不到频率数据"</p>
+
+  <p>完整的错误信息包含了文件路径、行号、错误类型——这些是 AI 定位问题最重要的线索。</p>
+
+  <p><strong>技巧 2：描述"你看到了什么"，而不是"你觉得是什么问题"</strong></p>
+
+  <p>✅ "点击播放按钮后，画布没有显示任何图形，控制台也没有报错。"</p>
+
+  <p>❌ "我觉得是 AudioContext 没有初始化。"</p>
+
+  <p>你不需要做预诊断——AI 比你更擅长从现象反推原因。你描述现象，它做诊断。如果你给出的是你的猜测而不是事实，可能会误导 AI。</p>
+
+  <p><strong>技巧 3：提供一个最小重现路径</strong></p>
+
+  <p>✅ "步骤：1. 选择 MP3 文件 → 2. 点击播放 → 3. 切换到第二种可视化模式 → 4. 画面卡住了。"</p>
+
+  <p>❌ "切换模式就卡住了。"</p>
+
+  <p>精确的步骤让 AI 能快速定位问题，而不是在代码里大海捞针。</p>
+
+  <p><strong>技巧 4：提供环境信息（在特殊情况下）</strong></p>
+
+  <p>有些 Bug 只在特定浏览器或系统上出现。如果某个问题只出现在某个特定环境中：</p>
+
+  <blockquote>
+
+  <p>"这个问题只在 Chrome 上出现，Firefox 上正常。Chrome 版本是 125，Windows 11。"</p>
+
+  </blockquote>
+
+  <h2>建立"红屏不恐慌"的心态</h2>
+
+  <p>如果你在传统开发环境中习惯了"错误 = 我做错了"，那么在 Vibe Coding 中你需要换个心态：</p>
+
+  <p><strong>错误 = 信息，不是审判。</strong></p>
+
+  <p>每次报错都包含了两条信息：第一，有什么东西没有按预期工作（这是"坏事"）；第二，AI 可以知道在哪里改（这是"好事"）。在 Vibe Coding 中，第二条比第一条重要得多——因为你不需要自己修复它。</p>
+
+  <p>一个简单的心态转换：</p>
+
+  <ul>
+<li>旧思维："又报错了，我是不是不适合写代码……"</li>
+<li>新思维："哦，报错了。我把这条信息喂给 AI，看它怎么修。"</li>
+</ul>
+
+  <p><strong>关于"报错频率"的现实预期：</strong></p>
+
+  <p>你可能觉得"AI 写的代码应该一次就正确，不报错"。但实际上，即使是专业开发者写的代码，第一次运行时也经常报错。AI 生成的代码第一次就能完美运行是"惊喜"，而不是"预期"。</p>
+
+  <p>多轮调试是正常的。你看到的每一个专业 App，在开发过程中都经历过无数次报错和修复。</p>
+
+  <h2>如何自己查看问题</h2>
+
+  <p>虽然你把错误给 AI 是最高效的方式，但有时候你不想回到终端去开一个新对话。这时候你可以自己查看一些基本信息：</p>
+
+  <p><strong>在浏览器控制台中：</strong></p>
+
+  <ul>
+<li>输入 <code>audioCtx</code> 查看 AudioContext 对象的状态（running / suspended / closed）</li>
+<li>输入 <code>analyser</code> 查看 AnalyserNode 的配置（fftSize、frequencyBinCount）</li>
+<li>输入 <code>canvas.width</code> 和 <code>canvas.height</code> 检查画布尺寸</li>
+<li>右键页面 → "检查" → 在 Elements 标签中查看 HTML 结构</li>
+</ul>
+
+  <p>这些信息不一定需要你理解——你可以只是把它们复制给 AI。</p>
+
+  <h2>有效的调试指令模板</h2>
+
+  <p>如果你不确定怎么描述问题，套用这个模板：</p>
+
+  <blockquote>
+
+  <p>"我遇到了一个问题：当 [做什么操作] 时，[发生了什么]。控制台显示 [错误信息]。浏览器是 [浏览器名称]，系统是 [操作系统]。"</p>
+
+  </blockquote>
+
+  <p>例子：</p>
+
+  <blockquote>
+
+  <p>"我遇到了一个问题：当我点击播放按钮时，页面没有声音。控制台显示 'Uncaught (in promise) DOMException: play() failed because the user didn't interact with the document first'。浏览器是 Chrome 126，Windows 11。"</p>
+
+  </blockquote>
+
+  <p>这样 AI 就知道了全部上下文。</p>
+
+  <h2>如果 AI 修不好怎么办</h2>
+
+  <p>AI 不是万能的。有时候 AI 会给出一个不正确的修复方案。这时候你有几个选择：</p>
+
+  <ol>
+<li><strong>提供更多上下文</strong>："这个修复没有解决问题。注意，我在 Chrome 118 上运行，操作系统是 Windows 11。"</li>
+<li><strong>要求换个方案</strong>："这个方案不 work，换一种实现方式。"</li>
+<li><strong>缩小问题范围</strong>：让 AI 添加详细的日志输出，找到到底哪一行出错。</li>
+<li><strong>回退到之前的版本</strong>：如果一次修改引入了新问题，而 AI 无法快速修复，回退到上一个正常工作的版本。</li>
+</ol>
+
+  <p><code>git diff</code> 是你的朋友——它能清晰地告诉 AI "刚才改了哪些文件，改了什么内容"。这是提供上下文的最强大方式之一：</p>
+
+  <blockquote>
+
+  <p>"最近一次 git diff 显示改动了很多文件，但我只想要修复录制无声的问题。其他改动先回退。"</p>
+
+  </blockquote>
+
+  <h2>高级调试：让 AI 添加日志</h2>
+
+  <p>对于复杂问题，让 AI 在关键位置添加日志输出：</p>
+
+  <blockquote>
+
+  <p>"在 drawSpectrum 函数的开头和 analyser.getByteFrequencyData 调用之后，各加一行 console.log，输出当前的频谱数据长度和最大值。然后我再运行一次看看数据对不对。"</p>
+
+  </blockquote>
+
+  <p>AI 会在代码中插入：</p>
+
+  <pre><code>console.log('drawSpectrum called, dataArray length:', analyser.frequencyBinCount);
+analyser.getByteFrequencyData(dataArray);
+console.log('max frequency value:', Math.max(...dataArray));</code></pre>
+
+  <p>你在浏览器控制台中就能看到输出的日志，把日志结果告诉 AI，它就能定位问题。</p>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>调试循环：出错 → 复制错误 → AI 修复 → 重新运行。浏览器控制台是调试的第一信息来源。</li>
+<li>向 AI 描述错误的四个技巧：贴完整错误信息、描述现象而非诊断、提供重现路径、必要时提供环境信息。</li>
+<li>心态转换：错误不是"你不行"，而是"AI 需要的信息"。多轮调试是正常的，不是 AI 能力差的标志。</li>
+<li>你可以自己查看一些基本信息（在控制台中输入变量名），但不需要深入理解——复制给 AI 即可。</li>
+<li>有效的调试指令模板："当 [操作] 时，[现象]。控制台显示 [错误]。浏览器 [名称] 系统 [系统]。"</li>
+<li>AI 修不好时：提供更多上下文、要求换方案、加日志或回退版本。git diff 是给 AI 提供调试上下文的最有效方式。</li>
+<li>让 AI 在关键位置添加日志输出是排查复杂问题的有效手段。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>在你的项目中故意制造一个错误，练习调试循环：</p>
+  <div class="vibe-prompt">
+  <p>"请你在代码中制造一个 JavaScript 错误（比如删掉 AnalyserNode 的创建），然后让我体验完整的调试循环：发现错误 → 复制给 AI → 修复验证。"</p>
+  </div>
+  <p>进阶练习：</p>
+  <p>打开浏览器控制台，在控制台中输入 <code>navigator.userAgent</code>，把结果贴给 Claude Code，然后说："请根据我的浏览器信息，检查项目中是否有针对这个浏览器的兼容性问题。" 观察 AI 如何分析你的浏览器环境并找出潜在问题。</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

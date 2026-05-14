@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13.5 跨平台桌面工具</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #7a6a8a, #a898b8, #7a6a8a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #7a6a8a; }
+  .title-divider { background: #a898b8; }
+  strong { color: #7a6a8a; }
+  .img-icon { color: #a898b8; }
+  .img-label { color: #7a6a8a; }
+  .img-caption { color: #7a6a8a; }
+  .takeaways-title { color: #7a6a8a; }
+  .takeaways li::before { color: #a898b8; }
+  .vibe-label { color: #7a6a8a; }
+  .vibe-prompt::before { color: #a898b8; }
+  blockquote { border-left-color: #a898b8; }
+  th { color: #7a6a8a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第十三章 · 进阶实战项目库</div>
+  <h1>13.5 跨平台桌面工具</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-13<br>  验证环境：Node.js v22.x, Rust 1.75+, Tauri v2.x, React v18.x</div>
+
+  <h2>项目概述</h2>
+
+  <p>用 Tauri + React 构建一个跨平台桌面工具——比如一个系统剪贴板管理器、Markdown 编辑器或图片压缩工具。</p>
+
+  <p>Tauri 是一个用 Rust 做底层、Web 技术做界面的桌面应用框架。它比 Electron 更轻量（安装包小 10 倍，内存占用低 5 倍）。</p>
+
+  <p>你不需要写 Rust——AI 会替你处理。你只需要用 React 写界面，AI 做 Rust 和 Tauri 的胶水代码。</p>
+
+  <h2>推荐技术栈</h2>
+
+  <ul>
+<li><strong>桌面框架</strong>：Tauri v2</li>
+<li><strong>前端</strong>：React + Tailwind CSS</li>
+<li><strong>后端语言</strong>：Rust（AI 代写，你不需要学）</li>
+<li><strong>本地存储</strong>：Tauri 内置的 fs API 或 SQLite</li>
+</ul>
+
+  <h2>分步 Vibe 流程</h2>
+
+  <p><strong>第 1 步：创建 Tauri 项目</strong></p>
+
+  <pre><code>创建一个 Tauri v2 + React 项目。
+项目是一个图片压缩工具，功能：
+- 拖拽或选择图片
+- 显示原图预览和压缩率滑块
+- 点击压缩后显示压缩后的图片
+- 支持导出压缩后的图片</code></pre>
+
+  <p>AI 会运行 <code>npm create tauri-app</code> 并配置所有依赖。</p>
+
+  <p>等待这一步完成时需要注意：Tauri 的初始化需要 Rust 编译环境。AI 会自动检测你的系统上是否安装了 Rust，如果没有，它会指导你安装。</p>
+
+  <blockquote>
+
+  <p><strong>Rust 安装指南：</strong></p>
+
+  <p>- <strong>macOS/Linux</strong>：<code>curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh</code></p>
+
+  <p>- <strong>Windows</strong>：从 https://rustup.rs 下载安装程序，运行后选择默认安装</p>
+
+  <p>- 安装完成后，重启终端，运行 <code>rustc --version</code> 确认安装成功</p>
+
+  <p></p>
+
+  <p>整个过程约 5-10 分钟。你不需要学习 Rust——安装只是为了编译环境。</p>
+
+  </blockquote>
+
+  <p><strong>第 2 步：实现图片处理（Rust 端）</strong></p>
+
+  <pre><code>在 Rust 端实现图片压缩逻辑：
+- 使用 image crate 加载图片
+- 支持 JPEG 和 PNG 格式
+- 根据压缩质量参数调整输出
+- 返回压缩前后的文件大小对比</code></pre>
+
+  <p>Rust 代码几乎全部由 AI 生成。你只需要确保 AI 安装了所需的 Rust crate。AI 会在 <code>src-tauri/Cargo.toml</code> 中添加依赖项，然后运行 <code>cargo build</code> 编译。</p>
+
+  <blockquote>
+
+  <p><strong>关于编译时间：</strong> Rust 第一次编译可能会比较慢（因为需要下载和编译依赖）。这是正常的。后续修改后的编译会快很多（增量编译）。如果编译超过 5 分钟，可以告诉 AI "不要用 image crate 的全部功能，只加载 JPEG 和 PNG 支持"来减少编译量。</p>
+
+  </blockquote>
+
+  <p>如果你好奇 AI 写了什么 Rust 代码，可以打开 <code>src-tauri/src/</code> 下的文件看看。但再次强调——<strong>你不需要理解 Rust 也能完成这个项目。</strong></p>
+
+  <p><strong>第 3 步：构建前端界面</strong></p>
+
+  <pre><code>创建一个美观的拖拽区域，支持点击上传和拖拽上传。
+上传后显示原图预览，下方有一个压缩质量滑块（1-100）。
+点击"预览压缩效果"按钮显示压缩后预览和文件大小对比。
+有一个"导出"按钮下载压缩后的图片。</code></pre>
+
+  <p>前端界面使用 React + Tailwind CSS 构建。AI 会创建三个核心组件：上传区域、预览面板、控制面板。每个组件都通过 Tauri 的 invoke API 调用 Rust 后端。</p>
+
+  <blockquote>
+
+  <p><strong>前端和后端的通信方式：</strong> Tauri 中，前端通过 <code>invoke('command_name', { args })</code> 调用 Rust 函数。AI 会在 Rust 端注册这些命令，在前端自动生成对应的调用代码。你不需要理解这个过程——AI 会在两端自动配对。</p>
+
+  </blockquote>
+
+  <p><strong>第 4 步：添加高级功能</strong></p>
+
+  <pre><code>添加批量处理功能：
+- 支持一次拖入多张图片
+- 以网格显示所有图片
+- 统一设置压缩质量
+- 一键批量导出
+添加深色模式支持。</code></pre>
+
+  <p>批量处理是桌面应用的"杀手级功能"——Web 应用处理批量文件往往受限于浏览器沙箱，但桌面应用不受限制。Tauri 有完整的文件系统 API，AI 可以轻松实现批处理逻辑。</p>
+
+  <h2>扩展方向</h2>
+
+  <p><strong>方向一：剪贴板管理器。</strong></p>
+
+  <p>做一个系统剪贴板历史管理器：监听系统剪贴板变化，保存历史记录，支持搜索和重新复制。</p>
+
+  <p>Tauri 的系统托盘功能让这个工具可以常驻后台：</p>
+
+  <pre><code>让应用启动后在系统托盘中运行，点击托盘图标显示剪贴板历史窗口。
+按 Ctrl+Shift+V 唤出历史面板。</code></pre>
+
+  <p><strong>方向二：Markdown 编辑器。</strong></p>
+
+  <pre><code>把图片压缩工具改成一个 Markdown 编辑器：
+左侧编辑 Markdown，右侧实时预览渲染效果。
+支持导出为 HTML 和 PDF。
+支持打开本地 .md 文件编辑。</code></pre>
+
+  <p><strong>方向三：系统监控工具。</strong></p>
+
+  <pre><code>做一个系统资源监控工具：
+显示 CPU、内存、磁盘使用率。
+使用 Tauri 的 system_info API（Rust 端实现）。
+每 2 秒刷新一次数据，用图表展示趋势。</code></pre>
+
+  <h2>Tauri 的特殊之处</h2>
+
+  <p>Tauri 是"假前端，真后端"的框架——界面是 Web 技术，但系统能力（文件系统、进程、窗口）通过 Rust 后端暴露给前端。这意味着：</p>
+
+  <ul>
+<li>你可以用熟悉的 HTML/CSS/JS 写界面</li>
+<li>AI 替你处理 Rust 和 Tauri API</li>
+<li>生成的桌面应用只有几 MB 大小（对比 Electron 动辄上百 MB）</li>
+</ul>
+
+  <p>Tauri 还支持系统托盘、全局快捷键、自动更新——这些功能通过自然语言让 AI 配置即可。</p>
+
+  <blockquote>
+
+  <p><strong>Tauri vs Electron 的直观对比：</strong></p>
+
+  <p>一个"Hello World"应用：</p>
+
+  <p>- Electron：安装包约 150MB，内存占用约 100MB</p>
+
+  <p>- Tauri：安装包约 5MB，内存占用约 20MB</p>
+
+  <p></p>
+
+  <p>因为 Tauri 使用操作系统自带的 WebView 渲染界面（Windows 用 WebView2，macOS 用 WKWebView），不需要打包一个完整的浏览器进去。这就是它更轻量的根本原因。</p>
+
+  </blockquote>
+
+  <h2>关键决策点</h2>
+
+  <table class="reading-path-table"><thead><tr><th>决策点</th><th>可选方案</th><th>说明</th></tr></thead><tbody><tr><td>桌面框架</td><td>Tauri / Electron</td><td>Tauri 更轻量，Electron 生态更成熟</td></tr><tr><td>图片处理</td><td>Rust image crate / 浏览器 Canvas</td><td>前者功能全但需要编译，后者简单但能力有限</td></tr><tr><td>文件选择</td><td>Tauri dialog API / HTML input</td><td>Tauri API 体验更好，支持系统原生对话框</td></tr><tr><td>打包分发</td><td>MSI / DMG / AppImage / 侧载</td><td>Tauri 支持全平台打包，AI 可配置 CI 自动构建</td></tr><tr><td>存储方案</td><td>文件系统 / SQLite</td><td>配置和简单数据用 fs，结构化数据用 SQLite</td></tr></tbody></table>
+
+  <h2>常见问题与 AI 修复</h2>
+
+  <p><strong>问题 1：系统依赖缺失。</strong></p>
+
+  <p>"Tauri 编译时提示缺少某些系统依赖。"</p>
+
+  <p>AI 会识别你的操作系统并提供安装命令。最常见的是缺少 WebKit 开发库：</p>
+
+  <ul>
+<li>Ubuntu：<code>sudo apt install libwebkit2gtk-4.1-dev</code></li>
+<li>macOS：通常不需要额外依赖</li>
+<li>Windows：需要安装 WebView2（通常 Windows 11 已内置）</li>
+</ul>
+
+  <p><strong>问题 2：图片导出后体积膨胀。</strong></p>
+
+  <p>"导出的图片比原图还大。"</p>
+
+  <p>AI 会检查发现 PNG 格式在低质量设置下反而会膨胀。修复方案是将默认导出格式改为 JPEG，并在界面中添加了格式选择。</p>
+
+  <p><strong>问题 3：打包后应用无法启动。</strong></p>
+
+  <p>"打包成 .exe 后，在其他电脑上打开提示缺少 DLL。"</p>
+
+  <p>AI 会检查 Tauri 的打包配置，确保静态链接了所有依赖（在 <code>tauri.conf.json</code> 中设置 <code>bundle > windows > wix > template</code> 相关的选项）。</p>
+
+  <pre><code>你：Tauri 编译时提示缺少某些系统依赖。
+
+AI：你的系统缺少 WebKit 开发库。在 Ubuntu 上运行 sudo apt install libwebkit2gtk-4.1-dev 安装。</code></pre>
+
+  <pre><code>你：导出的图片比原图还大。
+
+AI：检查发现 PNG 格式在低质量设置下反而会膨胀。已将默认导出格式改为 JPEG，并在界面中添加了格式选择。</code></pre>
+
+  <pre><code>你：批量处理时，进度条不动直到全部完成。
+
+AI：当前是串行处理，每张图片完成后才更新进度。改为异步处理，每处理完一张立即更新进度条，同时显示"处理中 3/10"。</code></pre>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>Tauri 结合了 Web 界面的开发效率和 Rust 后端的性能，生成的桌面应用只有几 MB（对比 Electron 的百 MB）。</li>
+<li>Rust 代码完全由 AI 处理——你不需要学习 Rust。首次编译较慢是正常的（下载和编译依赖）。</li>
+<li>Tauri 项目需要 Rust 编译环境，AI 会指导你安装。macOS 和 Linux 上一行命令安装，Windows 上从官网下载。</li>
+<li>图片压缩、文件处理等系统级操作通过 Tauri 的 Rust 后端实现，前端通过 invoke API 调用。通信由 AI 在两端自动配对。</li>
+<li>跨平台打包（Windows/macOS/Linux）由 Tauri 处理，AI 可配置 CI 自动构建。</li>
+<li>扩展方向：剪贴板管理器（系统托盘常驻）、Markdown 编辑器（文件系统操作）、系统监控工具（system_info API）。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>对 Claude Code 说：</p>
+  <div class="vibe-prompt">
+  <p>"帮我创建一个 Tauri + React 桌面应用，功能是一个 Markdown 编辑器：左侧编辑 Markdown，右侧实时预览渲染效果。支持导出为 HTML 和 PDF。"</p>
+  </div>
+  <p>进阶练习：</p>
+  <p>完成图片压缩工具后，让 AI "添加一个'批量重命名'功能：用户选择一个文件夹，设置命名规则（如'图片_001'），点击执行后文件夹内所有图片按规则重命名。同时添加一个撤销按钮，可以回退到重命名前的状态。" 观察 AI 如何处理文件系统操作和批量任务。</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

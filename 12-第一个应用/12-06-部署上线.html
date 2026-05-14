@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12.6 部署上线</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #8a7a6a, #b8a898, #8a7a6a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #8a7a6a; }
+  .title-divider { background: #b8a898; }
+  strong { color: #8a7a6a; }
+  .img-icon { color: #b8a898; }
+  .img-label { color: #8a7a6a; }
+  .img-caption { color: #8a7a6a; }
+  .takeaways-title { color: #8a7a6a; }
+  .takeaways li::before { color: #b8a898; }
+  .vibe-label { color: #8a7a6a; }
+  .vibe-prompt::before { color: #b8a898; }
+  blockquote { border-left-color: #b8a898; }
+  th { color: #8a7a6a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第十二章 · 第一个应用</div>
+  <h1>12.6 部署上线</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-13<br>  验证环境：Node.js v22.x, Claude Code v1.x, Git 2.x, GitHub Pages, Vercel</div>
+
+  <h2>让世界看到你的作品</h2>
+
+  <p>项目做出来了，在本地运行得好好的。下一步——把它放到网上，让其他人也能访问。</p>
+
+  <p>部署可能是第一次开发的人最陌生的环节。涉及到域名、DNS、服务器、HTTPS——每个概念听起来都像是"另外一门学问"。好消息是，Claude Code 可以帮你处理大部分步骤。</p>
+
+  <p><strong>部署的本质是什么？</strong></p>
+
+  <p>在你的电脑上，项目通过 <code>file://</code> 协议或本地服务器（<code>localhost</code>）访问。要让其他人也能访问，你需要把文件放到一台 24 小时开机的服务器上，通过 <code>https://</code> 协议提供服务。</p>
+
+  <p>部署工具就是帮你完成"把文件传到服务器 → 配置 HTTPS → 绑定域名"这一过程的自动化工具。</p>
+
+  <h2>方式一：GitHub Pages（最简单）</h2>
+
+  <p>适合纯前端项目（HTML + CSS + JS，没有后端服务器）。免费、稳定、零维护。</p>
+
+  <p><strong>你的指令：</strong></p>
+
+  <blockquote>
+
+  <p>"帮我部署到 GitHub Pages。我已经在 GitHub 上创建了仓库。"</p>
+
+  </blockquote>
+
+  <p>或者说得更详细一些：</p>
+
+  <blockquote>
+
+  <p>"这是一个纯前端项目（HTML + CSS + JS），没有后端。帮我推送到 GitHub 并启用 GitHub Pages。"</p>
+
+  </blockquote>
+
+  <p>AI 会指导你完成以下步骤：</p>
+
+  <ol>
+<li>如果你的项目还不是 Git 仓库，初始化 <code>git init</code></li>
+<li>添加远程仓库地址 <code>git remote add origin 你的仓库地址</code></li>
+<li>推送到 GitHub <code>git push -u origin main</code></li>
+<li>在 GitHub 仓库设置中启用 GitHub Pages（选择 main 分支的根目录或 /docs 目录）</li>
+</ol>
+
+  <p>如果你还没有 GitHub 仓库，AI 会引导你创建——但最省力的方式是：</p>
+
+  <p><strong>你自己先在浏览器中创建一个空的 GitHub 仓库，然后把仓库地址给 AI。</strong></p>
+
+  <p>因为 GitHub 创建仓库需要在网页上操作，AI 做不了这件事。但剩下的步骤 AI 都可以代劳。</p>
+
+  <p><strong>GitHub Pages 的特点：</strong></p>
+
+  <ul>
+<li>免费，没有流量限制</li>
+<li>自动处理 HTTPS 证书</li>
+<li>支持绑定自定义域名</li>
+<li>部署后地址格式：<code>https://你的用户名.github.io/仓库名/</code></li>
+<li>纯静态文件，不支持后端</li>
+</ul>
+
+  <p>验证你的项目是否适合 GitHub Pages：如果你在本地打开项目，双击 <code>index.html</code> 就能在浏览器中正常使用——那就是纯前端项目。</p>
+
+  <h2>方式二：Vercel（更现代）</h2>
+
+  <p>如果你的项目后期需要添加后端 API 或 Serverless Functions，Vercel 是更好的选择。它也支持纯前端项目，但比 GitHub Pages 多了一些高级功能：</p>
+
+  <ul>
+<li>自动 HTTPS</li>
+<li>支持 Serverless 函数</li>
+<li>预览部署（每个分支自动生成预览 URL）</li>
+<li>框架自动检测（自动识别 Next.js、Vue、React 等项目类型）</li>
+</ul>
+
+  <p><strong>你的指令：</strong></p>
+
+  <blockquote>
+
+  <p>"帮我部署到 Vercel。项目目录是当前目录，框架是纯静态 HTML。"</p>
+
+  </blockquote>
+
+  <p>AI 会：</p>
+
+  <ol>
+<li>安装 Vercel CLI（<code>npm i -g vercel</code>）</li>
+<li>运行 <code>vercel</code> 命令并引导你登录</li>
+<li>配置输出设置</li>
+</ol>
+
+  <p>Vercel 会自动检测你的项目类型，生成合适的配置。你只需要在浏览器中完成 OAuth 登录。</p>
+
+  <h2>方式三：Netlify（备选）</h2>
+
+  <p>Netlify 和 Vercel 功能类似，也是一个优秀的部署平台。和 Vercel 的区别：</p>
+
+  <ul>
+<li>Netlify 的免费方案更慷慨（300 分钟构建时间/月）</li>
+<li>Netlify 的 CI 集成（从 Git 仓库自动部署）</li>
+<li>Netlify 支持表单处理（纯前端项目也可以有表单功能）</li>
+</ul>
+
+  <blockquote>
+
+  <p>"帮我部署到 Netlify。使用 Netlify CLI 或者直接连接我的 GitHub 仓库。"</p>
+
+  </blockquote>
+
+  <p>AI 会引导你使用 <code>netlify deploy</code> 命令或通过 Netlify 网页控制台连接仓库。</p>
+
+  <h2>三个平台的对比</h2>
+
+  <table class="reading-path-table"><thead><tr><th>维度</th><th>GitHub Pages</th><th>Vercel</th><th>Netlify</th></tr></thead><tbody><tr><td>定价</td><td>免费</td><td>免费（有限额）</td><td>免费（有限额）</td></tr><tr><td>支持后端</td><td>不支持</td><td>Serverless Functions</td><td>Serverless Functions</td></tr><tr><td>HTTPS</td><td>自动</td><td>自动</td><td>自动</td></tr><tr><td>自定义域名</td><td>支持</td><td>支持</td><td>支持</td></tr><tr><td>自动部署</td><td>需要配置 Actions</td><td>连接 Git 仓库后自动</td><td>连接 Git 仓库后自动</td></tr><tr><td>适合场景</td><td>纯静态页面</td><td>前端 + 轻量后端</td><td>前端 + 表单/后端</td></tr><tr><td>部署方式</td><td>Git push</td><td>Git push / CLI</td><td>Git push / CLI</td></tr></tbody></table>
+
+  <p>对于你的第一个项目（纯前端音频可视化），三个平台都可以。选择 GitHub Pages 是因为最简单，不需要额外配置。</p>
+
+  <h2>部署时 AI 会做什么</h2>
+
+  <p>AI 的"部署工作量"远不止运行几个命令。它还会：</p>
+
+  <p><strong>创建自动化部署配置</strong></p>
+
+  <p>如果你用 GitHub Pages，AI 可以创建 GitHub Actions 工作流文件：</p>
+
+  <pre><code># .github/workflows/deploy.yml
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - id: deploy
+        uses: actions/deploy-pages@v4</code></pre>
+
+  <p>你甚至不需要理解 YAML 语法——AI 生成的配置开箱即用。</p>
+
+  <p><strong>处理部署路径问题</strong></p>
+
+  <p>纯前端项目部署到子路径（<code>https://你的用户名.github.io/项目名/</code>）时，资源引用路径可能出错。AI 会自动处理这个问题：使用相对路径或动态基路径。</p>
+
+  <p>常见的路径问题：<code><link rel="stylesheet" href="/style.css"></code> 在子路径下会指向 <code>https://你的用户名.github.io/style.css</code>，而不是 <code>/仓库名/style.css</code>。AI 会改成相对路径 <code>href="style.css"</code> 或动态路径。</p>
+
+  <p><strong>添加 404 页面和元数据</strong></p>
+
+  <p>部署完成后，AI 可能还会建议你添加：</p>
+
+  <ul>
+<li>一个简单的 404 页面（当用户访问不存在的页面时显示）</li>
+<li>HTML 的 <code><head></code> 中添加 meta 标签，让社交媒体分享时显示预览图</li>
+</ul>
+
+  <h2>域名和 DNS 基础</h2>
+
+  <p>"自定义域名"让用户通过自己的网址（如 <code>music.myapp.com</code>）访问你的应用，而不是 <code>你的用户名.github.io/仓库名/</code>。</p>
+
+  <p><strong>你需要知道的几个关键概念：</strong></p>
+
+  <ul>
+<li><strong>域名</strong>：你在域名注册商（如 GoDaddy、Namecheap、阿里云）购买的地址。</li>
+<li><strong>DNS</strong>：把域名指向服务器的"电话本"。你告诉 DNS "当用户访问 music.myapp.com 时，去 GitHub Pages 的服务器找内容"。</li>
+<li><strong>CNAME 记录</strong>：DNS 中一种记录类型，把一个域名指向另一个域名。这是绑定自定义域名到 GitHub Pages 或 Vercel 时最常用的方式。</li>
+</ul>
+
+  <p><strong>你不需要掌握 DNS 的完整知识。</strong> AI 会告诉你具体怎么做：</p>
+
+  <blockquote>
+
+  <p>"请在域名管理后台添加一条 CNAME 记录，记录名称为 music，记录值为 your-username.github.io。然后在项目根目录创建一个 CNAME 文件，内容为 music.myapp.com。"</p>
+
+  </blockquote>
+
+  <h2>绑定自定义域名（可选）</h2>
+
+  <p>如果你有自己的域名，想让应用看起来更专业：</p>
+
+  <blockquote>
+
+  <p>"帮我绑定自定义域名 music.myapp.com 到 GitHub Pages。我已经在域名管理后台添加了 CNAME 记录。"</p>
+
+  </blockquote>
+
+  <p>AI 会：</p>
+
+  <ol>
+<li>在你的项目中创建一个 <code>CNAME</code> 文件（GitHub Pages 需要）</li>
+<li>指导你在 DNS 管理后台配置 CNAME 记录</li>
+<li>验证域名解析是否生效</li>
+</ol>
+
+  <blockquote>
+
+  <p>"CNAME 记录可能需要几分钟到几小时才能生效。你可以用 <code>dig music.myapp.com</code> 检查是否指向了你的 GitHub Pages 地址。"</p>
+
+  </blockquote>
+
+  <h2>部署完成后的检查清单</h2>
+
+  <p>AI 部署完成后，你（或让 AI）检查以下几点：</p>
+
+  <ul>
+<li>[ ] 网页能正常访问（HTTP 200，不是 404 或 500）</li>
+<li>[ ] 音频文件能加载和播放</li>
+<li>[ ] 可视化效果正常渲染</li>
+<li>[ ] 录制功能正常</li>
+<li>[ ] 所有外部资源（字体、图片）能加载</li>
+<li>[ ] 移动端访问时布局没有严重错乱</li>
+</ul>
+
+  <p>让 AI 帮你检查其中一些项目：</p>
+
+  <blockquote>
+
+  <p>"帮我检查部署后的页面是否正常。看一下控制台有没有报错，资源路径是否正确。"</p>
+
+  </blockquote>
+
+  <p>AI 无法直接访问你的部署 URL（它无法浏览网页），但它会告诉你需要检查什么步骤。</p>
+
+  <h2>持续部署</h2>
+
+  <p>一旦配置好 GitHub Actions 或 Vercel 的 Git 集成，你的代码就实现了"持续部署"——每次你推送代码到 main 分支，平台自动重新构建和部署。</p>
+
+  <p>这意味着你的部署流程简化为：</p>
+
+  <ol>
+<li>修改代码</li>
+<li><code>git add . && git commit -m "xxx" && git push</code></li>
+<li>等待几分钟，新版本自动上线</li>
+</ol>
+
+  <p>不需要重复运行部署命令。你只需要推送代码，剩下的自动化完成。</p>
+
+  <h2>第一次部署的小建议</h2>
+
+  <p>第一次部署时可能会遇到一些问题。保持简单的原则：</p>
+
+  <ol>
+<li><strong>先部署到默认域名</strong>，先确保项目能正常运行，再考虑绑定自定义域名。</li>
+<li><strong>选择一个平台就行</strong>，不需要同时用 GitHub Pages 和 Vercel。先成功上线一个再考虑其他。</li>
+<li><strong>第一次部署的预期时间</strong>：如果一切顺利，15 分钟。如果遇到问题，可能需要 30-60 分钟。</li>
+</ol>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>纯前端项目部署首选 GitHub Pages 或 Vercel——两者都提供免费方案。GitHub Pages 最简单（零配置），Vercel 更适合需要后端的项目。</li>
+<li>Netlify 也是一个优秀的备选方案，特别是如果你需要表单处理等功能。</li>
+<li>AI 可以完成大部分部署工作：创建仓库、推代码、配置部署、处理路径问题。但创建 GitHub 仓库需要在网页上操作。</li>
+<li>部署路径问题：子路径部署时资源引用可能出错，AI 会自动修复为相对路径。</li>
+<li>自定义域名的 DNS 配置需要你在域名管理后台完成，AI 指导操作步骤。CNAME 记录指向部署平台。</li>
+<li>部署完成后用检查清单验证各功能是否正常。持续部署让你推送代码后自动上线新版本。</li>
+<li>第一次部署建议：先把默认域名跑通，再考虑自定义域名。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>对 Claude Code 说：</p>
+  <div class="vibe-prompt">
+  <p>"我完成了一个纯前端的音频可视化项目，需要部署上线。请检查我的项目结构，告诉我应该选择 GitHub Pages 还是 Vercel，然后一步步指导我完成部署。"</p>
+  </div>
+  <p>进阶练习：</p>
+  <p>部署完成后，让 AI "帮我在项目中创建一个 404.html 页面，风格和应用主题一致。同时添加社交媒体预览的 meta 标签（Open Graph），让用户在分享链接时显示标题、描述和预览图。" 观察 AI 如何生成这些"锦上添花"的文件。</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

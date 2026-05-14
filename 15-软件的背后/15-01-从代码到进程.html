@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15.1 从代码到进程：你在电脑上"运行"了啥</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #7a8a6a, #a8b898, #7a8a6a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #7a8a6a; }
+  .title-divider { background: #a8b898; }
+  strong { color: #7a8a6a; }
+  .img-icon { color: #a8b898; }
+  .img-label { color: #7a8a6a; }
+  .img-caption { color: #7a8a6a; }
+  .takeaways-title { color: #7a8a6a; }
+  .takeaways li::before { color: #a8b898; }
+  .vibe-label { color: #7a8a6a; }
+  .vibe-prompt::before { color: #a8b898; }
+  blockquote { border-left-color: #a8b898; }
+  th { color: #7a8a6a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第十五章 · 软件的背后</div>
+  <h1>15.1 从代码到进程：你在电脑上"运行"了啥</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-13<br>  验证环境：无（原理章节，不依赖特定工具版本）</div>
+
+  <h2>为什么需要理解这一层</h2>
+
+  <p>Vibe Coding 的好处是你不需要懂底层原理就能开始写代码。但当你开始遇到"奇怪的问题"——比如程序跑着跑着就没了、内存占满、CPU 烧到 100%——这时候心里有一个"计算机模型"会非常有帮助。</p>
+
+  <p>你不是要学计算机组成原理，你只需要一个<strong>直观的心理模型</strong>。</p>
+
+  <p>这个心理模型可以类比做饭：你不需要知道锅的金属分子结构才能做饭，但如果你知道"火太大锅会烧黑"这个概念，你就能解释为什么你的菜糊了。同样，你不需要知道 CPU 的微架构，但知道"程序运行时需要内存"这个概念，你就能解释为什么你的程序崩溃了。</p>
+
+  <h2>你写的代码去哪了</h2>
+
+  <p>想象你写了一段 JavaScript：</p>
+
+  <pre><code>function add(a, b) {
+  return a + b;
+}
+const result = add(3, 4);
+console.log(result);</code></pre>
+
+  <p>当你用 Node.js 运行这个文件时，发生了三件事：</p>
+
+  <ol>
+<li><strong>解析</strong>：Node.js 先把你的代码读进内存，检查语法是否有误。如果有语法错误，这一步就会报错，程序不会运行。</li>
+<li><strong>编译</strong>：V8 引擎（Node.js 底层用的 JavaScript 引擎）把代码编译成机器码——也就是 CPU 能理解的二进制指令。</li>
+<li><strong>执行</strong>：CPU 一条一条执行这些指令。函数 <code>add</code> 被调用时，CPU 在内存中分配空间存放参数 <code>3</code> 和 <code>4</code>，计算它们的和，把结果 <code>7</code> 存到变量 <code>result</code> 中。</li>
+</ol>
+
+  <p>以上全程不超过 0.01 秒。</p>
+
+  <p><strong>这个心理模型的好处：</strong> 当你的程序崩溃报错"内存不足"时，你不会觉得那是魔法——你知道是第三步出了问题，CPU 申请内存时操作系统说"没了"。</p>
+
+  <h2>这三个阶段在实际调试中的意义</h2>
+
+  <p>理解这三个阶段可以帮助你快速定位问题类型：</p>
+
+  <table class="reading-path-table"><thead><tr><th>阶段</th><th>出错时的典型现象</th><th>错误信息特征</th></tr></thead><tbody><tr><td>解析（Parse）</td><td>程序启动就报错，不运行</td><td>"SyntaxError: Unexpected token"</td></tr><tr><td>编译（Compile）</td><td>启动时报类型或引用错误</td><td>"ReferenceError: x is not defined"</td></tr><tr><td>执行（Runtime）</td><td>跑起来一段时间后出错</td><td>"TypeError: Cannot read properties of null"</td></tr></tbody></table>
+
+  <p>当你看到 SyntaxError，这说明你的代码（或 AI 生成的代码）有语法错误——比如少了一个括号、多了一个逗号。这是最"表面"的错误，通常也最好修。让 AI 修复即可。</p>
+
+  <p>当你看到 Runtime Error（运行时错误），说明语法没问题，但程序在运行过程中遇到了意外情况——比如访问了一个不存在的对象属性。这种问题需要更多上下文信息。</p>
+
+  <p><strong>一个具体的例子：</strong></p>
+
+  <pre><code>你：程序启动时报了 SyntaxError: Unexpected token '}'
+AI：检查发现第 45 行多了一个花括号，已删除。</code></pre>
+
+  <pre><code>你：程序运行了 5 分钟后报错 Cannot read properties of null
+AI：这个错误是因为异步数据还没返回时就尝试访问了。添加了空值检查。</code></pre>
+
+  <h2>解释型 vs 编译型</h2>
+
+  <p>如果你用 Python 或 JavaScript，它们是<strong>解释型语言</strong>——代码一边被解析一边执行。这意味着你修改代码后不需要重新编译，直接重新运行就能看到效果。Vibe Coding 中大部分时候你是这种情况。</p>
+
+  <p>如果你用 Rust 或 Go，它们是<strong>编译型语言</strong>——代码先被完整编译成一个独立的可执行文件，然后你运行这个文件（不需要源代码）。这意味着修改代码后需要重新编译才能运行。</p>
+
+  <p>在 Vibe Coding 中，你不需要记住哪个语言属于哪一类。当你让 AI 帮你构建项目时，它会自动选择正确的运行方式。理解这个区别的真正价值是：</p>
+
+  <ul>
+<li><strong>解释型</strong>出错了，错误信息会指向你的源代码（"第 15 行出错了！"）</li>
+<li><strong>编译型</strong>出错了，可能是在编译阶段就报错（你还没运行呢，代码就有问题）</li>
+</ul>
+
+  <p><strong>这个区别影响你向 AI 描述问题的方式：</strong></p>
+
+  <ul>
+<li>解释型报错："运行时报错了，第 45 行说 Cannot read properties of null。"</li>
+<li>编译型报错："编译时失败了，说 types.ts 第 12 行的类型不匹配。"</li>
+</ul>
+
+  <p>编译型语言的错误在运行之前就被捕获了——这其实是好事，因为问题在开发阶段就暴露了，而不是用户使用时才暴露。</p>
+
+  <h2>进程是什么</h2>
+
+  <p>当你运行 <code>node app.js</code> 时，操作系统会为它创建一个<strong>进程</strong>。可以把进程想象成一个"隔离的工作间"：</p>
+
+  <ul>
+<li>这个工作间有自己的内存空间（其他程序不能随便进来）</li>
+<li>有专属的资源（文件句柄、网络连接）</li>
+<li>操作系统公平地分配 CPU 时间给每个进程</li>
+</ul>
+
+  <p>如果你的程序崩溃了（比如报 <code>Segmentation Fault</code>），只有这个进程会挂掉——操作系统会收回它的工作间，不影响其他程序。</p>
+
+  <p><strong>一个更直观的类比：</strong> 进程就像餐馆里的一个厨师。每个厨师有自己的工作台（内存）、自己的菜刀（文件句柄）、自己的灶台（CPU 时间）。如果一个厨师切到手了（崩溃），只有他一个人的工作受影响——其他厨师继续炒菜。但如果火灾了（系统崩溃），整个餐馆都得停止营业。</p>
+
+  <p>在 Vibe Coding 中，当你看到"进程"这个词，你就知道：这是一个独立运行的程序实例。</p>
+
+  <p><strong>关于"服务挂了"的描述：</strong></p>
+
+  <p>当你发现某个功能无法访问时，查看终端窗口——如果 Node.js 进程已经退出了（终端回到了命令提示符），说明进程崩溃了。如果终端还显示 Node.js 在运行，但功能不可用，可能是服务器内部卡住了（死循环或死锁）。</p>
+
+  <p>把这两个情况的区别告诉 AI——"进程退出了" vs "进程还在但没响应"——AI 的排查方向会完全不同。</p>
+
+  <h2>内存：你的程序"记住"东西的地方</h2>
+
+  <p>简单理解内存：</p>
+
+  <ul>
+<li><strong>栈（Stack）</strong>：存放函数调用和局部变量。你在函数里声明的 <code>const x = 1</code> 在这里。速度快，空间小，函数执行完自动回收。</li>
+<li><strong>堆（Heap）</strong>：存放程序运行时动态创建的数据。你在代码中 <code>new</code> 出来的对象在这里。速度相对慢，空间大，需要垃圾回收（Garbage Collection）。</li>
+</ul>
+
+  <p>最常见的崩溃原因之一：<strong>内存泄漏</strong>——程序不断在堆上创建新对象，但忘了释放不再使用的空间。堆满了，程序就崩溃了。</p>
+
+  <p><strong>如何判断一个程序可能有内存泄漏：</strong></p>
+
+  <p>打开任务管理器（Windows）或活动监视器（macOS），查看你的 Node.js 或 Python 进程的内存占用：</p>
+
+  <ul>
+<li>如果内存占用持续增长（比如每 10 分钟增加 100MB）</li>
+<li>且在操作结束后不回落（比如处理完一个文件后内存没有降回去）</li>
+<li>大概率是内存泄漏</li>
+</ul>
+
+  <p>如果你遇到这样的报错："JavaScript heap out of memory"——这就是堆满了。让 AI 查一下代码哪里在持续分配但不释放。</p>
+
+  <p><strong>一个小实验：</strong></p>
+
+  <pre><code>你：我的程序内存占用持续增长，运行 1 小时后从 100MB 涨到了 800MB。
+帮我检查哪里可能发生了内存泄漏。
+
+AI：最可能的原因是……建议在关键位置添加内存快照对比……</code></pre>
+
+  <h2>这个模型在 Vibe Coding 中的实际用处</h2>
+
+  <p>当你向 AI 描述问题时，理解这些概念能让你说得更精准：</p>
+
+  <blockquote>
+
+  <p>模糊描述："我的程序跑着跑着就卡死了。"</p>
+
+  <p>更准确："程序运行大约 30 分钟后，Node 进程的内存占用从 50MB 逐步增长到 1.2GB，然后崩溃了。"</p>
+
+  </blockquote>
+
+  <p>后者让 AI 能在几秒内定位到"大概率是内存泄漏"并给出修复方案。前者 AI 只能猜。</p>
+
+  <p><strong>"翻译"对照表：</strong></p>
+
+  <table class="reading-path-table"><thead><tr><th>你的描述</th><th>AI 的解读</th></tr></thead><tbody><tr><td>"程序卡死了"</td><td>可能是死循环、死锁或资源耗尽——需要更多信息才能判断</td></tr><tr><td>"程序报错退出"</td><td>运行时异常——需要看到错误堆栈</td></tr><tr><td>"程序变慢了"</td><td>可能是内存泄漏（GC 频繁）或数据库查询慢</td></tr><tr><td>"程序启动报错"</td><td>语法错误或依赖缺失——需要看到启动日志</td></tr><tr><td>"CPU 飙到 100%"</td><td>代码中有计算密集的操作或死循环</td></tr></tbody></table>
+
+  <p>这四个词汇（卡死、报错、变慢、启动报错）已经能覆盖你在 Vibe Coding 中遇到的 90% 以上的问题。知道怎么区分它们，就能给 AI 提供足够的信息。</p>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>代码→进程的路径：解析 → 编译 → 执行。报错时先判断卡在哪一步。解析错误最简单（语法问题），运行时错误需要更多上下文。</li>
+<li>进程是隔离的工作间——崩溃只影响自己，不影响系统。"进程退出"和"进程还在但没响应"是不同的。</li>
+<li>内存分栈（快/自动回收）和堆（动态/需垃圾回收）。栈用完自动释放，堆需要垃圾回收机制。</li>
+<li>内存泄漏 = 堆空间持续增长直到耗尽。在任务管理器中观察内存占用趋势可以初步判断。</li>
+<li>理解这些概念不是为了自己修 bug，而是为了更精确地向 AI 描述问题。"程序卡死了"和"内存逐步增长到 1.2GB 后崩溃"对 AI 的价值天差地别。</li>
+<li>四个关键词帮你覆盖 90% 的问题场景：卡死、报错、变慢、启动报错。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>对 Claude Code 说：</p>
+  <div class="vibe-prompt">
+  <p>"我的 Node.js 应用运行几个小时后变得很慢，内存占用持续增长。请帮我解释可能的原因，并教我如何用 Chrome DevTools 的 Memory 面板检查内存泄漏。"</p>
+  </div>
+  <p>进阶练习：</p>
+  <p>"我遇到了一个运行时错误：TypeError: Cannot read properties of undefined (reading 'data')。错误堆栈指向 app.js:32。请解释这个错误是什么意思，以及我应该在代码中检查什么。"（练习自己区分"解析错误"和"运行时错误"的区别。）</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

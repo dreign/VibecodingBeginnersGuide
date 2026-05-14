@@ -1,0 +1,414 @@
+/* === Vibe Coding 入门宝典 — 全局样式 === */
+
+/* Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f5f2ed;
+  color: #2c2c2c;
+  font-family: "Noto Serif SC", "Source Han Serif CN", "STSong", "SimSun", Georgia, serif;
+  line-height: 1.9;
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Container */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 32px 120px;
+}
+
+/* Chapter header */
+.chapter-meta {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+  color: #1a1a1a;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #8a8a8a;
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin-bottom: 32px;
+}
+
+.title-divider {
+  width: 60px;
+  height: 2px;
+  margin-bottom: 48px;
+  background: #98a8b8; /* fallback, overridable via inline style */
+}
+
+/* Section headings */
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 56px;
+  margin-bottom: 20px;
+  color: #3a3a3a;
+  letter-spacing: 2px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0d8d0;
+}
+
+h2:first-of-type {
+  margin-top: 0;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 36px;
+  margin-bottom: 14px;
+  color: #3a3a3a;
+  letter-spacing: 1px;
+}
+
+h4 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  color: #4a4a4a;
+}
+
+/* Body text */
+p {
+  margin-bottom: 20px;
+  text-indent: 2em;
+}
+
+h2 + p, h3 + p, h4 + p,
+.section-intro, .section-meta + p {
+  text-indent: 0;
+}
+
+/* Section meta (update timestamp etc.) */
+.section-meta {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  color: #8a8a8a;
+  margin-bottom: 24px;
+  line-height: 1.6;
+  letter-spacing: 1px;
+}
+
+/* Highlighted inline */
+strong {
+  font-weight: 700;
+}
+
+code {
+  background: #ede8e1;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Cascadia Code", "Fira Code", "Consolas", monospace;
+  font-size: 14px;
+}
+
+pre {
+  background: #ede8e1;
+  border-radius: 8px;
+  padding: 20px 24px;
+  overflow-x: auto;
+  margin: 20px 0 24px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-family: "Cascadia Code", "Fira Code", "Consolas", monospace;
+}
+
+/* Blockquote */
+blockquote {
+  border-left: 3px solid #d0c8bc;
+  margin: 24px 0;
+  padding: 14px 24px;
+  background: #faf8f5;
+  color: #4a4a4a;
+  border-radius: 0 8px 8px 0;
+}
+
+blockquote p {
+  text-indent: 0;
+  margin-bottom: 8px;
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Lists */
+ul, ol {
+  margin: 16px 0 20px;
+  padding-left: 0;
+  list-style: none;
+}
+
+li {
+  padding: 6px 0 6px 24px;
+  position: relative;
+  line-height: 1.7;
+}
+
+ul > li::before {
+  content: '•';
+  position: absolute;
+  left: 4px;
+  color: #8a7a6a;
+  font-weight: bold;
+}
+
+ol {
+  counter-reset: ol-counter;
+}
+
+ol > li {
+  counter-increment: ol-counter;
+  padding-left: 32px;
+}
+
+ol > li::before {
+  content: counter(ol-counter) '.';
+  position: absolute;
+  left: 4px;
+  color: #8a7a6a;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  background: #faf8f5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #e5ddd4;
+}
+
+th {
+  background: #e8e4da;
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #5a6a7a;
+  letter-spacing: 1px;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+td:first-child {
+  font-weight: 600;
+  color: #4a5a6a;
+}
+
+td:last-child {
+  font-size: 15px;
+  color: #666;
+}
+
+/* Image placeholder */
+.img-placeholder {
+  margin: 36px auto 28px;
+  max-width: 520px;
+  border: 1px dashed #d0c8bc;
+  border-radius: 12px;
+  padding: 40px 24px;
+  text-align: center;
+  background: #faf8f5;
+}
+
+.img-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.img-label {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.img-caption {
+  text-align: center;
+  font-size: 14px;
+  margin: -20px auto 28px;
+  max-width: 520px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* Key takeaways */
+.takeaways {
+  margin: 48px 0 32px;
+  padding: 32px 32px 28px;
+  background: #ede8e1;
+  border-radius: 12px;
+}
+
+.takeaways-title {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.takeaways ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.takeaways li {
+  padding: 10px 0 10px 28px;
+  position: relative;
+  font-size: 16px;
+  line-height: 1.7;
+  border-bottom: 1px solid #dcd4ca;
+}
+
+.takeaways li:last-child {
+  border-bottom: none;
+}
+
+.takeaways li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  font-size: 10px;
+}
+
+/* Vibe exercise */
+.vibe-section {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 2px solid #e0d8d0;
+}
+
+.vibe-label {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.vibe-prompt {
+  background: #f5f2ed;
+  border: 1px solid #e0d8d0;
+  border-radius: 8px;
+  padding: 24px 28px;
+  margin: 16px 0 12px;
+  font-style: italic;
+  color: #4a4a4a;
+  position: relative;
+}
+
+.vibe-prompt::before {
+  content: '"';
+  position: absolute;
+  top: 4px;
+  left: 12px;
+  font-size: 40px;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.vibe-prompt p {
+  text-indent: 0;
+  margin-bottom: 0;
+  padding-left: 16px;
+}
+
+.vibe-prompt p + p {
+  margin-top: 12px;
+}
+
+.vibe-note {
+  font-size: 15px;
+  color: #777;
+  margin-top: 12px;
+  font-style: normal;
+}
+
+.vibe-note p {
+  text-indent: 0;
+  margin-bottom: 0;
+}
+
+/* Insight block (common variant) */
+.insight-block {
+  background: #ede8e1;
+  border-left: 3px solid #8a7a6a;
+  border-radius: 0 8px 8px 0;
+  padding: 20px 24px;
+  margin: 24px 0 28px;
+}
+
+.insight-block p {
+  text-indent: 0;
+  margin-bottom: 0;
+  font-size: 16px;
+  color: #4a4a4a;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container {
+    padding: 48px 20px 80px;
+  }
+  h1 {
+    font-size: 28px;
+    letter-spacing: 2px;
+  }
+  body {
+    font-size: 16px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 18px;
+  }
+  .takeaways {
+    padding: 24px 20px 20px;
+  }
+  .img-placeholder {
+    padding: 28px 16px;
+  }
+  pre {
+    padding: 16px;
+    font-size: 13px;
+  }
+}

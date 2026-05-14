@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11.5 配置你的"Vibe 工作台"</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #6a8a7a, #98b8a8, #6a8a7a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #6a8a7a; }
+  .title-divider { background: #98b8a8; }
+  strong { color: #6a8a7a; }
+  .img-icon { color: #98b8a8; }
+  .img-label { color: #6a8a7a; }
+  .img-caption { color: #6a8a7a; }
+  .takeaways-title { color: #6a8a7a; }
+  .takeaways li::before { color: #98b8a8; }
+  .vibe-label { color: #6a8a7a; }
+  .vibe-prompt::before { color: #98b8a8; }
+  blockquote { border-left-color: #98b8a8; }
+  th { color: #6a8a7a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第十一章 · 环境及工具配置详解</div>
+  <h1>11.5 配置你的"Vibe 工作台"</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-13<br>  验证环境：无（配置建议章节）</div>
+
+  <h2>目录命名规范</h2>
+
+  <p>良好的项目命名可以让 AI 和你自己都更容易理解项目的用途。</p>
+
+  <p>一个简单的规范：</p>
+
+  <pre><code>项目名-类型</code></pre>
+
+  <p>例如：</p>
+
+  <ul>
+<li><code>my-blog-web</code>（Web 应用）</li>
+<li><code>data-analysis-tool</code>（工具脚本）</li>
+<li><code>wechat-bot</code>（机器人/自动化）</li>
+</ul>
+
+  <p>关于命名的一些具体建议：</p>
+
+  <ul>
+<li><strong>全小写 + 短横线分隔</strong>：这是 JavaScript/Node.js 生态中最常见的命名风格。<code>my-blog-web</code> 比 <code>MyBlogWeb</code> 或 <code>my_blog_web</code> 更好。</li>
+<li><strong>名字要有区分度</strong>：如果你以后有多个项目，<code>app</code> 或 <code>my-project</code> 这种名字会让你分不清谁是谁。<code>my-blog-web</code> 和 <code>ecommerce-api</code> 一眼就能区分。</li>
+<li><strong>避免版本号</strong>：不要用 <code>my-blog-v2</code> 或 <code>my-blog-final</code>。版本管理是 Git 的工作，不是名字的工作。如果你需要 v2，在 Git 中开一个新分支。</li>
+<li><strong>让 AI 帮你命名</strong>：不确定怎么命名？告诉 AI "我要做一个记录每日饮水的工具，帮我取一个项目名"，AI 会给出类似 <code>water-tracker</code> 或 <code>daily-hydration-log</code> 的建议。</li>
+</ul>
+
+  <p><strong>目录组织结构建议：</strong></p>
+
+  <p>在电脑上创建一个专门的目录来存放所有 Vibe Coding 项目：</p>
+
+  <pre><code>~/projects/           # 或 D:\projects\
+  ├── my-blog-web/
+  ├── water-tracker/
+  ├── ecommerce-api/
+  └── data-dashboard/</code></pre>
+
+  <p>这样做的两个好处：</p>
+
+  <ul>
+<li>所有项目集中在一个地方，方便备份和查找。</li>
+<li>Claude Code 在 <code>~/projects/</code> 层级启动时，可以感知到你有哪些项目。</li>
+</ul>
+
+  <h2>项目启动的标准化流程</h2>
+
+  <p>每次开始一个新项目，遵循相同的步骤可以减少"从零开始"的阻力：</p>
+
+  <p><strong>第一步：创建项目目录。</strong></p>
+
+  <pre><code>mkdir my-new-project
+cd my-new-project</code></pre>
+
+  <p><strong>第二步：初始化 Git。</strong></p>
+
+  <pre><code>git init</code></pre>
+
+  <p><strong>第三步：创建 .gitignore。</strong></p>
+
+  <p>让 AI 生成："帮我创建适合这个项目的 .gitignore 文件"（然后告诉 AI 你的技术栈是什么）。</p>
+
+  <p><strong>第四步：让 AI 初始化项目。</strong></p>
+
+  <p>根据项目类型告诉 AI 不同的指令：</p>
+
+  <ul>
+<li>Web 应用："使用 create-next-app 初始化一个 Next.js 项目"</li>
+<li>Python 工具："初始化一个 Python 项目，创建虚拟环境"</li>
+<li>Node.js API："运行 npm init -y，然后安装 express 和 typescript"</li>
+</ul>
+
+  <p>做完这四步，你的项目骨架就搭好了。整个过程加起来不超过 5 分钟。</p>
+
+  <h2>环境变量管理</h2>
+
+  <p>环境变量是存储在代码之外的可配置值——API 密钥、数据库地址、应用端口等。它们不应该硬编码在代码中，也不应该提交到 Git。</p>
+
+  <p><strong>创建一个 .env 文件：</strong></p>
+
+  <pre><code># .env
+DATABASE_URL="postgresql://localhost:5432/myapp"
+API_KEY="sk-xxx..."
+PORT=3000</code></pre>
+
+  <p>然后在代码中通过 <code>process.env.DATABASE_URL</code> 访问这些变量。</p>
+
+  <p><strong>.env 文件的注意事项：</strong></p>
+
+  <ul>
+<li>永远把 <code>.env</code> 加到 <code>.gitignore</code> 中。这样的文件提交到 GitHub 就相当于公开了密码。</li>
+<li>创建一个 <code>.env.example</code> 文件提交到 Git，里面放变量名但不放真实值。其他人（或未来的你）看到这个文件就知道需要配置哪些环境变量。</li>
+</ul>
+
+  <pre><code># .env.example（可以提交到 Git）
+DATABASE_URL="your_database_url_here"
+API_KEY="your_api_key_here"
+PORT=3000</code></pre>
+
+  <p>让 AI 帮你做：</p>
+
+  <blockquote>
+
+  <p>"我的项目用到了 PostgreSQL 数据库和 Anthropic API。帮我创建 .env 和 .env.example 文件，包含需要的环境变量。记得把 .env 加到 .gitignore 中。"</p>
+
+  </blockquote>
+
+  <h2>VS Code / Cursor 的推荐配置</h2>
+
+  <p>虽然本书主要使用 Claude Code（终端工具），但你仍然需要一个编辑器来阅读和修改代码。推荐 VS Code 或 Cursor。</p>
+
+  <p><strong>建议的辅助设置：</strong></p>
+
+  <p>在 VS Code/Cursor 的设置（settings.json）中启用：</p>
+
+  <ul>
+<li><strong>自动保存</strong>：设置为 <code>afterDelay</code>（延迟 1 秒自动保存）或 <code>onFocusChange</code>（文件失去焦点时自动保存）。省去手动按 Ctrl+S。</li>
+<li><strong>行号显示</strong>：默认开启，方便在对话中引用代码行。"第 15 行那里有一个 typo"比"在 Header 组件里有一个拼写错误"更精确。</li>
+<li><strong>minimap</strong>：显示代码缩略图，方便在大文件中快速定位。</li>
+<li><strong>格式化</strong>：设置为"保存时自动格式化"（editor.formatOnSave），AI 生成的代码有时格式不统一，这个设置会自动修正。</li>
+</ul>
+
+  <p><strong>推荐的 VS Code 扩展（非必需，但有用）：</strong></p>
+
+  <ul>
+<li><strong>GitHub Copilot</strong>（如果你使用 VS Code 而不是 Cursor）——代码补全。</li>
+<li><strong>Prettier</strong>——自动代码格式化，保持代码风格一致。</li>
+<li><strong>ESLint</strong>——JavaScript/TypeScript 代码检查，提示潜在问题。</li>
+<li><strong>Tailwind CSS IntelliSense</strong>——如果你使用 Tailwind CSS，这个扩展提供类名补全。</li>
+<li><strong>Material Icon Theme</strong>——让文件资源管理器中的图标更清晰（纯粹是为了好看）。</li>
+</ul>
+
+  <p>安装方式：在 VS Code 的扩展面板中搜索以上扩展名，点击安装。</p>
+
+  <p><strong>Cursor 用户注意：</strong> Cursor 已经内置了 AI 功能和大部分编辑器优化，你不需要额外安装太多扩展。只需要安装语言相关的扩展（如 Python、Tailwind 等）即可。</p>
+
+  <h2>跨机器同步</h2>
+
+  <p>如果你在多台电脑上工作（比如家里一台台式机，路上用笔记本），你需要考虑代码同步。</p>
+
+  <p>最简单的方式：<strong>用 GitHub。</strong></p>
+
+  <p>工作流：</p>
+
+  <ol>
+<li>在任何一台电脑上开发，修改完成后 <code>git push</code>。</li>
+<li>在另一台电脑上 <code>git pull</code> 获取最新代码。</li>
+</ol>
+
+  <p>这就够了。不需要用网盘同步、不需要手动复制文件。Git + GitHub 是你的同步工具。</p>
+
+  <p><strong>如果是"环境配置"的同步（VS Code 设置、终端配置等）：</strong></p>
+
+  <ul>
+<li>VS Code/Cursor：登录你的 GitHub/Microsoft 账号，设置会自动同步。</li>
+<li>终端配置（.zshrc、Starship 配置等）：可以把配置文件放在一个私有 GitHub 仓库中，在不同机器上 clone 下来使用。</li>
+</ul>
+
+  <h2>新项目的启动清单</h2>
+
+  <p>开始一个新项目时，对照这个清单确认基础设置完成：</p>
+
+  <ul>
+<li>[ ] 创建了项目目录</li>
+<li>[ ] 运行了 <code>git init</code></li>
+<li>[ ] 创建了 <code>.gitignore</code>（排除了 node_modules、.env、build 输出等）</li>
+<li>[ ] 创建了 <code>.env</code> 和 <code>.env.example</code>（如果项目需要）</li>
+<li>[ ] 运行了 <code>npm init</code> 或让 AI 初始化了项目</li>
+<li>[ ] 确认项目能在本地运行（<code>npm run dev</code> 启动成功）</li>
+</ul>
+
+  <p>这个清单不是为了追求完美——而是为了确保你"不会因为忘记基础设置而浪费时间"。比如你写了三天代码之后才发现没有 .gitignore，那时候项目中已经有大量不需要跟踪的文件，清理起来反而更麻烦。</p>
+
+  <h2>备份策略</h2>
+
+  <p>代码是你最宝贵的资产。备份是底线保障。</p>
+
+  <p><strong>三层备份策略：</strong></p>
+
+  <ol>
+<li><strong>Git + GitHub（日常）</strong>：每次 commit + push。GitHub 是你的主要备份。只要做了这一步，你的代码至少有 99% 的安全保障。</li>
+<li><strong>本地备份（每周）</strong>：把整个 projects 目录复制到外置硬盘或另一个分区。保险起见，一个月做一次就够了。</li>
+<li><strong>关键文件额外备份（按需）</strong>：.env 文件中的 API 密钥、数据库密码等——如果你丢失了它们，即使代码还在，服务也可能无法运行。把它们记录在密码管理器（如 1Password、Bitwarden）中。</li>
+</ol>
+
+  <p><strong>不要做的事：</strong> 把代码放在"同步盘"（如 OneDrive、iCloud 的 Desktop 同步）中作为主要的 Git 仓库。同步盘在 Git 操作时可能引发文件锁定冲突。在同步盘中放代码的"副本"没问题，但不要让 Git 仓库和同步盘实时同步同一份文件。</p>
+
+  <h2>我的推荐起点</h2>
+
+  <p>如果你问我，作为一个刚开始 Vibe Coding 的人，我应该怎么配置我的工作台——我的回答是：</p>
+
+  <p><strong>不需要过度配置。</strong> 装好 Node.js、装好 Claude Code、装好 VS Code，你就可以开始了。等你用了一段时间，发现自己频繁遇到某个不便——比如每次都要手动运行同一个命令——那个时候再去寻找解决方案。</p>
+
+  <p>最糟糕的情况是花了两天"配置环境"，然后就没动力写代码了。先把第一个应用做出来，再回来优化环境。</p>
+
+  <p>有一个很形象的类比：如果你要开始跑步，不需要买最贵的跑鞋、最新的运动手表、专业的运动服。先穿上你现有的运动鞋出门跑一公里。跑了一个月之后，你自然知道你需要什么——也许是更好的鞋，也许是手机臂包。同样的道理：先做出第一个应用，再回来优化环境。</p>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>目录命名建议：<code>项目名-类型</code>，全小写 + 短横线分隔，版本管理交给 Git。创建一个专门的 projects 目录集中管理所有项目。</li>
+<li>项目启动标准化流程：创建目录 → git init → 创建 .gitignore → 让 AI 初始化项目。固定流程降低从零开始的阻力。</li>
+<li>环境变量用 .env 文件管理，永远提交 .env.example 但不提交 .env。API 密钥等敏感信息不能用 .gitignore 保护。</li>
+<li>VS Code 推荐设置：自动保存、行号、minimap、保存时自动格式化。扩展按需安装，不要一次装太多。</li>
+<li>跨机器同步：用 GitHub push/pull 同步代码，不用网盘。编辑器设置登录账号自动同步。</li>
+<li>新项目启动清单：确认 Git 已初始化、.gitignore 已创建、项目可以本地运行。</li>
+<li>核心心态：<strong>不要过度配置</strong>——先做出第一个应用，再回来优化环境。最糟糕的情况是花了两天配置环境然后没动力写代码了。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>问 AI：</p>
+  <div class="vibe-prompt">
+  <p>"我刚刚开始使用 Claude Code，打算做一个 [你的项目类型]。请帮我生成一个适合这个项目的 .gitignore 文件和项目目录建议结构。"</p>
+  </div>
+  <p>进阶练习（启动一个新项目的完整配置）：</p>
+  <p>"帮我完成一个新项目的初始化：项目名为 my-todo-app，使用 Next.js 和 TypeScript。先创建项目目录，初始化 Git，创建 .gitignore（排除 node_modules、.next、.env），初始化一个 Next.js 项目，创建 .env.example 文件包含 DATABASE_URL 变量。全部完成后给我一个完整的项目结构概述。"</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12.1 项目起手势</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #8a7a6a, #b8a898, #8a7a6a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #8a7a6a; }
+  .title-divider { background: #b8a898; }
+  strong { color: #8a7a6a; }
+  .img-icon { color: #b8a898; }
+  .img-label { color: #8a7a6a; }
+  .img-caption { color: #8a7a6a; }
+  .takeaways-title { color: #8a7a6a; }
+  .takeaways li::before { color: #b8a898; }
+  .vibe-label { color: #8a7a6a; }
+  .vibe-prompt::before { color: #b8a898; }
+  blockquote { border-left-color: #b8a898; }
+  th { color: #8a7a6a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第十二章 · 第一个应用</div>
+  <h1>12.1 项目起手势</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-13<br>  验证环境：Node.js v22.x, Claude Code v1.x, 现代浏览器（Chrome/Firefox/Edge）</div>
+
+  <h2>从一句话开始</h2>
+
+  <p>打开终端，cd 到你存放项目的目录，然后输入：</p>
+
+  <pre><code>claude</code></pre>
+
+  <p>Claude Code 启动后，你的第一条指令可以很简单：</p>
+
+  <blockquote>
+
+  <p>"我想做一个 MP3 音频可视化应用，HTML5 项目，帮我创建项目骨架。"</p>
+
+  </blockquote>
+
+  <p>然后，看它干活。</p>
+
+  <p>你会看到 Claude Code 开始创建文件：一个 <code>index.html</code>、一个 <code>style.css</code>、一个 <code>app.js</code>。它可能还会问你要不要初始化 npm 或者安装一些依赖。别担心——它每做一步都会告诉你。</p>
+
+  <p><strong>AI 可能会反问的问题：</strong></p>
+
+  <p>有时候 Claude Code 不会直接执行，而是会反问一些澄清问题：</p>
+
+  <ul>
+<li>"你希望用 CDN 引入外部库，还是全部用原生 Web API？"</li>
+<li>"是否需要支持拖拽上传 MP3 文件？"</li>
+<li>"项目是否需要 npm 初始化？"</li>
+</ul>
+
+  <p>这些反问不是"麻烦"，而是 AI 在帮你补全你没说清楚的信息。你不需要一次性回答所有问题——你只需要回答当前能回答的。"全部用原生 API，不需要 npm 初始化，拖拽功能后续再加"——AI 就会按这个方向执行。</p>
+
+  <h2>初始化的结果</h2>
+
+  <p>几秒钟后，你会在项目目录中看到类似这样的结构：</p>
+
+  <pre><code>mp3-visualization/
+├── index.html
+├── style.css
+├── app.js
+└── .gitignore</code></pre>
+
+  <p>这就是你的项目骨架。是的，从零到三个文件，只用了一句话。</p>
+
+  <p><strong>如果你想要不同的项目类型，指令也可以不同：</strong></p>
+
+  <ul>
+<li>"创建一个 React + Vite 项目，用于 mp3 可视化" → AI 会用 Vite 脚手架初始化</li>
+<li>"创建一个 Next.js 项目，用于音频工具集" → AI 运行 create-next-app</li>
+<li>"创建一个 Python Flask 项目，用于音频处理" → AI 创建 Python 项目结构</li>
+</ul>
+
+  <p>不同的指令会触发不同的初始化方式。但核心逻辑一样——你说了，AI 做了。</p>
+
+  <h2>检查 AI 做了什么</h2>
+
+  <p>在继续之前，花 30 秒看看 AI 生成的初始代码。不是要你读懂每一行——而是建立一种习惯：<strong>AI 生成后，你先看一眼。</strong></p>
+
+  <p>打开 <code>index.html</code>，确认它引用了 <code>style.css</code> 和 <code>app.js</code>。打开 <code>app.js</code>，看看里面是不是有一个基本的音频上下文（AudioContext）创建代码。对于初学者来说，你只需要确认结构合理即可。</p>
+
+  <p>这里有几个简单的检查点：</p>
+
+  <ol>
+<li><strong>文件都在吗？</strong> 骨架包含的文件数量和预期一致吗？</li>
+<li><strong>引用正确吗？</strong> index.html 中 link 和 script 的路径指向了正确的位置吗？</li>
+<li><strong>代码不是空的吗？</strong> js 文件不是空的——至少有一段有意义的代码。</li>
+</ol>
+
+  <p>你不需要"审查"代码的正确性——只是"看一眼"而已。如果你发现文件结构明显不对（比如缺少了 css 文件），直接告诉 AI 修复。</p>
+
+  <h2>为什么要先创建骨架，而不是一次性生成全部功能</h2>
+
+  <p>你可能想问：为什么不直接说"帮我生成一个完整的 MP3 可视化应用"？</p>
+
+  <p>原因有两个：</p>
+
+  <p><strong>第一，一次性生成全部功能，AI 容易在中途偏离方向。</strong> 如果 AI 一次生成太多代码，它可能在过程中"忘了"你最初的要求，或者生成的某些部分不符合你的预期，但你很难在大量代码中找到问题。</p>
+
+  <p><strong>第二，分步推进让你在每个阶段都有决定权。</strong> 骨架 → 布局 → 功能 → 调试 → 部署——每一步你都能说"这里不对，改成那样"。如果你一次性生成全部，回头修改的成本比逐步推进高得多。</p>
+
+  <p>骨架的作用就像盖房子之前先搭脚手架——它不是最终产品，但它定义了后面的工作怎么展开。</p>
+
+  <h2>如果对结果不满意</h2>
+
+  <p>这是 Vibe Coding 中很常见的情况——AI 第一次给出的不一定完全符合你的想法。没关系，直接说：</p>
+
+  <blockquote>
+
+  <p>"我不想用 CDN 引入外部库，全部用原生 Web API 实现。重新生成。"</p>
+
+  </blockquote>
+
+  <p>或者：</p>
+
+  <blockquote>
+
+  <p>"把项目改成 TypeScript 版本，帮我初始化一个 Vite 项目。"</p>
+
+  </blockquote>
+
+  <p>即时纠偏的能力，比"一次性说对"重要得多。这也是 Vibe Coding 的核心循环：<strong>说→看→调→再说。</strong></p>
+
+  <p><strong>如果 AI 创建的项目不是你想要的怎么办？</strong> 你有几个选择：</p>
+
+  <ul>
+<li><strong>让 AI 重来：</strong> "这个不符合要求，重新创建一个只包含 index.html、style.css 和 app.js 的纯前端项目。"</li>
+<li><strong>让 AI 修改现有项目：</strong> "把已创建的 Vite 项目改成纯 HTML5 项目，去掉所有构建工具。"</li>
+<li><strong>你自己先想清楚再开始：</strong> 在启动 claude 之前，花 2 分钟想清楚你要用什么技术栈。不一定需要精确到每个工具，但至少确定：纯前端还是全栈？用框架吗？用 TypeScript 吗？</li>
+</ul>
+
+  <h2>关于 Git 和第一次提交</h2>
+
+  <p>AI 创建完骨架后，是一个很好的时机做第一次 Git 提交：</p>
+
+  <blockquote>
+
+  <p>"帮我初始化 Git，创建 .gitignore，然后做第一次提交。"</p>
+
+  </blockquote>
+
+  <p>AI 会运行 <code>git init</code>，创建 <code>.gitignore</code>，然后 <code>git add .</code> 和 <code>git commit -m "init: project skeleton"</code>。</p>
+
+  <p>为什么要在这个时候做第一次提交？因为这是项目的"干净状态"——骨架已搭好，但还没开始填功能。如果你之后改乱了，随时可以回到这个状态重新开始。</p>
+
+  <h2>项目骨架的作用</h2>
+
+  <p>骨架本身不做任何"业务逻辑"，它定义了项目的结构、文件之间的依赖关系、开发服务器的启动方式。有了骨架，后面每一轮迭代你都在"填肉"而不是"搭架子"。</p>
+
+  <p>你把骨架描述清楚了，AI 就有了上下文锚点——它知道文件在哪里、结构长什么样、你在用什么技术栈。后续每一次对话，它都不需要重新猜测。</p>
+
+  <p>一个形象的类比：骨架就像你做菜前洗好切好的食材。你不需要在炒菜的过程中停下来切葱——食材已经准备好了，你直接开火。骨架就是你项目中的"食材准备"。</p>
+
+  <h2>这一步的关键</h2>
+
+  <p><strong>不要花时间想"结构应该怎么设计"。</strong> 骨架是可以随时改的。让 AI 先给一个合理的默认结构，你在后续迭代中自然会发现哪里需要调整。这是 Vibe 方式与传统开发方式的一个重要区别——先有，再优。</p>
+
+  <p>传统开发中的"设计先行"模式会给你一种错觉：结构想得越清楚，后面写代码越顺利。但在 Vibe Coding 中，这个逻辑不成立了——因为 AI 可以在任何阶段帮你重构结构。你不需要在起点就想好终点在哪里。</p>
+
+  <p><strong>一个实用的起步心态：</strong> 你现在的目标不是"做一个完美的 App"，而是"做一个能跑的东西"。能在浏览器中打开、能看到一个页面、能点击一个按钮——这就是第一次成功。从那里开始，你再一步步往里面加东西。</p>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>创建项目从一句话开始："帮我创建一个 X 项目的骨架。" AI 可能会反问澄清问题，正常回答即可。</li>
+<li>项目类型可以不同：纯 HTML5、React + Vite、Next.js、Python Flask——指令决定了骨架的结构。</li>
+<li>检查 AI 生成的初始代码，确认文件结构和引用关系——不需要读懂每一行，只需要确认结构合理。</li>
+<li>不要一次性要求 AI 生成全部功能。分步推进（骨架→布局→功能→调试→部署），每个阶段你都有决定权。</li>
+<li>不如意时即时纠偏——不需要接受第一次的结果。重来或修改都可以。</li>
+<li>骨架创建后做第一次 Git 提交，作为项目的"干净状态"。</li>
+<li>项目骨架的作用是定义上下文锚点，让后续迭代更高效。先有，再优。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>打开终端，启动 Claude Code，然后对它说：</p>
+  <div class="vibe-prompt">
+  <p>"帮我创建一个 HTML5 项目的骨架，包含 index.html、style.css 和 app.js，用于构建一个音乐可视化应用。使用原生 Web API，不引入外部依赖。"</p>
+  </div>
+  <p>完成后续练习：</p>
+  <p>骨架创建后，让 Claude Code "帮我初始化 Git 仓库并创建 .gitignore，做第一次提交。" 观察 AI 运行 git init、创建 .gitignore、add 和 commit 的完整流程。</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

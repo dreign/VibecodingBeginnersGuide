@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Coding 目录</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #5a6a7a, #88a8b8, #5a6a7a);
+    z-index: 100;
+  }
+
+  .hero-section {
+    text-align: center;
+    padding: 30px 0 20px;
+    border-bottom: 1px solid #e0d8d0;
+    margin-bottom: 20px;
+  }
+
+  .hero-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+    color: #777;
+    letter-spacing: 1px;
+    font-weight: 400;
+  }
+
+  .part-section {
+    margin-bottom: 20px;
+  }
+
+  .part-title {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #6a7a8a;
+    margin-bottom: 10px;
+    padding-left: 8px;
+    border-left: 3px solid #88a8b8;
+  }
+
+  .chapter-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 8px;
+  }
+
+  .chapter-item {
+    padding: 8px 12px;
+    background: #faf8f5;
+    border-radius: 4px;
+    transition: all 0.15s ease;
+  }
+
+  .chapter-item:hover {
+    background: #f0ece6;
+  }
+
+  .chapter-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #3a3a3a;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .chapter-number {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 12px;
+    color: #8a8a8a;
+    margin-right: 10px;
+    min-width: 35px;
+  }
+
+  .chapter-title {
+    flex: 1;
+  }
+
+  .chapter-link:hover .chapter-title {
+    color: #5a6a7a;
+  }
+
+  .appendix-section {
+    padding-top: 20px;
+    border-top: 1px solid #e0d8d0;
+  }
+
+  .footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e0d8d0;
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+  }
+
+  .last-update {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 600px) {
+    .hero-title {
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+    .chapter-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero-section">
+    <h1 class="hero-title">Vibe Coding 入门宝典</h1>
+    <p class="hero-subtitle">非程序员的AI开发指南</p>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">前言</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="00-前言/00-前言.html" class="chapter-link" target="_blank">
+          <span class="chapter-number"></span>
+          <span class="chapter-title">前言 — 这本书是为谁写的</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第一部分 · 认知</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="01-时代背景/01-01-从信息化到智能化.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">1.1</span>
+          <span class="chapter-title">从信息化到智能化</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="01-时代背景/01-02-算力数据算法的螺旋上升.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">1.2</span>
+          <span class="chapter-title">算力、数据、算法的螺旋上升</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="01-时代背景/01-03-软件正在成为第二语言.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">1.3</span>
+          <span class="chapter-title">软件正在成为"第二语言"</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="01-时代背景/01-04-创造者瓶颈的消解.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">1.4</span>
+          <span class="chapter-title">创造者瓶颈的消解</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第二章 · 生产关系的演变</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="02-生产关系的演变/02-01-开发者群体的演化.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">2.1</span>
+          <span class="chapter-title">开发者群体的演化</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="02-生产关系的演变/02-02-开源运动的启示.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">2.2</span>
+          <span class="chapter-title">开源运动的启示</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="02-生产关系的演变/02-03-生产者与消费者的边界溶解.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">2.3</span>
+          <span class="chapter-title">生产者与消费者的边界溶解</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="02-生产关系的演变/02-04-新分工体系.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">2.4</span>
+          <span class="chapter-title">新分工体系：人类与 AI 的契约</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第三章 · 生产工具的演变</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="03-生产工具的演变/03-01-机器码与汇编.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">3.1</span>
+          <span class="chapter-title">机器码与汇编</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="03-生产工具的演变/03-02-高级语言与IDE.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">3.2</span>
+          <span class="chapter-title">高级语言与 IDE</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="03-生产工具的演变/03-03-框架低代码与云原生.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">3.3</span>
+          <span class="chapter-title">框架、低代码与云原生</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="03-生产工具的演变/03-04-自然语言作为编程语言.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">3.4</span>
+          <span class="chapter-title">自然语言作为编程语言</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第四章 · 传统开发生命周期回顾</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="04-传统开发生命周期回顾/04-01-经典瀑布模型.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">4.1</span>
+          <span class="chapter-title">经典瀑布模型</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="04-传统开发生命周期回顾/04-02-敏捷与DevOps的改进.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">4.2</span>
+          <span class="chapter-title">敏捷与 DevOps 的改进</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="04-传统开发生命周期回顾/04-03-每个阶段的翻译损耗.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">4.3</span>
+          <span class="chapter-title">每个阶段的翻译损耗</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="04-传统开发生命周期回顾/04-04-人类精力分配真相.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">4.4</span>
+          <span class="chapter-title">人类精力分配真相</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第五章 · 一人公司</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="05-一人公司/05-01-什么是一人公司.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">5.1</span>
+          <span class="chapter-title">什么是一人公司</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="05-一人公司/05-02-Vibe-Coding如何释放生产力.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">5.2</span>
+          <span class="chapter-title">Vibe Coding 如何释放生产力</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="05-一人公司/05-03-一人软件工程全生命周期.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">5.3</span>
+          <span class="chapter-title">一人软件工程全生命周期</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="05-一人公司/05-04-全流程工具链图谱.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">5.4</span>
+          <span class="chapter-title">全流程工具链图谱</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="05-一人公司/05-05-工具武器库详解.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">5.5</span>
+          <span class="chapter-title">工具武器库详解</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="05-一人公司/05-06-DevOps-for-One.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">5.6</span>
+          <span class="chapter-title">DevOps for One</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第六章 · Token 即流量</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="06-Token即流量/06-01-智能手机的启示.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">6.1</span>
+          <span class="chapter-title">智能手机的启示</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="06-Token即流量/06-02-Token-AI世界的信息原子.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">6.2</span>
+          <span class="chapter-title">Token：AI 世界的信息原子</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="06-Token即流量/06-03-Token即流量.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">6.3</span>
+          <span class="chapter-title">Token 即流量</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="06-Token即流量/06-04-上下文窗口流量套餐.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">6.4</span>
+          <span class="chapter-title">上下文窗口流量套餐</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="06-Token即流量/06-05-成本思维意图的性价比.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">6.5</span>
+          <span class="chapter-title">成本思维：意图的性价比</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第七章 · Vibe Coding 核心概念</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="07-Vibe-Coding核心概念/07-01-定义与内涵.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">7.1</span>
+          <span class="chapter-title">定义与内涵</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="07-Vibe-Coding核心概念/07-02-四大核心要素.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">7.2</span>
+          <span class="chapter-title">四大核心要素</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="07-Vibe-Coding核心概念/07-03-Vibe的本质.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">7.3</span>
+          <span class="chapter-title">Vibe 的本质</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="07-Vibe-Coding核心概念/07-04-与低代码无代码的区别.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">7.4</span>
+          <span class="chapter-title">与低代码无代码的区别</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="07-Vibe-Coding核心概念/07-05-Vibe-Coding的适用范围.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">7.5</span>
+          <span class="chapter-title">Vibe Coding 的适用范围</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第八章 · 从 Vibe Coding 到 Vibe Learning</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="08-从Vibe-Coding到Vibe-Learning/08-01-学习模式的革命.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">8.1</span>
+          <span class="chapter-title">学习模式的革命</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="08-从Vibe-Coding到Vibe-Learning/08-02-在构建中学习.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">8.2</span>
+          <span class="chapter-title">在构建中学习</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="08-从Vibe-Coding到Vibe-Learning/08-03-不必弄懂一切的新契约.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">8.3</span>
+          <span class="chapter-title">不必弄懂一切的新契约</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="08-从Vibe-Coding到Vibe-Learning/08-04-构建个人学习闭环.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">8.4</span>
+          <span class="chapter-title">构建个人学习闭环</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="08-从Vibe-Coding到Vibe-Learning/08-05-培养Vibe直觉.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">8.5</span>
+          <span class="chapter-title">培养 Vibe 直觉</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第九章 · 大模型</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="09-大模型/09-01-模型如何理解代码.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">9.1</span>
+          <span class="chapter-title">模型如何理解代码</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="09-大模型/09-02-主流代码模型对比.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">9.2</span>
+          <span class="chapter-title">主流代码模型对比</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="09-大模型/09-03-提示工程即氛围设定.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">9.3</span>
+          <span class="chapter-title">提示工程即氛围设定</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="09-大模型/09-04-模型的能力边界.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">9.4</span>
+          <span class="chapter-title">模型的能力边界</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="09-大模型/09-05-未来趋势.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">9.5</span>
+          <span class="chapter-title">未来趋势</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第十章 · 工具生态全景</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="10-工具生态全景/10-01-工具分层模型.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">10.1</span>
+          <span class="chapter-title">工具分层模型</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="10-工具生态全景/10-02-终端原生.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">10.2</span>
+          <span class="chapter-title">终端原生</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="10-工具生态全景/10-03-IDE集成.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">10.3</span>
+          <span class="chapter-title">IDE 集成</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="10-工具生态全景/10-04-全栈Vibe平台.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">10.4</span>
+          <span class="chapter-title">全栈 Vibe 平台</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="10-工具生态全景/10-05-选择你的好搭档.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">10.5</span>
+          <span class="chapter-title">选择你的好搭档</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第十一章 · 环境及工具配置详解</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="11-环境及工具配置详解/11-01-基础依赖最小集.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">11.1</span>
+          <span class="chapter-title">基础依赖最小集</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="11-环境及工具配置详解/11-02-Claude-Code安装认证.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">11.2</span>
+          <span class="chapter-title">Claude Code 安装认证</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="11-环境及工具配置详解/11-03-终端美化与效率工具.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">11.3</span>
+          <span class="chapter-title">终端美化与效率工具</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="11-环境及工具配置详解/11-04-Git与GitHub工作流.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">11.4</span>
+          <span class="chapter-title">Git 与 GitHub 工作流</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="11-环境及工具配置详解/11-05-配置你的Vibe工作台.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">11.5</span>
+          <span class="chapter-title">配置你的 Vibe 工作台</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第十二章 · 第一个应用</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="12-第一个应用/12-01-项目起手势.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">12.1</span>
+          <span class="chapter-title">项目起手势</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="12-第一个应用/12-02-对话式开发全记录.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">12.2</span>
+          <span class="chapter-title">对话式开发全记录</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="12-第一个应用/12-03-添加前端界面.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">12.3</span>
+          <span class="chapter-title">添加前端界面</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="12-第一个应用/12-04-接入音频处理.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">12.4</span>
+          <span class="chapter-title">接入音频处理</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="12-第一个应用/12-05-调试循环实战.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">12.5</span>
+          <span class="chapter-title">调试循环实战</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="12-第一个应用/12-06-部署上线.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">12.6</span>
+          <span class="chapter-title">部署上线</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="12-第一个应用/12-07-复盘从0到1.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">12.7</span>
+          <span class="chapter-title">复盘从 0 到 1</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第十三章 · 进阶实战项目库</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="13-进阶实战项目库/13-01-数据仪表板.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">13.1</span>
+          <span class="chapter-title">数据仪表板</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="13-进阶实战项目库/13-02-简易电商后台.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">13.2</span>
+          <span class="chapter-title">简易电商后台</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="13-进阶实战项目库/13-03-个人AI知识库.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">13.3</span>
+          <span class="chapter-title">个人 AI 知识库</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="13-进阶实战项目库/13-04-浏览器自动化代理.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">13.4</span>
+          <span class="chapter-title">浏览器自动化代理</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="13-进阶实战项目库/13-05-跨平台桌面工具.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">13.5</span>
+          <span class="chapter-title">跨平台桌面工具</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第十四章 · 开源库</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="14-开源库/14-01-界面加速.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">14.1</span>
+          <span class="chapter-title">界面加速</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="14-开源库/14-02-后端提速.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">14.2</span>
+          <span class="chapter-title">后端提速</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="14-开源库/14-03-AI功能增强.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">14.3</span>
+          <span class="chapter-title">AI 功能增强</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="14-开源库/14-04-数据库与认证.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">14.4</span>
+          <span class="chapter-title">数据库与认证</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="14-开源库/14-05-寻找与评估开源库的Vibe方法.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">14.5</span>
+          <span class="chapter-title">寻找与评估开源库的 Vibe 方法</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section">
+    <div class="part-title">第十五章 · 软件的背后</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="15-软件的背后/15-01-从代码到进程.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">15.1</span>
+          <span class="chapter-title">从代码到进程</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="15-软件的背后/15-02-Web应用怎么跑起来.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">15.2</span>
+          <span class="chapter-title">Web 应用怎么跑起来</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="15-软件的背后/15-03-数据库不是黑盒.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">15.3</span>
+          <span class="chapter-title">数据库不是黑盒</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="15-软件的背后/15-04-建立系统性调试思维.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">15.4</span>
+          <span class="chapter-title">建立系统性调试思维</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="15-软件的背后/15-05-读懂AI输出的架构与配置.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">15.5</span>
+          <span class="chapter-title">读懂 AI 输出的架构与配置</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="part-section appendix-section">
+    <div class="part-title">附录</div>
+    <ul class="chapter-list">
+      <li class="chapter-item">
+        <a href="16-附录/附录A-语法速查表.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">附录 A</span>
+          <span class="chapter-title">语法速查表</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="16-附录/附录B-软件开发基础知识Wiki.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">附录 B</span>
+          <span class="chapter-title">软件开发基础知识 Wiki</span>
+        </a>
+      </li>
+      <li class="chapter-item">
+        <a href="16-附录/附录C-推荐学习路径与资源.html" class="chapter-link" target="_blank">
+          <span class="chapter-number">附录 C</span>
+          <span class="chapter-title">推荐学习路径与资源</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <p class="last-update">最后更新：2026-05-11</p>
+  </div>
+</div>
+</body>
+</html>

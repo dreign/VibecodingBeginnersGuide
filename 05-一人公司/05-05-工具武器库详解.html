@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5.5 工具武器库详解</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #6a8a7a, #98b8a8, #6a8a7a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #6a8a7a; }
+  .title-divider { background: #98b8a8; }
+  strong { color: #6a8a7a; }
+  .img-icon { color: #98b8a8; }
+  .img-label { color: #6a8a7a; }
+  .img-caption { color: #6a8a7a; }
+  .takeaways-title { color: #6a8a7a; }
+  .takeaways li::before { color: #98b8a8; }
+  .vibe-label { color: #6a8a7a; }
+  .vibe-prompt::before { color: #98b8a8; }
+  blockquote { border-left-color: #98b8a8; }
+  th { color: #6a8a7a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第五章 · 一人公司</div>
+  <h1>5.5 工具武器库详解</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-11<br>  验证环境：无（纯理论章节）</div>
+
+  <h2>每个工具的使用场景</h2>
+
+  <p>上一节画了一张全景图，这一节把每个工具的使用方法和适用场景展开说。作为一人公司的开发者，你不需要精通每一个工具——但需要知道每个工具的"最佳用途"以及在什么情况下该用哪个。</p>
+
+  <h2>AI 编程工具</h2>
+
+  <p><strong>Claude Code</strong>：当前最适合 Vibe Coding 的 AI 编程工具。它的核心优势有三点。第一是上下文能力优秀——它能记住你在当前对话中提到的大部分内容，不会频繁地"忘记"你说过的话。第二是代码生成质量高——它在需要生成完整功能时，能产出结构清晰、注释恰当、考虑了边界情况的代码。第三是对话体验自然——你不必用"技术术语"和它交流，用日常语言说出你的需求，它就能理解。</p>
+
+  <p><strong>典型使用场景</strong>：从零创建一个新项目、生成完整功能模块、重构现有代码、调试复杂问题。</p>
+
+  <p><strong>Cursor</strong>：如果你已经习惯了"在编辑器里写代码"的方式，Cursor 提供了另一种体验——它和你的编辑器深度融合了。你在编辑器中选中一段代码，弹出对话框问"这段代码是什么意思"或"帮我优化这段代码"。它不像 Claude Code 那样适合"从头构建"，但特别适合"在已有代码上做增量修改"。</p>
+
+  <p><strong>典型使用场景</strong>：在现有项目中修改特定功能、理解陌生人写的代码、做代码审查。</p>
+
+  <p><strong>GitHub Copilot</strong>：它在你打字的时候自动预测你接下来要写什么。它的长处是"填空"——你写了一个函数名，它帮你补全函数体；你写了 if 语句，它帮你补全条件。它不是用来"做架构决策"的，而是用来"加快打字速度"的。</p>
+
+  <p><strong>典型使用场景</strong>：写单元测试、补样板代码、给函数写注释。</p>
+
+  <h2>代码托管</h2>
+
+  <p><strong>Git + GitHub</strong>：最小的有效用法是：你在本地写代码，用 <code>git add</code> + <code>git commit</code> 在本地记录版本，用 <code>git push</code> 把代码同步到 GitHub。GitHub 的主要功能两个：一是作为代码的远程备份（你的电脑坏了，代码还在），二是当你需要部署时（比如连 Vercel），GitHub 作为自动触发的源头。</p>
+
+  <p><strong>不要把 Git 学复杂了</strong>。一个人不需要 rebase、不需要 cherry-pick、不需要复杂的 merge 策略。你知道怎么创建分支、切换分支、提交、推送就够了。如果你遇到复杂的 Git 问题，直接把报错贴给 AI 说"帮我解决这个 Git 问题"。</p>
+
+  <h2>后端服务的简单配置</h2>
+
+  <p>"后端服务"听起来很吓人，但实际上你已经不需要自己搭服务器了。</p>
+
+  <p>以 <strong>Supabase</strong> 为例，你可以这样理解它：Supabase 替你做了三件事：一是给你一个数据库，你在网页上创建表，不需要写 SQL。二是给你一个用户登录系统，用户注册、登录、密码重置都自动搞定。三是给你的数据生成 API，你可以直接从前端代码读取和写入数据。</p>
+
+  <p>Supabase 的初始化配置大约需要 30 分钟：注册账号、创建项目、建表、设置权限。之后你就可以在前端代码中直接操作数据库了。如果你在配置过程中遇到什么都看不懂，直接问 AI "帮我配置 Supabase，我的表结构是这样的……"——AI 会给一步步指导。</p>
+
+  <h2>前端与样式的快速上手</h2>
+
+  <p><strong>Tailwind CSS</strong> 的核心概念是"写 HTML 的时候直接写样式类名"。你不需要写单独的 CSS 文件。</p>
+
+  <p>传统方式：</p>
+
+  <pre><code>&lt;button class="submit-btn"&gt;提交&lt;/button&gt;</code></pre>
+
+  <pre><code>.submit-btn { background-color: blue; color: white; padding: 8px 16px; }</code></pre>
+
+  <p>Tailwind 方式：</p>
+
+  <pre><code>&lt;button class="bg-blue-500 text-white px-4 py-2"&gt;提交&lt;/button&gt;</code></pre>
+
+  <p>Tailwind 的好处是你不用在不同的文件之间来回切换。你在 HTML 里直接看到元素的样式——背景色是蓝色、文字是白色、内边距上下 4 单位、左右 2 单位。这比"看 HTML 猜样式"要直观得多。</p>
+
+  <p>而且有一个好消息：你不需要"学习" Tailwind 的类名。你只需要告诉 AI "这个按钮改成蓝色背景、白色文字、加圆角"，AI 就会帮你生成对应的类名。你只需要用自然语言描述你的视觉效果，AI 替你翻译成 Tailwind 类名。</p>
+
+  <h2>部署配置</h2>
+
+  <p>部署对一人公司来说应该是"最容易的环节"，而不是"最麻烦的环节"。</p>
+
+  <p><strong>Vercel</strong> 的部署流程是：你在 GitHub 上创建仓库，push 代码。打开 Vercel.com，点"New Project"，选择你的 GitHub 仓库，点"Deploy"。好了，你的应用上线了。整个过程不到 5 分钟。</p>
+
+  <p>Vercel 自动帮你处理了：HTTPS 证书、CDN 加速、域名绑定、滚动更新。你不需要知道这些术语是什么意思——Vercel 在后台自动处理了它们。你需要做的只是把代码推上去。</p>
+
+  <p><strong>Railway</strong> 的部署流程类似，但它更灵活。如果你的应用需要运行后端代码（而不仅仅是前端页面），Railway 可以帮你跑 Docker 容器或者直接跑 Node.js 代码。它还内置了数据库服务。</p>
+
+  <h2>运营工具的最小启动</h2>
+
+  <p>当你的产品上线后，有几个基本的功能需要准备：</p>
+
+  <p><strong>支付集成</strong>：Polar.sh 或 Lemon Squeezy。它们的共同特点是不需要你注册公司就可以开始收款——它们处理了税务和合规问题。你只需要创建一个产品页面，设置价格，嵌入到你的应用中。用户付费后，钱会到你的账户（扣除平台手续费）。</p>
+
+  <p><strong>邮件发送</strong>：Loops 或 Resend。用户注册后需要确认邮箱、用户忘记了密码需要重置、你给用户发产品更新通知——这些都需要发邮件。这些工具提供了 API，你让 AI 帮你写一段代码调用 API 即可。</p>
+
+  <p><strong>用户分析</strong>：Plausible 或 Umami。它们只需要你在页面里插入一段脚本代码（AI 帮你做），之后你就能看到每天的访问量、用户来源、热门页面。你不用也不能跟踪每个用户的个人行为——只知道产品整体在使用情况。这对一人公司来说已经足够了。</p>
+
+  <h2>关键工具一览表</h2>
+
+  <table class="reading-path-table"><thead><tr><th>层级</th><th>工具</th><th>核心作用</th><th>替代选项</th></tr></thead><tbody><tr><td>AI 编程</td><td>Claude Code</td><td>生成代码、架构设计、调试</td><td>Cursor, Copilot</td></tr><tr><td>代码托管</td><td>GitHub</td><td>版本控制、远程备份</td><td>GitLab, Gitee</td></tr><tr><td>后端数据</td><td>Supabase</td><td>数据库、认证、API</td><td>Convex, Neon</td></tr><tr><td>前端样式</td><td>Tailwind CSS</td><td>快速样式、AI 友好</td><td>Bootstrap, UnoCSS</td></tr><tr><td>部署</td><td>Vercel</td><td>自动部署、托管</td><td>Railway, Cloudflare</td></tr><tr><td>支付</td><td>Polar.sh</td><td>收款、税务处理</td><td>Lemon Squeezy, Stripe</td></tr><tr><td>邮件</td><td>Loops</td><td>事务邮件、通知</td><td>Resend, SendGrid</td></tr><tr><td>分析</td><td>Plausible</td><td>访问统计、用户行为</td><td>Umami, Google Analytics</td></tr></tbody></table>
+
+  <p>这张表的目的不是让你记住它——而是在你需要的时候回想"这个功能应该用什么工具"，然后查一下表。在 Vibe Coding 中，你不需要把技术选型表记在脑子里——需要的时候问 AI 或查表就好。你的记忆应该用来理解用户需求，而不是用来记工具名称。</p>
+
+  <div class="img-placeholder"><div class="img-icon">🖼</div><div class="img-label">图5-5：一人公司工具武器库</div></div>
+
+  <div class="img-caption">▲ 图5-5：一人公司的核心工具武器库。从 AI 编程到用户分析，每层 1~2 个核心工具即可覆盖全流程。记住一个原则：不要同时学太多的工具——先从每个层次选一个工具启动，遇到"够用"的情况就不要再换。</div>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>AI 编程工具的三剑客各有分工：Claude Code 适合从零构建和重构，Cursor 适合增量修改和理解代码，Copilot 适合加速打字和补全。根据你的当前任务选择合适的工具。</li>
+<li>Supabase 和 Vercel 是 Vibe Coder 的"基础设施"——它们把后端和部署的复杂性抽象成了"点几下鼠标"的操作。</li>
+<li>Tailwind CSS 是 AI 的"母语"——你用自然语言描述视觉风格，AI 直接生成对应的类名。</li>
+<li>一人公司上线后需要的最少运营工具：一个支付、一个邮件、一个分析——三个就够了。不要在第一周把时间花在搭建复杂的营销系统上。</li>
+<li>工具选型的核心原则：先在每层选一个工具启动，不够了再换。不要一开始就想选"最好的组合"——因为"最好的"只有在使用中才知道。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>打开 AI 工具，说：</p>
+  <div class="vibe-prompt">
+  <p>"我想从零开始做一个 [你的产品类型] 产品。我不熟悉开发工具。请帮我写一个配置向导，告诉我第一步做什么、第二步做什么、每一步的具体操作和可能遇到的坑。我已经在电脑上装有：[你的现有工具，比如 VS Code、Git。]"</p>
+  </div>
+  <p>这个练习的价值在于让 AI 把你的"未知"变成"任务"——你不需要知道整个流程，你只需要按步骤做。每做完一步，回到 AI 那里问"下一步"。这个过程本身就是在"跑起来再理解"。</p>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:m.aitntnews.com)",
+      "Bash(python scripts/generate_html.py)",
+      "Read(//dev/**)",
+      "Bash(find 'D:/AAA/text/VibeCoding' -name '*.html' -not -path '*/node_modules/*' -exec grep -l 'pre {' {} \\\\;)",
+      "Bash(find 'D:/AAA/text/VibeCoding' -name '*.html' -not -path '*/node_modules/*' -exec grep -l 'blockquote {' {} \\\\;)",
+      "Bash(find 'D:/AAA/text/VibeCoding' -name '*.html' -not -path '*/node_modules/*' -exec grep -l 'reading-path-table' {} \\\\;)",
+      "Bash(find 'D:/AAA/text/VibeCoding' -name '*.html' -exec grep -l 'reading-path-table' {} \\\\;)"
+    ]
+  }
+}

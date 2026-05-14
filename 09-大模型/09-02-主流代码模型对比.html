@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9.2 主流代码模型对比</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #7a8a6a, #a8b898, #7a8a6a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #7a8a6a; }
+  .title-divider { background: #a8b898; }
+  strong { color: #7a8a6a; }
+  .img-icon { color: #a8b898; }
+  .img-label { color: #7a8a6a; }
+  .img-caption { color: #7a8a6a; }
+  .takeaways-title { color: #7a8a6a; }
+  .takeaways li::before { color: #a8b898; }
+  .vibe-label { color: #7a8a6a; }
+  .vibe-prompt::before { color: #a8b898; }
+  blockquote { border-left-color: #a8b898; }
+  th { color: #7a8a6a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第九章 · 大模型</div>
+  <h1>9.2 主流代码模型对比</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-12<br>  验证环境：无（纯理论章节）</div>
+
+  <h2>为什么需要了解不同模型</h2>
+
+  <p>"到底该用哪个模型？"——这是一个很实际的问题。</p>
+
+  <p>每个 AI 模型有自己的"性格"和擅长的领域。了解它们之间的差异，不是让你变成一个模型专家，而是让你能在不同的开发任务中选择合适的工具。</p>
+
+  <p>你不需要记住每个模型的参数数量或技术细节。你只需要知道：<strong>不同的模型适合不同的任务，选择正确的模型可以事半功倍。</strong></p>
+
+  <h2>模型选型的三个维度</h2>
+
+  <p>在选择模型时，主要考虑三个维度：</p>
+
+  <p><strong>维度一：代码生成质量</strong></p>
+
+  <p>这个维度衡量模型写出的代码"是否像人写的"——不仅是语法正确，还包括代码风格、命名习惯、架构合理性。</p>
+
+  <p>高质量代码的特征：变量名有语义、函数职责单一、异常处理完整、遵循语言惯例（Python 用 snake_case，JavaScript 用 camelCase）。低质量代码的特征：能运行但难以阅读、缺少错误处理、命名随意（如 <code>temp1</code>、<code>data2</code>）。</p>
+
+  <p><strong>维度二：推理能力</strong></p>
+
+  <p>这个维度衡量模型处理复杂逻辑的能力——不仅仅是"写一段代码"，而是"理解一个复杂的业务需求并用代码实现"。</p>
+
+  <p>高推理能力的特征：能处理多步骤逻辑、理解因果关系、正确实现复杂的算法、能解释自己的代码。低推理能力的特征：在简单逻辑上表现良好，但遇到复杂的条件判断或嵌套逻辑时容易出错。</p>
+
+  <p><strong>维度三：上下文窗口</strong></p>
+
+  <p>这个维度衡量模型一次性能处理多少信息。我们在第 6 章已经详细讨论过上下文窗口的重要性。</p>
+
+  <p>大窗口适合：一次性分析大型代码库、处理长文档、在长对话中保持记忆。小窗口适合：短对话、简单问答、代码补全等。在 Vibe Coding 中，上下文窗口的大小直接影响你能在单次对话中完成多少工作。</p>
+
+  <h2>主流模型对比</h2>
+
+  <p>以下是对 2025 年中期主流模型的对比。注意：模型领域变化极快，下表反映的是撰写时的状态——模型排名和能力可能在几个月内发生变化。</p>
+
+  <p><strong>Claude 系列（Anthropic）</strong></p>
+
+  <table class="reading-path-table"><thead><tr><th>特性</th><th>Claude Sonnet</th><th>Claude Opus</th></tr></thead><tbody><tr><td>代码质量</td><td>★★★★★</td><td>★★★★★</td></tr><tr><td>推理能力</td><td>★★★★☆</td><td>★★★★★</td></tr><tr><td>上下文窗口</td><td>200K</td><td>200K</td></tr><tr><td>速度</td><td>快</td><td>中等</td></tr><tr><td>价格</td><td>中等</td><td>偏高</td></tr><tr><td>最佳场景</td><td>日常编程、功能开发</td><td>复杂架构、深度推理</td></tr></tbody></table>
+
+  <p><strong>特点分析：</strong></p>
+
+  <p>Claude 系列在代码生成方面的表现一直位居第一梯队。Sonnet 版本在速度和质量的平衡上做得非常好——它是目前编程场景中最通用的选择。</p>
+
+  <p>Opus 版本更适合处理需要深度推理的任务——复杂算法的实现、多模块的架构设计、以及那些需要多步骤推理的 bug 排查。但它的速度比 Sonnet 慢，而且价格更高——在日常的简单任务中用 Opus 是"杀鸡用牛刀"。</p>
+
+  <p>Claude 的代码风格偏向"工整"——变量命名规范、注释适度、结构清晰。如果你对代码质量有要求，用 Claude 生成的基础代码通常不需要大幅度的重构。</p>
+
+  <p><strong>GPT 系列（OpenAI）</strong></p>
+
+  <table class="reading-path-table"><thead><tr><th>特性</th><th>GPT-4o</th><th>GPT-4o mini</th></tr></thead><tbody><tr><td>代码质量</td><td>★★★★☆</td><td>★★★☆☆</td></tr><tr><td>推理能力</td><td>★★★★☆</td><td>★★★☆☆</td></tr><tr><td>上下文窗口</td><td>128K</td><td>128K</td></tr><tr><td>速度</td><td>快</td><td>很快</td></tr><tr><td>价格</td><td>中等</td><td>低</td></tr><tr><td>最佳场景</td><td>全栈开发、通用任务</td><td>简单任务、快速原型</td></tr></tbody></table>
+
+  <p><strong>特点分析：</strong></p>
+
+  <p>GPT-4o 是 OpenAI 的"全能选手"——代码生成、推理、多模态理解都比较均衡。它在 Web 开发、数据处理、脚本编写等常见任务上的表现稳定。</p>
+
+  <p>GPT-4o mini 是"轻量选手"——能力不如完整版，但速度快、价格低。它的最佳使用方式是处理那些"不需要深度思考"的任务——代码格式化、注释生成、简单的功能片段。对于复杂的业务逻辑，不建议用 mini 版本。</p>
+
+  <p>GPT 系列的代码风格相对"直接"——它倾向于给出"能运行"的代码，而不是"最优雅"的代码。这个特点意味着你有时需要花额外的时间来重构 AI 生成的代码。</p>
+
+  <p><strong>Gemini 系列（Google）</strong></p>
+
+  <table class="reading-path-table"><thead><tr><th>特性</th><th>Gemini 2.5 Pro</th><th>Gemini 2.0 Flash</th></tr></thead><tbody><tr><td>代码质量</td><td>★★★★☆</td><td>★★★☆☆</td></tr><tr><td>推理能力</td><td>★★★★★</td><td>★★★☆☆</td></tr><tr><td>上下文窗口</td><td>1M</td><td>1M</td></tr><tr><td>速度</td><td>中等</td><td>很快</td></tr><tr><td>价格</td><td>中等</td><td>低</td></tr><tr><td>最佳场景</td><td>超长上下文任务</td><td>快速迭代、轻量任务</td></tr></tbody></table>
+
+  <p><strong>特点分析：</strong></p>
+
+  <p>Gemini 系列最大的亮点是 <strong>1M Token 的上下文窗口</strong>——是所有主流模型中最大的。这让它在需要处理大量上下文的场景中有显著优势：分析整个代码库、一次性审查大型项目、基于大量历史数据做推理。</p>
+
+  <p>Gemini 2.5 Pro 在推理能力上表现出色——Google 在推理能力上投入了大量资源，其数学和逻辑推理测试得分领先。但代码生成的质量（代码风格、可读性）相比 Claude 稍微逊色——代码"能运行"但有时不够"优雅"。</p>
+
+  <p>Gemini Flash 是轻量版本——上下文窗口仍然是 1M，但推理能力和代码质量有所降低。适合快速迭代和成本敏感的场景。</p>
+
+  <p><strong>DeepSeek 系列</strong></p>
+
+  <table class="reading-path-table"><thead><tr><th>特性</th><th>DeepSeek-V3</th><th>DeepSeek-R1</th></tr></thead><tbody><tr><td>代码质量</td><td>★★★★☆</td><td>★★★★☆</td></tr><tr><td>推理能力</td><td>★★★★☆</td><td>★★★★★</td></tr><tr><td>上下文窗口</td><td>1M</td><td>1M</td></tr><tr><td>速度</td><td>快</td><td>中等</td></tr><tr><td>价格</td><td>极低</td><td>低</td></tr><tr><td>最佳场景</td><td>日常编程、性价比优先</td><td>复杂推理、数学、逻辑</td></tr></tbody></table>
+
+  <p><strong>特点分析：</strong></p>
+
+  <p>DeepSeek 是 2024~2025 年最受关注的开源/国产模型。DeepSeek-V3 在代码生成质量上接近 GPT-4o 的水平，但价格只有其几分之一——对于"按 Token 付费"的用户来说，这是极高的性价比。</p>
+
+  <p>DeepSeek-R1 是"推理增强"版本——专门针对需要深度推理的场景进行了优化。它在数学竞赛题、复杂算法实现、逻辑推理等任务上表现优异。如果你的任务需要多步骤推理（比如"实现一个复杂的推荐算法"），R1 是一个值得考虑的选项。</p>
+
+  <p>DeepSeek 的另一个重要特点是它的价格——它是主流模型中价格最低的之一。对于"一人公司"或独立开发者来说，这意味着你可以用更低的成本完成同样的工作量。</p>
+
+  <h2>如何在实际工作中选择</h2>
+
+  <p>你不需要在每次使用 AI 时都做"模型对比分析"。在实际工作中，你只需要记住几个简单的选择原则：</p>
+
+  <p><strong>原则一：日常开发用"平衡型"模型。</strong></p>
+
+  <p>对于 80% 以上的编程任务，选择 Claude Sonnet 或 GPT-4o 就够了。这些模型速度快、代码质量好、成本适中。不需要为了一个简单的"写一个排序函数"去调用 Opus——那是大炮打蚊子。</p>
+
+  <p>日常开发的典型选择：Claude Sonnet 做主要开发，GPT-4o mini 做简单任务。前者负责核心代码，后者负责格式化、注释、简单脚本。</p>
+
+  <p><strong>原则二：复杂推理用"增强型"模型。</strong></p>
+
+  <p>当你遇到需要深度推理的任务时——复杂的算法设计、架构选型、多模块的交互逻辑——切换到推理能力更强的模型：Claude Opus、DeepSeek-R1、Gemini 2.5 Pro。</p>
+
+  <p>这些模型的推理能力更强，但代价是更慢和更贵。所以在"简单逻辑"的场景下用它们是浪费。你的判断标准是：如果这个问题你能在 5 分钟内想清楚，那不需要推理增强模型。如果你需要 30 分钟来设计答案——那应该用推理增强模型。</p>
+
+  <p><strong>原则三：长上下文用 Gemini。</strong></p>
+
+  <p>当你的任务需要处理大量上下文时——分析整个代码库、审查大型项目、在长对话中保持记忆——优先考虑 Gemini 2.5 Pro。它的 1M Token 上下文窗口是其他模型的 5~10 倍，意味着它在处理大型项目时有显著的优势。</p>
+
+  <p>这对 Vibe Coding 来说尤其重要。当你和一个 AI 对话了 50 轮，仍然希望它能记住第 3 轮的约定——Gemini 是更好的选择。其他模型在这么长的对话中，早期的信息已经被挤出了上下文窗口。</p>
+
+  <p><strong>原则四：对成本敏感用 DeepSeek。</strong></p>
+
+  <p>如果你是个人开发者，所有成本自己承担，DeepSeek-V3 的高性价比就很有吸引力。它在代码生成质量上接近 GPT-4o 的水平，但价格只有它的几分之一。对于"一人公司"来说，这个差异在每月账单上体现得很明显。</p>
+
+  <h2>模型选择的实践建议</h2>
+
+  <p>不让"选模型"本身变成一种负担。我的建议是：</p>
+
+  <ol>
+<li><strong>不要频繁切换。</strong> 选一个你觉得用得顺手的"主力模型"，用熟它。了解它的长处和短处，知道在什么场景下它表现好、什么场景下需要小心。</li>
+</ol>
+
+  <ol>
+<li><strong>定期评估。</strong> 每 3~6 个月看看新的模型评测或实际体验——模型领域变化很快，现在最好的选择，6 个月后可能已经不是了。</li>
+</ol>
+
+  <ol>
+<li><strong>在单一工具中切换。</strong> 现在很多 AI 编程工具（如 Claude Code）允许你在不同模型间切换。不需要为了换模型而换工具——在同一工具中切换模型，体验上的变化最小。</li>
+</ol>
+
+  <p>在我的日常实践中，主力模型是 Claude Sonnet——它的代码质量和速度平衡得最好。当我需要处理超过 50 轮的复杂对话时，我会切换到 Gemini 2.5 Pro——它的 1M 上下文窗口让我不需要经常"重启对话"。当我需要深入推理时——比如实现一个复杂的算法——我会调用 DeepSeek-R1。</p>
+
+  <h2>模型不是最重要的</h2>
+
+  <p>说一个你可能不愿意听的结论：<strong>对于大多数 Vibe Coding 场景，模型之间的差异比你想象的小。</strong></p>
+
+  <p>一个经验丰富的 Vibe Coder 用 GPT-4o mini 产出的质量，可能高于一个新手用 Claude Opus 产出的质量。因为决定产出质量的核心因素，不是模型本身——而是提示词的质量、上下文的管理、迭代的节奏。</p>
+
+  <p>把太多精力花在"选哪个模型"上，是一种"工具沉迷"。真正重要的是你使用工具的方式——你有多清楚地表达需求、你有多有效地管理上下文、你有多准确地判断 AI 的输出质量。</p>
+
+  <p>所以本节的核心建议是：选一个主流模型，熟悉它，然后用你的 Vibe Coding 技能去弥补模型的不足。模型会持续升级，而你的 Vibe Coding 技能——才是你长期积累的核心竞争力。</p>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>模型选型的三个维度：代码生成质量（代码是否"像人写的"）、推理能力（能否处理复杂逻辑）、上下文窗口（能否处理大量上下文）。这三个维度帮你判断"什么任务用什么模型"。</li>
+<li>主流模型的定位：Claude Sonnet 代码最优（日常首选）、Opus 推理最强（复杂任务）；GPT-4o 均衡通用、GPT-4o mini 快速廉价（轻量任务）；Gemini 最大窗口 1M Token（长上下文场景）；DeepSeek 性价比最高（成本敏感场景）。每类模型都有清晰的"25% 场景"定位。</li>
+<li>选择原则：日常开发用 Claude Sonnet 或 GPT-4o；复杂推理用 Claude Opus 或 DeepSeek-R1；长上下文用 Gemini 2.5 Pro；成本敏感用 DeepSeek-V3。不要太频繁切换模型。</li>
+<li>最重要的一点：模型差异对产出的影响远小于你的 Vibe Coding 技能。模型会持续升级，而你的意图表达、上下文管理、判断力——才是持续积累的核心竞争力。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>如果你有多个模型可用，做一次"盲测"：</p>
+  <div class="vibe-prompt">
+  <p>给两个不同的模型（比如 Claude Sonnet 和 GPT-4o）同一个提示词："用 Python 写一个从 CSV 文件中读取数据、按指定的列排序、然后输出排序结果的命令行工具。"——不要在提示词中加入任何模型特定的语言。</p>
+  <p></p>
+  <p>比较它们的输出：</p>
+  <p>1. 哪个模型的输出第一次就能运行？</p>
+  <p>2. 哪个模型的代码风格更好（变量命名、注释、结构）？</p>
+  <p>3. 哪个模型处理了更多的边界情况（空文件、不存在的列）？</p>
+  </div>
+  <p>这个练习不是为了得出"X 模型比 Y 模型好"的结论——而是帮你建立"这个模型在这个场景下的表现"的具体认知。</p>
+  </div>
+  <p>然后做一个更深入的练习：</p>
+  <p>在你接下来的 3 次 Vibe Coding 中，记录你使用的模型和你对产出的满意度（1-5 分）。3 次之后，回头看看——那些"不满意"的时刻，有多少确实是模型的问题，有多少其实是你的意图表达或上下文管理的问题？</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

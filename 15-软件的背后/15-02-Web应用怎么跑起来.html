@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15.2 Web 应用是怎么"跑起来"的</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #7a8a6a, #a8b898, #7a8a6a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #7a8a6a; }
+  .title-divider { background: #a8b898; }
+  strong { color: #7a8a6a; }
+  .img-icon { color: #a8b898; }
+  .img-label { color: #7a8a6a; }
+  .img-caption { color: #7a8a6a; }
+  .takeaways-title { color: #7a8a6a; }
+  .takeaways li::before { color: #a8b898; }
+  .vibe-label { color: #7a8a6a; }
+  .vibe-prompt::before { color: #a8b898; }
+  blockquote { border-left-color: #a8b898; }
+  th { color: #7a8a6a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第十五章 · 软件的背后</div>
+  <h1>15.2 Web 应用是怎么"跑起来"的</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-13<br>  验证环境：无（原理章节，不依赖特定工具版本）</div>
+
+  <h2>从输入网址到页面显示</h2>
+
+  <p>你在浏览器地址栏输入 <code>https://myapp.com</code> 然后按回车——中间发生了什么？</p>
+
+  <p>整个过程可以分为三个阶段：</p>
+
+  <p><strong>第一阶段：寻址</strong></p>
+
+  <p>浏览器需要找到 <code>myapp.com</code> 对应哪台服务器。它通过 DNS（域名系统）来查找——可以理解成"电话本"——输入域名，返回 IP 地址。</p>
+
+  <p>DNS 查找通常在几十到几百毫秒内完成。如果你访问的域名比较冷门（不常用），这步可能稍慢。常见的网站你的电脑会缓存 DNS 结果，所以第二次访问会更快。</p>
+
+  <p><strong>常见 DNS 问题：</strong></p>
+
+  <ul>
+<li><strong>"找不到服务器"</strong>：最常见的原因是域名拼写错误、DNS 配置未生效（刚买的域名还没解析）、网络连接问题。</li>
+<li><strong>"DNS_PROBE_FINISHED_NXDOMAIN"</strong>：域名不存在——检查拼写，或确认域名是否已经注册。</li>
+<li><strong>"ERR_NAME_NOT_RESOLVED"</strong>：DNS 解析失败——检查网络连接，或换一个 DNS 服务器（如 8.8.8.8）。</li>
+</ul>
+
+  <blockquote>
+
+  <p><strong>一个实用的排查技巧：</strong> 当你访问一个网站时提示"找不到服务器"，先试试访问其他网站——如果其他网站能打开，说明是你的域名或服务器的问题；如果其他网站也打不开，说明是你的网络问题。这个"对比排查"法适用于很多场景。</p>
+
+  </blockquote>
+
+  <p><strong>第二阶段：请求与响应</strong></p>
+
+  <p>浏览器拿到 IP 地址后，向该地址的服务器发送一个 HTTP 请求：</p>
+
+  <pre><code>GET / HTTP/1.1
+Host: myapp.com
+Accept: text/html</code></pre>
+
+  <p>服务器收到请求，处理它（可能是读取文件、查询数据库、调用 API），然后返回一个 HTTP 响应：</p>
+
+  <pre><code>HTTP/1.1 200 OK
+Content-Type: text/html
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+...
+&lt;/html&gt;</code></pre>
+
+  <p><strong>状态码速查：</strong></p>
+
+  <table class="reading-path-table"><thead><tr><th>状态码</th><th>含义</th><th>大概率原因</th><th>怎么修</th></tr></thead><tbody><tr><td>200</td><td>正常</td><td>一切正常</td><td>不需要修</td></tr><tr><td>301/302</td><td>重定向</td><td>页面地址变了，浏览器自动跳转</td><td>检查跳转目标是否正确</td></tr><tr><td>401</td><td>未授权</td><td>需要登录</td><td>检查认证配置</td></tr><tr><td>403</td><td>禁止访问</td><td>没有权限</td><td>检查权限设置</td></tr><tr><td>404</td><td>未找到</td><td>路径写错了或资源不存在</td><td>检查 URL 拼写或路由配置</td></tr><tr><td>429</td><td>请求过多</td><td>触发了频率限制</td><td>降低请求频率</td></tr><tr><td>500</td><td>服务器内部错误</td><td>后端代码出问题了</td><td>看服务器日志</td></tr><tr><td>502/503</td><td>服务器不可用</td><td>服务器挂了或正在重启</td><td>检查服务器状态</td></tr></tbody></table>
+
+  <p><strong>在 Vibe Coding 中遇到 404 的标准处理流程：</strong></p>
+
+  <ol>
+<li>告诉 AI："访问 /api/products 返回 404"</li>
+<li>AI 检查路由配置，发现 API 路由文件放在错误的位置了</li>
+<li>AI 移动文件到正确的位置，问题解决</li>
+</ol>
+
+  <p>不需要自己排查——把状态码和 URL 告诉 AI 就行。</p>
+
+  <p><strong>第三阶段：渲染</strong></p>
+
+  <p>浏览器收到 HTML 后开始解析，一边解析一边请求 HTML 中引用的 CSS、JS、图片等资源，然后构建页面、执行 JavaScript、展示最终结果给用户。</p>
+
+  <p>你看到的"页面加载完成了"——实际上是浏览器完成了成百上千个资源的请求、解析、渲染之后的结果。</p>
+
+  <p><strong>如果在渲染阶段遇到问题：</strong></p>
+
+  <ul>
+<li>页面显示出来但没有样式：CSS 文件加载失败了——检查 <code><link></code> 标签的路径</li>
+<li>页面显示出来但交互按钮没有反应：JavaScript 执行报错了——打开控制台看错误信息</li>
+<li>图片显示为占位符：图片路径错误或图片服务器不可用——检查图片 URL</li>
+</ul>
+
+  <p>这些信息都可以直接复制给 AI。比如："页面加载了，但 CSS 没有生效，控制台显示 style.css 404。"</p>
+
+  <h2>前后端是怎么分工的</h2>
+
+  <p>理解了"浏览器→服务器→浏览器"的循环后，前后端的分工就清楚了：</p>
+
+  <table class="reading-path-table"><thead><tr><th>前端（浏览器）</th><th>后端（服务器）</th></tr></thead><tbody><tr><td>做什么</td><td>展示界面、响应用户操作</td><td>处理数据、执行业务逻辑</td></tr><tr><td>运行在哪</td><td>用户自己的电脑/手机</td><td>远程服务器</td></tr><tr><td>代码谁写的</td><td>HTML/CSS/JavaScript</td><td>任何后端语言（JS/Python/Go...）</td></tr><tr><td>用户能看到吗</td><td>能（所有代码都下载到浏览器了）</td><td>不能（代码在服务器上）</td></tr></tbody></table>
+
+  <p><strong>关键区别：</strong> 前端的代码用户能看到（你无法隐藏 HTML/CSS/JS），所以 API 密钥、数据库密码等敏感信息绝对不要放在前端代码里。</p>
+
+  <p><strong>这个区别在 Vibe Coding 中的实际意义：</strong></p>
+
+  <p>当你让 AI 生成一个需要调用外部 API 的功能（比如发送邮件、查询天气），AI 应该：</p>
+
+  <ul>
+<li>✅ 把 API 密钥放在后端（环境变量中）</li>
+<li>❌ 把 API 密钥放在前端 JavaScript 中</li>
+</ul>
+
+  <p>如果你发现 API 密钥出现在前端代码中，直接告诉 AI：</p>
+
+  <blockquote>
+
+  <p>"这个 API 密钥不应该出现在前端代码里，把它移到后端环境变量中，并通过 API 路由调用。"</p>
+
+  </blockquote>
+
+  <p>AI 会理解并修正。</p>
+
+  <h2>服务器是谁的</h2>
+
+  <p>你写的后端代码需要一台电脑 24 小时运行。有三种选择：</p>
+
+  <ol>
+<li><strong>你自己的电脑</strong>：适合开发测试，不适合正式上线（你的电脑不会 24 小时开机，而且你的家庭网络可能没有固定公网 IP）。</li>
+<li><strong>VPS（虚拟私有服务器）</strong>：在云服务商那里租一台"永远在线的电脑"。每月几十到几百元。需要自己配置环境、处理安全更新。</li>
+<li><strong>Serverless（无服务器）</strong>：不需要自己管服务器，只需要上传代码。平台自动处理扩容和运维。按调用次数付费。</li>
+</ol>
+
+  <p>对于一人公司项目，<strong>推荐从 Serverless 开始</strong>（Vercel 或 Cloudflare Pages）。零运维，免费额度够用很久。</p>
+
+  <p><strong>一个实用的比喻：</strong> 你的电脑是你自己家的厨房。VPS 是你租的一个商用厨房（归你管，需要自己打扫维护）。Serverless 是叫外卖（你把需求告诉平台，平台帮你做好送过来，你不需要管后厨）。当一个人做项目时，叫外卖比租商用厨房轻松得多。</p>
+
+  <h2>理解 HTTP 请求的工具</h2>
+
+  <p>当你需要排查网络问题时，浏览器开发者工具的 <strong>Network 面板</strong> 是你的最佳帮手。</p>
+
+  <p>打开方式：F12 → Network 标签页。</p>
+
+  <p>你能看到：</p>
+
+  <ul>
+<li>所有请求的列表（方法、URL、状态码、时间）</li>
+<li>每个请求的请求头（Request Headers）</li>
+<li>每个请求的响应体（Response）</li>
+<li>请求耗时的时间线</li>
+</ul>
+
+  <p>当你向 AI 描述网络问题时，打开 Network 面板，把相关的请求信息复制给 AI。它会告诉你问题出在哪。</p>
+
+  <p><strong>Network 面板的常见用法：</strong></p>
+
+  <ol>
+<li><strong>页面加载慢</strong> → 看哪个请求耗时最长 → 把那个请求的 URL 和时间复制给 AI</li>
+<li><strong>API 返回错误</strong> → 找到对应请求 → 看 Response 标签中的错误信息 → 复制给 AI</li>
+<li><strong>数据不对</strong> → 找到数据请求 → 看 Response 中的返回数据 → 检查数据结构和预期是否一致</li>
+</ol>
+
+  <p><strong>一个具体的排查流程：</strong></p>
+
+  <pre><code>你：页面加载太慢了，要 8 秒才能显示完整。
+
+AI：打开 Network 面板，看看哪个请求耗时最长。
+
+你：有一个请求耗时 6 秒，是 GET /api/products。
+
+AI：那应该是数据库查询太慢。检查一下 products 表是否有索引，或者查询是否返回了太多数据。</code></pre>
+
+  <p><strong>加载时间分析的简单理解：</strong></p>
+
+  <p>在 Network 面板中，每个请求都有几个时间指标：</p>
+
+  <ul>
+<li><strong>TTFB（Time to First Byte）</strong>：等待服务器返回第一个字节的时间。如果这个很长，说明服务器处理慢或网络延迟大。</li>
+<li><strong>Content Download</strong>：下载资源本身的时间。如果这个很长，说明资源文件太大了。</li>
+</ul>
+
+  <p>让 AI 解释这些指标：</p>
+
+  <blockquote>
+
+  <p>"Network 面板显示 TTFB 是 4 秒，但 Content Download 只有 100ms。这说明了什么问题？"</p>
+
+  </blockquote>
+
+  <h2>本地开发服务器 vs 生产服务器</h2>
+
+  <p>你在本地运行 <code>npm run dev</code> 时启动的开发服务器，和生产环境（Vercel 等部署的线上版本）有几点不同：</p>
+
+  <table class="reading-path-table"><thead><tr><th>维度</th><th>本地开发</th><th>生产环境</th></tr></thead><tbody><tr><td>URL</td><td>http://localhost:3000</td><td>https://myapp.com</td></tr><tr><td>环境变量</td><td>.env.local</td><td>在部署平台设置</td></tr><tr><td>性能</td><td>无优化（方便调试）</td><td>有优化（压缩、缓存）</td></tr><tr><td>数据库</td><td>本地 SQLite</td><td>线上 PostgreSQL</td></tr><tr><td>文件存储</td><td>本地文件系统</td><td>云存储 (S3等)</td></tr></tbody></table>
+
+  <p><strong>最常踩的坑：</strong> 本地开发一切正常，部署上线后出问题。</p>
+
+  <p>原因通常是：</p>
+
+  <ul>
+<li><strong>环境变量不同</strong>：本地用的是 .env.local，线上环境变量没配——让 AI 检查"部署平台上是否缺少环境变量配置"</li>
+<li><strong>数据库不同</strong>：本地 SQLite 和线上 PostgreSQL 的行为有差异——让 AI "检查一下数据库差异"</li>
+<li><strong>文件路径</strong>：本地文件系统路径和线上存储路径不一致——让 AI "检查文件引用的路径是否正确"</li>
+</ul>
+
+  <p>遇到"本地能跑线上不行"的情况，不要慌张——在 Vibe Coding 中这个问题的标准处理方式：</p>
+
+  <blockquote>
+
+  <p>"这个功能在本地开发环境正常，但部署到 Vercel 后报错。帮我检查可能的环境差异问题。"</p>
+
+  </blockquote>
+
+  <p>AI 会一一检查环境变量、文件路径、数据库连接等常见差异点。</p>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>浏览器输入网址→页面显示：DNS 寻址 → HTTP 请求/响应 → 浏览器渲染。每一步都有典型的错误模式。</li>
+<li>HTTP 状态码是排查问题的第一线索：404 是路径问题，500 是后端问题，401/403 是权限问题。把状态码和 URL 告诉 AI 就行。</li>
+<li>前端代码用户可见，API 密钥等敏感信息必须放后端。如果 AI 把密钥放在了前端代码中，指出来让它修正。</li>
+<li>Serverless（如 Vercel）是一人公司的最佳部署选择——零运维、按量付费。类比为"叫外卖而不是自己租厨房"。</li>
+<li>Network 面板是排查网络问题的第一工具——学会看请求耗时和状态码。TTFB 长说明服务器处理慢。</li>
+<li>本地能跑线上不行的常见原因：环境变量缺失、数据库差异、文件路径差异。直接告诉 AI 这个现象让它排查。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>打开你的浏览器开发者工具（F12），访问任意网站，然后对 Claude Code 说：</p>
+  <div class="vibe-prompt">
+  <p>"我在浏览器开发者工具的 Network 面板中看到了很多请求。请解释这些请求的类型（document、stylesheet、script、xhr）各代表什么，以及如何用 Network 面板排查页面加载慢的问题。"</p>
+  </div>
+  <p>进阶练习：</p>
+  <p>让 AI "帮我创建一个简单的 API 路由，在本地用 curl 测试这个 API，然后解释请求和响应的数据流转过程。" 通过这个练习，你会亲眼看到"浏览器发送请求 → 服务器处理 → 返回响应"的完整过程。</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

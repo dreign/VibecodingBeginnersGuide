@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15.4 建立系统性调试思维</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #7a8a6a, #a8b898, #7a8a6a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #7a8a6a; }
+  .title-divider { background: #a8b898; }
+  strong { color: #7a8a6a; }
+  .img-icon { color: #a8b898; }
+  .img-label { color: #7a8a6a; }
+  .img-caption { color: #7a8a6a; }
+  .takeaways-title { color: #7a8a6a; }
+  .takeaways li::before { color: #a8b898; }
+  .vibe-label { color: #7a8a6a; }
+  .vibe-prompt::before { color: #a8b898; }
+  blockquote { border-left-color: #a8b898; }
+  th { color: #7a8a6a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第十五章 · 软件的背后</div>
+  <h1>15.4 建立系统性调试思维</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-13<br>  验证环境：无（方法章节，不依赖特定工具版本）</div>
+
+  <h2>调试不是"修复 Bug"</h2>
+
+  <p>调试的真正目的不是"让 Bug 消失"——而是<strong>找到 Bug 的原因</strong>。原因找到了，修复方案通常就是一行代码的事。</p>
+
+  <p>在 Vibe Coding 中，你的调试角色变了：你不是自己去修复，而是<strong>帮 AI 提供足够的信息让它修复</strong>。</p>
+
+  <p>可以把调试想象成看医生：</p>
+
+  <ul>
+<li>AI 是医生</li>
+<li>Bug 是病症</li>
+<li>你的任务是告诉医生"哪里不舒服"，而不是自己开药方</li>
+</ul>
+
+  <p>一个好的患者描述是："我吃完饭后右上腹疼痛，持续了 2 小时。"不好的描述是："我应该是胃病，帮我开点胃药。"——后者可能误导诊断方向。同样，告诉 AI "我觉得是数据库的问题"可能误导它，不如说"页面加载变慢了，Network 显示某个 API 请求耗时 6 秒"。</p>
+
+  <h2>调试四步法</h2>
+
+  <p><strong>第一步：隔离变量</strong></p>
+
+  <p>当程序出问题时，首先问自己（或问 AI）："最近一次修改是什么？"</p>
+
+  <p>90% 的 Bug 是由最近一次修改引入的。如果你在添加了歌词功能后才发现录制功能坏了，问题大概率在歌词功能的代码里，而不是录制功能本身。</p>
+
+  <p>操作方法：</p>
+
+  <blockquote>
+
+  <p>如果项目使用 Git，运行 <code>git diff</code> 查看最近一次修改的内容。把这些改动复制给 AI。</p>
+
+  </blockquote>
+
+  <p>如果没有 Git，直接告诉 AI：</p>
+
+  <blockquote>
+
+  <p>"在我添加了歌词功能之后，录制视频的功能就不能用了。请重点检查我添加的歌词相关代码。"</p>
+
+  </blockquote>
+
+  <p><strong>关于 git diff 的小技巧：</strong></p>
+
+  <p><code>git diff</code> 会显示所有未提交的修改。如果你最近提交了，用 <code>git diff HEAD~1 HEAD</code> 查看上一次提交的改动。</p>
+
+  <p>把 diff 输出复制给 AI 时，只要说：</p>
+
+  <blockquote>
+
+  <p>"这是最近一次的 git diff 内容，请检查这些修改是否可能引入了一个 Bug。[粘贴 diff]"</p>
+
+  </blockquote>
+
+  <p>AI 会逐行分析你（或 AI 自己）最近的修改，找到可能的问题点。</p>
+
+  <p><strong>第二步：阅读错误堆栈</strong></p>
+
+  <p>错误堆栈（Error Stack）是最直接的线索——它告诉你"在哪里"出了"什么"问题。</p>
+
+  <p>示例堆栈：</p>
+
+  <pre><code>TypeError: Cannot read properties of null (reading 'frequencyBinCount')
+    at drawSpectrum (app.js:45:12)
+    at animate (app.js:60:5)</code></pre>
+
+  <p>即使不懂编程，你也能从堆栈中提取关键信息：</p>
+
+  <ul>
+<li><code>app.js:45:12</code> —— 在 <code>app.js</code> 的第 45 行第 12 列</li>
+<li><code>drawSpectrum</code> —— 出错的函数名</li>
+<li><code>Cannot read properties of null</code> —— 尝试访问 <code>null</code> 的属性</li>
+</ul>
+
+  <p>把这些信息完整复制给 AI。不需要你自己理解"为什么会 null"——那是 AI 的工作。</p>
+
+  <p><strong>堆栈中怎么识别最重要的信息：</strong></p>
+
+  <p>错误堆栈可能很长（尤其是 React 或 Next.js 的错误），但大多数行指向框架内部代码，只有几行指向你的代码。</p>
+
+  <p>找出包含你项目文件名的行（如 <code>app.js</code>、<code>component.tsx</code>、<code>route.ts</code>）——那些是你的代码。其他行（如 <code>node_modules/</code>、<code>react-dom/</code>）是框架内部代码，通常可以忽略。</p>
+
+  <blockquote>
+
+  <p>告诉 AI："错误堆栈中只有包含 app.js 的行是我自己的代码，其他都是 node_modules 的。"</p>
+
+  </blockquote>
+
+  <p><strong>第三步：二分法定位</strong></p>
+
+  <p>如果你做了一堆修改，搞不清楚是哪一处引入了问题——使用二分法：</p>
+
+  <ol>
+<li>回退到一半之前的状态（比如你有 10 次提交，回到第 5 次）</li>
+<li>测试问题是否还存在</li>
+<li>如果不存在了，说明问题在第 5 次之后引入——回退到第 7 次或第 8 次</li>
+<li>如果还存在，说明问题在第 5 次之前——继续往前推</li>
+</ol>
+
+  <p>Git 的 <code>bisect</code> 命令就是为这个场景设计的。让 AI 帮你操作：</p>
+
+  <blockquote>
+
+  <p>"Git 二分法定位 Bug：自从我开始添加可视化效果以来，录制功能就坏了。我最近有 8 次提交。请帮我用 git bisect 找到引入 Bug 的那次提交。"</p>
+
+  </blockquote>
+
+  <p>AI 会指导你执行 <code>git bisect</code>，你只需要重复"好的，这次没问题/这次有问题"，AI 会继续推进。</p>
+
+  <p><strong>为什么二分法有效：</strong> 如果有 N 次提交，二分法只需要约 log₂(N) 次检查。10 次提交 → 最多检查 4 次。50 次提交 → 最多检查 6 次。比逐次检查快得多。</p>
+
+  <p><strong>第四步：向 AI 描述问题</strong></p>
+
+  <p>这是最关键的一步。一个好的问题描述包含四个要素：</p>
+
+  <table class="reading-path-table"><thead><tr><th>要素</th><th>例子</th></tr></thead><tbody><tr><td>你做了什么</td><td>"我点击了'播放'按钮，选择了一个 MP3 文件"</td></tr><tr><td>你期望什么</td><td>"可视化效果应该随着音乐跳动"</td></tr><tr><td>实际发生了什么</td><td>"画布是空白的，没有显示任何图形"</td></tr><tr><td>环境信息</td><td>"Chrome 120, Windows 11, 文件是 44.1kHz 的 MP3"</td></tr></tbody></table>
+
+  <p>不需要包含"我试了什么但没成功"——AI 不需要知道你的失败尝试，它只需要原始现象和环境。</p>
+
+  <p><strong>好的例子：</strong></p>
+
+  <blockquote>
+
+  <p>"在 Chrome 120 上，选择 MP3 文件后点击播放，音频能正常播放，但画布是空白的。控制台没有报错。这个文件是 44.1kHz 的立体声 MP3，文件大小约 8MB。"</p>
+
+  </blockquote>
+
+  <p><strong>需要改进的例子：</strong></p>
+
+  <blockquote>
+
+  <p>"可视化不工作。我试着重装应用、清理缓存、换了个浏览器，都不行。"</p>
+
+  </blockquote>
+
+  <p>第二个例子的问题在于：它包含了 AI 不需要的无效尝试信息，但缺少了 AI 需要的精确现象信息。</p>
+
+  <p><strong>问题描述的"Checklist"：</strong></p>
+
+  <pre><code>□ 我做了什么操作？（点击了什么按钮、打开了什么页面）
+□ 我期望发生什么？
+□ 实际发生了什么？（控制台报错、页面空白、无响应……）
+□ 有什么错误信息？（控制台输出、Network 面板的状态码）
+□ 环境是什么？（浏览器版本、操作系统）
+□ 这个问题是一直存在还是最近才出现的？</code></pre>
+
+  <h2>把 AI 当"调试搭档"</h2>
+
+  <p>AI 有强大的模式识别能力——你描述的问题场景它可能在训练数据中见过几百万次。但 AI 看不到你的屏幕，它只能根据你提供的信息判断。</p>
+
+  <p>所以，<strong>你的输出质量直接决定 AI 的修复质量。</strong></p>
+
+  <p>一个实用技巧：把调试当作"给同事描述问题"——想象你走到一个资深工程师的工位前，你会怎么描述这个 Bug？</p>
+
+  <p>你肯定不会只说"程序坏了"就走开。你会说："我点了这个按钮，但它没反应，控制台显示了这个错误。" 同样，对 AI 也是这样。</p>
+
+  <p><strong>给 AI"喂"信息的策略：</strong></p>
+
+  <ol>
+<li><strong>先给核心事实</strong>：错误信息、重现步骤</li>
+<li><strong>看 AI 的回复</strong>：如果 AI 问更多信息，再补充</li>
+<li><strong>不要一次性给太多</strong>：AI 的处理窗口有限，先给最重要的</li>
+</ol>
+
+  <h2>"AI 修复失败"的应对策略</h2>
+
+  <p>有时候 AI 给出的第一个修复方案不工作。这时候不要放弃，试试下面的步骤：</p>
+
+  <ol>
+<li><strong>提供更多上下文</strong>："这个修复没有解决问题。注意，这个错误只在 Chrome 上出现，Firefox 上正常。"</li>
+<li><strong>要求换个方案</strong>："这个方案不 work，换一种实现方式。"</li>
+<li><strong>加日志重新运行</strong>："在 drawSpectrum 函数开头加一行 console.log，重新运行后把输出给我看。"</li>
+<li><strong>回退版本</strong>：让 AI 回退到上一个正常工作的版本，重新开始。</li>
+<li><strong>缩小问题范围</strong>：让 AI "创建一个最小复现用例"——只保留出问题的那几行代码，去掉其他无关功能。</li>
+</ol>
+
+  <p><strong>关于"换方案"的一个例子：</strong></p>
+
+  <pre><code>你：这个修复不 work，错误仍然存在。
+
+AI：我换一种方案。不再用 window.resize 事件监听，改用 ResizeObserver。</code></pre>
+
+  <h2>可打印的调试清单</h2>
+
+  <pre><code>□ 错误堆栈完整复制了吗？
+□ 能提供稳定的重现步骤吗？
+□ 最近一次的修改是什么？（git diff）
+□ 环境信息完整吗？（浏览器/Node 版本、操作系统）
+□ 这个问题是一直存在还是最近才出现？
+□ 是本地开发环境的问题还是生产环境的问题？
+
+如果 AI 修复失败：
+  □ 提供了更多上下文？
+  □ 要求换一种实现方案？
+  □ 加了日志重新运行？
+  □ 回退到上一次正常工作的版本？
+  □ 让 AI 创建一个最小复现用例？</code></pre>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>调试四步法：隔离变量 → 读错误堆栈 → 二分法定位 → 向 AI 准确描述。你的角色是"提供信息"不是"自己修复"。</li>
+<li>90% 的 Bug 由最近一次修改引入——<code>git diff</code> 是最有价值的调试命令之一。把 diff 复制给 AI 让它分析。</li>
+<li>错误堆栈是"哪里出了什么问题"的最直接线索。堆栈中只有包含你项目文件名的行才重要。</li>
+<li>二分法是解决"不知道哪里改坏了"的最有效策略（log₂(N) 次检查）。让 AI 指导你执行 git bisect。</li>
+<li>向 AI 描述问题的四要素：做了什么、期望什么、实际什么、环境什么。不要包含你失败尝试的信息。</li>
+<li>AI 修复失败时的应对策略：提供更多上下文、换方案、加日志、回退版本、缩小问题范围。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>故意制造一个 Bug，练习调试循环：</p>
+  <div class="vibe-prompt">
+  <p>"请在我的项目中制造一个 Bug（比如让一个 API 路由返回 500 错误，或者让 Canvas 不显示内容），然后教我如何按调试四步法找到并修复它。"</p>
+  </div>
+  <p>进阶练习：</p>
+  <p>模拟一个真实调试场景：让 AI "假装我的页面加载很慢。你扮演调试指导者，告诉我应该打开开发者工具的哪个面板、看什么信息、怎么把这些信息告诉你。我们一步步完成排查。" 这个练习会帮你把调试四步法变成习惯。</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

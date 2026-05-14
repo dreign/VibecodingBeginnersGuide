@@ -1,0 +1,7397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>附录 A 常用语言与语法速查表</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #8a6a7a, #b898a8, #8a6a7a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #8a6a7a; }
+  .title-divider { background: #b898a8; }
+  strong { color: #8a6a7a; }
+  .img-icon { color: #b898a8; }
+  .img-label { color: #8a6a7a; }
+  .img-caption { color: #8a6a7a; }
+  .takeaways-title { color: #8a6a7a; }
+  .takeaways li::before { color: #b898a8; }
+  .vibe-label { color: #8a6a7a; }
+  .vibe-prompt::before { color: #b898a8; }
+  blockquote { border-left-color: #b898a8; }
+  th { color: #8a6a7a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">附录</div>
+  <h1>附录 A 常用语言与语法速查表</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-11<br>  验证环境：无（语法速查——参考章节）</div>
+
+  <blockquote>
+
+  <p>本节是快速参考，不是教程。如果你完全没接触过这些语言，建议先通过 Vibe Coding 实际体验，遇到语法问题时回来查阅。</p>
+
+  </blockquote>
+
+  <div class="title-divider"></div>
+
+  <h2>A.1 JavaScript / TypeScript 核心语法</h2>
+
+  <h3>A.1.1 变量声明与作用域</h3>
+
+  <pre><code>// var —— 函数作用域，存在变量提升问题，不再推荐使用
+var name = "Alice";
+function example() {
+  console.log(name); // undefined（变量提升）
+  var name = "Bob";
+}
+
+// let —— 块级作用域，可重新赋值
+let count = 0;
+count = 1;
+if (true) {
+  let x = 10;
+}
+// console.log(x); // ❌ x is not defined
+
+// const —— 块级作用域，不可重新赋值（推荐默认使用）
+const pi = 3.14;
+// pi = 3.1415; // ❌ 不可重新赋值
+
+const user = { name: "Alice" };
+user.name = "Bob"; // ✅ 对象内容可以修改（引用不变）
+
+// 暂时性死区（TDZ）
+// console.log(a); // ❌ Cannot access 'a' before initialization
+let a = 10;
+
+// 解构赋值中的 TDZ
+function test({ a = 1, b = 2 } = {}) {
+  console.log(a, b);
+}
+test(); // 1, 2</code></pre>
+
+  <h3>A.1.2 函数定义</h3>
+
+  <pre><code>// 传统函数声明（存在函数提升）
+function add(a, b) {
+  return a + b;
+}
+
+// 函数表达式
+const multiply = function(a, b) {
+  return a * b;
+};
+
+// 箭头函数（现代JS最常用）
+const divide = (a, b) =&gt; a / b;
+const square = x =&gt; x * x;
+
+// 带返回值的箭头函数（多行）
+const greet = (name) =&gt; {
+  const message = `Hello, ${name}!`;
+  return message;
+};
+
+// 默认参数
+const introduce = (name, age = 18) =&gt; {
+  return `${name} is ${age} years old`;
+};
+
+// 可选参数
+const sayHello = (name) =&gt; {
+  return `Hello, ${name || "Guest"}!`;
+};
+
+// 剩余参数
+const sumAll = (...numbers) =&gt; {
+  return numbers.reduce((sum, num) =&gt; sum + num, 0);
+};
+
+// 异步函数
+async function fetchUser(id) {
+  const response = await fetch(`/api/users/${id}`);
+  return response.json();
+}
+
+// 立即执行函数表达式（IIFE）
+(function() {
+  console.log("立即执行");
+})();
+
+// 箭头函数IIFE
+(() =&gt; {
+  console.log("箭头函数IIFE");
+})();</code></pre>
+
+  <h3>A.1.3 解构赋值与展开运算符</h3>
+
+  <pre><code>// 对象解构
+const user = { name: "Alice", age: 30, city: "Beijing" };
+const { name, age } = user;
+const { name: userName, age: userAge } = user; // 重命名
+
+// 默认值
+const { name, age = 18, country = "China" } = user;
+
+// 嵌套解构
+const nested = { user: { name: "Alice", address: { city: "Beijing" } } };
+const { user: { name, address: { city } } } = nested;
+
+// 数组解构
+const colors = ["red", "green", "blue", "yellow"];
+const [first, second, third] = colors;
+const [, , thirdColor] = colors; // 跳过前两个
+
+// 剩余运算符（收集剩余元素）
+const [head, ...rest] = colors; // head="red", rest=["green", "blue", "yellow"]
+
+// 展开运算符（展开数组/对象）
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5]; // [1, 2, 3, 4, 5]
+
+const obj1 = { a: 1, b: 2 };
+const obj2 = { ...obj1, c: 3 }; // { a: 1, b: 2, c: 3 }
+
+// 合并对象（后面对象覆盖前面）
+const merged = { ...obj1, ...obj2 };
+
+// 函数参数展开
+const nums = [1, 2, 3];
+Math.max(...nums); // 3
+
+// 解构配合展开
+const { name, ...rest } = user; // rest = { age: 30, city: "Beijing" }
+
+// 函数参数解构
+function printUser({ name, age }) {
+  console.log(`${name} is ${age}`);
+}
+printUser(user);</code></pre>
+
+  <h3>A.1.4 数组方法速查</h3>
+
+  <table class="reading-path-table"><thead><tr><th>方法</th><th>作用</th><th>返回值</th><th>是否修改原数组</th></tr></thead><tbody><tr><td><code>map()</code></td><td>转换每个元素</td><td>新数组</td><td>否</td></tr><tr><td><code>filter()</code></td><td>过滤元素</td><td>新数组</td><td>否</td></tr><tr><td><code>reduce()</code></td><td>累积计算</td><td>任意值</td><td>否</td></tr><tr><td><code>find()</code></td><td>查找第一个匹配元素</td><td>元素/undefined</td><td>否</td></tr><tr><td><code>findIndex()</code></td><td>查找第一个匹配索引</td><td>索引/-1</td><td>否</td></tr><tr><td><code>some()</code></td><td>是否有元素满足条件</td><td>boolean</td><td>否</td></tr><tr><td><code>every()</code></td><td>是否所有元素满足条件</td><td>boolean</td><td>否</td></tr><tr><td><code>includes()</code></td><td>是否包含指定元素</td><td>boolean</td><td>否</td></tr><tr><td><code>concat()</code></td><td>合并数组</td><td>新数组</td><td>否</td></tr><tr><td><code>slice()</code></td><td>截取子数组</td><td>新数组</td><td>否</td></tr><tr><td><code>push()</code></td><td>末尾添加元素</td><td>新长度</td><td>是</td></tr><tr><td><code>pop()</code></td><td>末尾删除元素</td><td>被删元素</td><td>是</td></tr><tr><td><code>shift()</code></td><td>开头删除元素</td><td>被删元素</td><td>是</td></tr><tr><td><code>unshift()</code></td><td>开头添加元素</td><td>新长度</td><td>是</td></tr><tr><td><code>splice()</code></td><td>插入/删除元素</td><td>被删元素数组</td><td>是</td></tr><tr><td><code>sort()</code></td><td>排序</td><td>原数组引用</td><td>是</td></tr><tr><td><code>reverse()</code></td><td>反转数组</td><td>原数组引用</td><td>是</td></tr><tr><td><code>flat()</code></td><td>扁平化数组</td><td>新数组</td><td>否</td></tr><tr><td><code>flatMap()</code></td><td>映射后扁平化</td><td>新数组</td><td>否</td></tr><tr><td><code>fill()</code></td><td>填充数组</td><td>原数组</td><td>是</td></tr><tr><td><code>indexOf()</code></td><td>查找元素索引</td><td>索引/-1</td><td>否</td></tr><tr><td><code>lastIndexOf()</code></td><td>从后查找元素索引</td><td>索引/-1</td><td>否</td></tr><tr><td><code>join()</code></td><td>数组转字符串</td><td>字符串</td><td>否</td></tr><tr><td><code>toString()</code></td><td>数组转字符串</td><td>字符串</td><td>否</td></tr></tbody></table>
+
+  <pre><code>// 常用数组操作示例
+const numbers = [1, 2, 3, 4, 5];
+
+// map - 转换
+const doubled = numbers.map(x =&gt; x * 2); // [2, 4, 6, 8, 10]
+
+// filter - 过滤
+const evens = numbers.filter(x =&gt; x % 2 === 0); // [2, 4]
+
+// reduce - 累积
+const sum = numbers.reduce((acc, x) =&gt; acc + x, 0); // 15
+
+// find - 查找
+const found = numbers.find(x =&gt; x &gt; 3); // 4
+
+// flat - 扁平化
+const nested = [1, [2, [3, [4]]]];
+const flattened = nested.flat(2); // [1, 2, 3, [4]]
+
+// flatMap - 映射并扁平化
+const sentences = ["Hello world", "Goodbye world"];
+const words = sentences.flatMap(s =&gt; s.split(" ")); // ["Hello", "world", "Goodbye", "world"]
+
+// fill - 填充
+const filled = new Array(5).fill(0); // [0, 0, 0, 0, 0]</code></pre>
+
+  <h3>A.1.5 Promise 和异步编程</h3>
+
+  <pre><code>// Promise 基础
+const promise = new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; {
+    resolve("success");
+    // 或 reject(new Error("failed"));
+  }, 1000);
+});
+
+promise.then(result =&gt; console.log(result))
+       .catch(error =&gt; console.error(error));
+
+// Promise.all（全部完成）
+const promises = [fetch('/api/users'), fetch('/api/posts')];
+Promise.all(promises)
+  .then(responses =&gt; Promise.all(responses.map(r =&gt; r.json())))
+  .then(data =&gt; console.log(data));
+
+// Promise.allSettled（全部完成或失败）
+Promise.allSettled(promises)
+  .then(results =&gt; results.forEach(r =&gt; console.log(r.status)));
+
+// Promise.race（第一个完成）
+Promise.race([
+  fetch('/api/data'),
+  new Promise((_, reject) =&gt; setTimeout(() =&gt; reject(new Error('timeout')), 5000))
+])
+.then(data =&gt; console.log(data))
+.catch(err =&gt; console.error(err));
+
+// Promise.any（第一个成功）
+Promise.any([
+  Promise.reject('error1'),
+  Promise.resolve('success'),
+  Promise.reject('error2')
+])
+.then(result =&gt; console.log(result)); // "success"
+
+// async/await（现代异步写法）
+async function fetchData() {
+  try {
+    const response = await fetch('/api/data');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Fetch failed:', error);
+    throw error;
+  }
+}
+
+// 并行执行多个异步操作
+async function fetchMultiple() {
+  const [users, posts] = await Promise.all([
+    fetch('/api/users').then(r =&gt; r.json()),
+    fetch('/api/posts').then(r =&gt; r.json())
+  ]);
+  return { users, posts };
+}
+
+// 串行执行
+async function fetchSequentially() {
+  const users = await fetch('/api/users').then(r =&gt; r.json());
+  const posts = await fetch('/api/posts').then(r =&gt; r.json());
+  return { users, posts };
+}
+
+// 异步迭代
+async function processItems(items) {
+  for await (const item of items) {
+    await process(item);
+  }
+}</code></pre>
+
+  <h3>A.1.6 TypeScript 类型系统</h3>
+
+  <pre><code>// 基础类型
+const name: string = "Alice";
+const age: number = 30;
+const isActive: boolean = true;
+const list: string[] = ["a", "b", "c"];
+const tuple: [string, number] = ["Alice", 30]; // 元组
+
+// 接口定义
+interface User {
+  id: string;           // 必填字段
+  name: string;
+  email: string;
+  age?: number;         // 可选字段（?标记）
+  readonly createdAt: Date;  // 只读字段
+}
+
+// 接口继承
+interface Admin extends User {
+  permissions: string[];
+}
+
+// 接口声明合并
+interface User {
+  avatar?: string;  // 可以添加新属性
+}
+
+// 类型别名
+type Status = "active" | "inactive" | "pending";
+type Point = { x: number; y: number };
+type ID = string | number;
+
+// 联合类型与交叉类型
+type Result&lt;T, E&gt; = { success: true; data: T } | { success: false; error: E };
+type ReadonlyUser = Readonly&lt;User&gt;;  // 内置工具类型
+type PartialUser = Partial&lt;User&gt;;    // 全部可选
+type PickUser = Pick&lt;User, "name" | "email"&gt;; // 挑选字段
+type OmitUser = Omit&lt;User, "password"&gt;; // 排除字段
+
+// 泛型
+interface ApiResponse&lt;T&gt; {
+  data: T;
+  success: boolean;
+  message?: string;
+}
+
+// 泛型函数
+function identity&lt;T&gt;(arg: T): T {
+  return arg;
+}
+
+// 泛型类
+class Container&lt;T&gt; {
+  private items: T[] = [];
+  add(item: T): void {
+    this.items.push(item);
+  }
+  get(index: number): T | undefined {
+    return this.items[index];
+  }
+}
+
+// 泛型约束
+interface Lengthwise {
+  length: number;
+}
+
+function logLength&lt;T extends Lengthwise&gt;(arg: T): T {
+  console.log(arg.length);
+  return arg;
+}
+
+// 条件类型
+type NonNullable&lt;T&gt; = T extends null | undefined ? never : T;
+type ExtractArray&lt;T&gt; = T extends (infer U)[] ? U : never;
+type ReturnType&lt;T&gt; = T extends (...args: any[]) =&gt; infer R ? R : never;
+
+// 模板字面量类型
+type EventName&lt;T extends string&gt; = `${T}Changed`;
+type UserEvents = EventName&lt;"name" | "email"&gt;; // "nameChanged" | "emailChanged"
+
+// 类型守卫
+function isString(value: unknown): value is string {
+  return typeof value === "string";
+}
+
+// 断言函数
+function assertIsNumber(value: unknown): asserts value is number {
+  if (typeof value !== "number") {
+    throw new Error("Not a number");
+  }
+}
+
+// 索引类型
+type Keys = keyof User; // "id" | "name" | "email" | "age" | "createdAt"
+type Values = User[keyof User]; // string | number | Date | undefined
+
+// 映射类型
+type Readonly&lt;T&gt; = {
+  readonly [P in keyof T]: T[P];
+};
+
+type Partial&lt;T&gt; = {
+  [P in keyof T]?: T[P];
+};</code></pre>
+
+  <h3>A.1.7 类与面向对象</h3>
+
+  <pre><code>// 类定义
+class Person {
+  // 私有属性
+  private _name: string;
+  
+  // 构造函数
+  constructor(name: string) {
+    this._name = name;
+  }
+  
+  // Getter
+  get name(): string {
+    return this._name;
+  }
+  
+  // Setter
+  set name(newName: string) {
+    if (newName.length &gt; 0) {
+      this._name = newName;
+    }
+  }
+  
+  // 方法
+  greet(): string {
+    return `Hello, ${this._name}!`;
+  }
+}
+
+// 继承
+class Student extends Person {
+  constructor(name: string, public studentId: string) {
+    super(name);
+  }
+  
+  study(subject: string): string {
+    return `${this.name} is studying ${subject}`;
+  }
+}
+
+// 抽象类
+abstract class Shape {
+  abstract getArea(): number;
+  
+  getDescription(): string {
+    return `This shape has area: ${this.getArea()}`;
+  }
+}
+
+class Circle extends Shape {
+  constructor(private radius: number) {
+    super();
+  }
+  
+  getArea(): number {
+    return Math.PI * this.radius ** 2;
+  }
+}
+
+// 接口实现
+interface Printable {
+  print(): void;
+}
+
+class Document implements Printable {
+  print(): void {
+    console.log("Printing document...");
+  }
+}
+
+// 静态成员
+class MathUtils {
+  static PI = 3.14159;
+  
+  static calculateArea(radius: number): number {
+    return this.PI * radius ** 2;
+  }
+}
+
+// 私有字段（#语法）
+class Counter {
+  #count = 0;
+  
+  increment(): void {
+    this.#count++;
+  }
+  
+  get count(): number {
+    return this.#count;
+  }
+}
+
+// 方法重载
+class Calculator {
+  add(a: number, b: number): number;
+  add(a: string, b: string): string;
+  add(a: number | string, b: number | string): number | string {
+    if (typeof a === "number" &amp;&amp; typeof b === "number") {
+      return a + b;
+    }
+    return `${a}${b}`;
+  }
+}</code></pre>
+
+  <h3>A.1.8 模块化与ESM</h3>
+
+  <pre><code>// 导出
+export const PI = 3.14;
+export function add(a: number, b: number): number {
+  return a + b;
+}
+export class Calculator {}
+export type Status = "active" | "inactive";
+
+// 默认导出
+export default function greet(name: string): string {
+  return `Hello, ${name}!`;
+}
+
+// 导入
+import { PI, add, Calculator } from "./math";
+import Greet from "./greet";
+import * as math from "./math";
+
+// 动态导入
+async function loadModule() {
+  const module = await import("./lazy");
+  module.doSomething();
+}
+
+// 命名空间导入
+import { default as Greet, PI as MathPI } from "./math";
+
+// 重新导出
+export { add as sum } from "./math";
+export * from "./utils";
+
+// 导入类型（仅类型导入）
+import type { User } from "./types";
+
+// 导出类型
+export type { Status };</code></pre>
+
+  <h3>A.1.9 装饰器（Decorators）</h3>
+
+  <pre><code>// 类装饰器
+function sealed(constructor: Function) {
+  Object.seal(constructor);
+  Object.seal(constructor.prototype);
+}
+
+@sealed
+class Greeter {
+  greeting: string;
+  constructor(message: string) {
+    this.greeting = message;
+  }
+  greet() {
+    return `Hello, ${this.greeting}`;
+  }
+}
+
+// 方法装饰器
+function enumerable(value: boolean) {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    descriptor.enumerable = value;
+  };
+}
+
+class Greeter {
+  greeting: string;
+  constructor(message: string) {
+    this.greeting = message;
+  }
+  
+  @enumerable(false)
+  greet() {
+    return `Hello, ${this.greeting}`;
+  }
+}
+
+// 属性装饰器
+function format(formatString: string) {
+  return function (target: any, propertyKey: string) {
+    let value = target[propertyKey];
+    
+    const getter = function () {
+      return formatString.replace("%s", value);
+    };
+    
+    const setter = function (newVal: string) {
+      value = newVal;
+    };
+    
+    Object.defineProperty(target, propertyKey, {
+      get: getter,
+      set: setter,
+      enumerable: true,
+      configurable: true
+    });
+  };
+}
+
+class Greeter {
+  @format("Hello, %s!")
+  greeting: string;
+  
+  constructor(message: string) {
+    this.greeting = message;
+  }
+}
+
+// 参数装饰器
+function validate(target: any, propertyKey: string, parameterIndex: number) {
+  console.log(`Validating parameter at index ${parameterIndex}`);
+}
+
+class UserService {
+  createUser(@validate name: string, @validate age: number) {
+    // ...
+  }
+}</code></pre>
+
+  <div class="title-divider"></div>
+
+  <h2>A.2 Python 常用模式</h2>
+
+  <h3>A.2.1 变量与数据结构</h3>
+
+  <pre><code># 基本类型
+name = "Alice"
+age = 30
+is_active = True
+pi = 3.14
+big_num = 10**18  # 任意精度整数
+
+# 列表（list）- 可变数组
+items = [1, 2, 3]
+items.append(4)      # 添加元素
+items.insert(0, 0)   # 插入元素
+items.remove(2)      # 删除元素
+items.pop()          # 弹出最后一个元素
+items.extend([5, 6]) # 扩展列表
+
+# 字典（dict）- 键值对
+user = {"name": "Alice", "age": 30}
+user["city"] = "Beijing"  # 添加键值对
+del user["age"]          # 删除键值对
+print(user.get("name", "Unknown"))  # 安全获取
+keys = user.keys()       # 获取所有键
+values = user.values()   # 获取所有值
+items = user.items()     # 获取所有键值对
+
+# 元组（tuple）- 不可变序列
+point = (10, 20)
+single = (5,)  # 单元素元组必须加逗号
+
+# 集合（set）- 无序不重复
+unique = {1, 2, 3, 3, 3}  # {1, 2, 3}
+unique.add(4)
+unique.remove(2)
+union = unique | {3, 4, 5}  # 并集
+intersection = unique &amp; {2, 3}  # 交集
+difference = unique - {3}  # 差集
+
+# 冻结集合（frozenset）- 不可变集合
+fs = frozenset([1, 2, 3])
+
+# 字符串操作
+s = "Hello, World!"
+s.upper()           # "HELLO, WORLD!"
+s.lower()           # "hello, world!"
+s.strip()           # 去除首尾空白
+s.replace("World", "Python")  # "Hello, Python!"
+s.split(",")        # ["Hello", " World!"]
+", ".join(["a", "b", "c"])  # "a, b, c"
+s.startswith("Hello")  # True
+s.endswith("!")        # True
+s.find("World")        # 7</code></pre>
+
+  <h3>A.2.2 列表推导式与生成器</h3>
+
+  <pre><code># 基础列表推导
+squares = [x**2 for x in range(10)]
+# [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+# 带条件过滤
+even_squares = [x**2 for x in range(10) if x % 2 == 0]
+# [0, 4, 16, 36, 64]
+
+# 嵌套推导（矩阵转置）
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+transposed = [[row[i] for row in matrix] for i in range(3)]
+# [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+
+# 集合推导
+unique_squares = {x**2 for x in [-1, 0, 1, 2]}
+# {0, 1, 4}
+
+# 字典推导
+squared_dict = {x: x**2 for x in range(5)}
+# {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
+
+# 生成器表达式（内存高效）
+gen = (x**2 for x in range(1000000))  # 不立即计算
+
+# 生成器函数
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        yield a
+        a, b = b, a + b
+
+for num in fibonacci(10):
+    print(num)  # 0, 1, 1, 2, 3, 5, 8, 13, 21, 34
+
+# 无限生成器
+def infinite_counter(start=0):
+    while True:
+        yield start
+        start += 1
+
+# 迭代器协议
+class Counter:
+    def __init__(self, limit):
+        self.limit = limit
+        self.current = 0
+    
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if self.current &lt; self.limit:
+            value = self.current
+            self.current += 1
+            return value
+        raise StopIteration</code></pre>
+
+  <h3>A.2.3 函数与参数</h3>
+
+  <pre><code>def add(a: int, b: int) -&gt; int:
+    """返回两个数的和"""
+    return a + b
+
+# 默认参数
+def greet(name: str = "World") -&gt; str:
+    return f"Hello, {name}!"
+
+# 可变位置参数（*args）
+def sum_all(*args: int) -&gt; int:
+    return sum(args)
+
+sum_all(1, 2, 3, 4)  # 10
+
+# 可变关键字参数（**kwargs）
+def create_user(**kwargs):
+    return kwargs
+
+create_user(name="Alice", age=30)  # {"name": "Alice", "age": 30}
+
+# 解包参数
+nums = [1, 2, 3]
+sum_all(*nums)  # 相当于 sum_all(1, 2, 3)
+
+config = {"host": "localhost", "port": 5432}
+# connect(**config)  # 相当于 connect(host="localhost", port=5432)
+
+# Lambda 函数
+square = lambda x: x ** 2
+
+# 高阶函数
+def apply(func, value):
+    return func(value)
+
+apply(lambda x: x * 2, 5)  # 10
+
+# 匿名函数作为参数
+numbers = [1, 2, 3, 4]
+squared = list(map(lambda x: x**2, numbers))  # [1, 4, 9, 16]
+evens = list(filter(lambda x: x % 2 == 0, numbers))  # [2, 4]
+
+# 函数注解
+def calculate(
+    x: int,
+    y: int,
+    operation: str = "add"
+) -&gt; int:
+    """
+    计算两个数的运算结果
+    
+    Args:
+        x: 第一个数字
+        y: 第二个数字
+        operation: 运算类型，可选值: "add", "subtract", "multiply", "divide"
+    
+    Returns:
+        运算结果
+    """
+    if operation == "add":
+        return x + y
+    elif operation == "subtract":
+        return x - y
+    elif operation == "multiply":
+        return x * y
+    elif operation == "divide":
+        return x / y
+    else:
+        raise ValueError(f"Unknown operation: {operation}")</code></pre>
+
+  <h3>A.2.4 类与面向对象</h3>
+
+  <pre><code>class Person:
+    # 类属性（所有实例共享）
+    species = "Homo sapiens"
+    
+    # 初始化方法
+    def __init__(self, name: str, age: int):
+        self.name = name
+        self.age = age
+    
+    # 实例方法
+    def greet(self) -&gt; str:
+        return f"Hello, my name is {self.name}"
+    
+    # 类方法
+    @classmethod
+    def from_birth_year(cls, name: str, birth_year: int):
+        current_year = 2024
+        return cls(name, current_year - birth_year)
+    
+    # 静态方法
+    @staticmethod
+    def is_adult(age: int) -&gt; bool:
+        return age &gt;= 18
+
+# 创建实例
+person = Person("Alice", 30)
+person.greet()  # "Hello, my name is Alice"
+
+# 继承
+class Student(Person):
+    def __init__(self, name: str, age: int, student_id: str):
+        super().__init__(name, age)
+        self.student_id = student_id
+    
+    def study(self, subject: str) -&gt; str:
+        return f"{self.name} is studying {subject}"
+
+# 特殊方法（魔术方法）
+class Vector:
+    def __init__(self, x: int, y: int):
+        self.x = x
+        self.y = y
+    
+    def __add__(self, other):
+        return Vector(self.x + other.x, self.y + other.y)
+    
+    def __sub__(self, other):
+        return Vector(self.x - other.x, self.y - other.y)
+    
+    def __mul__(self, scalar):
+        return Vector(self.x * scalar, self.y * scalar)
+    
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+    
+    def __repr__(self) -&gt; str:
+        return f"Vector({self.x}, {self.y})"
+    
+    def __len__(self):
+        return int((self.x**2 + self.y**2)**0.5)
+
+v1 = Vector(1, 2)
+v2 = Vector(3, 4)
+v1 + v2  # Vector(4, 6)
+v1 * 2   # Vector(2, 4)
+
+# 属性装饰器
+class Product:
+    def __init__(self, name: str, price: float):
+        self.name = name
+        self._price = price
+    
+    @property
+    def price(self) -&gt; float:
+        return self._price
+    
+    @price.setter
+    def price(self, value: float):
+        if value &lt; 0:
+            raise ValueError("Price cannot be negative")
+        self._price = value
+
+# 抽象基类
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def get_area(self) -&gt; float:
+        pass
+    
+    @abstractmethod
+    def get_perimeter(self) -&gt; float:
+        pass
+
+class Circle(Shape):
+    def __init__(self, radius: float):
+        self.radius = radius
+    
+    def get_area(self) -&gt; float:
+        return 3.14159 * self.radius ** 2
+    
+    def get_perimeter(self) -&gt; float:
+        return 2 * 3.14159 * self.radius</code></pre>
+
+  <h3>A.2.5 装饰器</h3>
+
+  <pre><code># 基础装饰器
+def log_function(func):
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__} with args={args}, kwargs={kwargs}")
+        result = func(*args, **kwargs)
+        print(f"{func.__name__} returned {result}")
+        return result
+    return wrapper
+
+@log_function
+def add(a, b):
+    return a + b
+
+add(2, 3)
+# Output:
+# Calling add with args=(2, 3), kwargs={}
+# add returned 5
+
+# 带参数的装饰器
+def repeat(times):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            results = []
+            for _ in range(times):
+                results.append(func(*args, **kwargs))
+            return results
+        return wrapper
+    return decorator
+
+@repeat(times=3)
+def greet(name):
+    return f"Hello, {name}!"
+
+greet("Alice")  # ["Hello, Alice!", "Hello, Alice!", "Hello, Alice!"]
+
+# 保留元数据的装饰器
+import functools
+
+def log_decorator(func):
+    @functools.wraps(func)  # 保留原函数元数据
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__}")
+        result = func(*args, **kwargs)
+        print(f"{func.__name__} returned {result}")
+        return result
+    return wrapper
+
+@log_decorator
+def add(a, b):
+    """Return sum of two numbers"""
+    return a + b
+
+# 装饰器类
+class CountCalls:
+    def __init__(self, func):
+        functools.update_wrapper(self, func)
+        self.func = func
+        self.count = 0
+    
+    def __call__(self, *args, **kwargs):
+        self.count += 1
+        print(f"Call {self.count} of {self.func.__name__}")
+        return self.func(*args, **kwargs)
+
+@CountCalls
+def fibonacci(n):
+    if n &lt; 2:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# 多个装饰器叠加
+@log_decorator
+@repeat(times=2)
+def say_hello():
+    return "Hello!"
+
+# 装饰器用于类型检查
+def type_check(*arg_types):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args):
+            for arg, expected_type in zip(args, arg_types):
+                if not isinstance(arg, expected_type):
+                    raise TypeError(f"Expected {expected_type}, got {type(arg)}")
+            return func(*args)
+        return wrapper
+    return decorator
+
+@type_check(int, int)
+def multiply(a, b):
+    return a * b</code></pre>
+
+  <h3>A.2.6 上下文管理器</h3>
+
+  <pre><code># 使用 with 语句
+with open("file.txt", "r") as f:
+    content = f.read()
+# 文件自动关闭
+
+# 自定义上下文管理器（类方式）
+class Timer:
+    def __enter__(self):
+        import time
+        self.start = time.time()
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        elapsed = time.time() - self.start
+        print(f"Elapsed time: {elapsed:.2f}s")
+        return False
+
+with Timer():
+    for _ in range(1000000):
+        pass
+
+# 自定义上下文管理器（装饰器方式）
+from contextlib import contextmanager
+
+@contextmanager
+def timer():
+    import time
+    start = time.time()
+    try:
+        yield
+    finally:
+        elapsed = time.time() - start
+        print(f"Elapsed: {elapsed:.2f}s")
+
+with timer():
+    pass
+
+# 嵌套上下文管理器
+with open("input.txt", "r") as infile, open("output.txt", "w") as outfile:
+    content = infile.read()
+    outfile.write(content)
+
+# 自定义资源管理
+class DatabaseConnection:
+    def __init__(self, db_url):
+        self.db_url = db_url
+        self.connection = None
+    
+    def __enter__(self):
+        self.connection = self.connect()
+        return self.connection
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if self.connection:
+            self.connection.close()
+        return False  # 不抑制异常
+    
+    def connect(self):
+        print(f"Connecting to {self.db_url}")
+        return {"connection": "active"}
+
+# 使用
+with DatabaseConnection("postgresql://localhost/mydb") as conn:
+    print("Using connection:", conn)
+
+# 使用 contextmanager 装饰器创建临时文件
+from contextlib import contextmanager
+import tempfile
+import os
+
+@contextmanager
+def temp_file():
+    fd, path = tempfile.mkstemp()
+    try:
+        yield path
+    finally:
+        os.close(fd)
+        os.remove(path)
+
+with temp_file() as filepath:
+    print(f"Working with temp file: {filepath}")</code></pre>
+
+  <h3>A.2.7 常用标准库</h3>
+
+  <table class="reading-path-table"><thead><tr><th>模块</th><th>用途</th><th>常用功能</th></tr></thead><tbody><tr><td><code>os</code></td><td>操作系统接口</td><td>文件/目录操作、环境变量</td></tr><tr><td><code>sys</code></td><td>系统参数与函数</td><td>命令行参数、退出码</td></tr><tr><td><code>json</code></td><td>JSON 序列化</td><td>dump/load, dumps/loads</td></tr><tr><td><code>datetime</code></td><td>日期时间处理</td><td>datetime, date, time</td></tr><tr><td><code>re</code></td><td>正则表达式</td><td>匹配、替换、分割</td></tr><tr><td><code>collections</code></td><td>数据结构</td><td>defaultdict, OrderedDict, Counter</td></tr><tr><td><code>itertools</code></td><td>迭代工具</td><td>循环、组合、排列</td></tr><tr><td><code>functools</code></td><td>函数工具</td><td>partial, lru_cache, reduce</td></tr><tr><td><code>asyncio</code></td><td>异步编程</td><td>协程、事件循环</td></tr><tr><td><code>unittest</code></td><td>测试框架</td><td>TestCase, mock</td></tr><tr><td><code>logging</code></td><td>日志记录</td><td>日志级别、格式、处理器</td></tr><tr><td><code>argparse</code></td><td>命令行参数解析</td><td>参数定义、帮助信息</td></tr><tr><td><code>pathlib</code></td><td>文件路径操作</td><td>面向对象的路径处理</td></tr><tr><td><code>urllib</code></td><td>URL 处理</td><td>解析、请求</td></tr><tr><td><code>hashlib</code></td><td>哈希函数</td><td>md5, sha256</td></tr></tbody></table>
+
+  <h3>A.2.8 Python 异步编程</h3>
+
+  <pre><code>import asyncio
+
+# 基础协程
+async def fetch_data(url):
+    print(f"Fetching {url}")
+    await asyncio.sleep(1)  # 模拟IO操作
+    return {"url": url, "data": "sample"}
+
+# 并发执行多个协程
+async def main():
+    # 方式1: asyncio.gather
+    results = await asyncio.gather(
+        fetch_data("https://api.example.com/users"),
+        fetch_data("https://api.example.com/posts"),
+        fetch_data("https://api.example.com/comments")
+    )
+    print(results)
+    
+    # 方式2: 创建任务
+    task1 = asyncio.create_task(fetch_data("https://api.example.com/a"))
+    task2 = asyncio.create_task(fetch_data("https://api.example.com/b"))
+    
+    await task1
+    await task2
+
+# 运行事件循环
+asyncio.run(main())
+
+# 带超时的等待
+async def fetch_with_timeout(url, timeout=5):
+    try:
+        return await asyncio.wait_for(fetch_data(url), timeout=timeout)
+    except asyncio.TimeoutError:
+        print(f"Timeout fetching {url}")
+        return None
+
+# 并发限制（Semaphore）
+async def limited_fetch(url, semaphore):
+    async with semaphore:
+        return await fetch_data(url)
+
+async def fetch_all(urls):
+    semaphore = asyncio.Semaphore(10)  # 最多10个并发
+    tasks = [limited_fetch(url, semaphore) for url in urls]
+    return await asyncio.gather(*tasks)
+
+# 异步迭代器
+async def async_range(n):
+    for i in range(n):
+        await asyncio.sleep(0.1)
+        yield i
+
+async def iterate():
+    async for num in async_range(5):
+        print(num)
+
+# 异步生成器
+async def async_generator():
+    for i in range(10):
+        await asyncio.sleep(0.1)
+        yield i * 2
+
+# 任务取消
+async def long_running_task():
+    try:
+        for i in range(10):
+            await asyncio.sleep(1)
+            print(f"Task running: {i}")
+    except asyncio.CancelledError:
+        print("Task was cancelled")
+        raise
+
+async def cancel_task():
+    task = asyncio.create_task(long_running_task())
+    await asyncio.sleep(3)
+    task.cancel()
+    try:
+        await task
+    except asyncio.CancelledError:
+        print("Task cancellation confirmed")</code></pre>
+
+  <div class="title-divider"></div>
+
+  <h2>A.3 HTML / CSS 关键布局速览</h2>
+
+  <h3>A.3.1 HTML 文档基础结构</h3>
+
+  <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;meta name="description" content="页面描述"&gt;
+  &lt;meta name="keywords" content="关键词1, 关键词2"&gt;
+  &lt;meta name="author" content="作者名"&gt;
+  &lt;title&gt;页面标题&lt;/title&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+  &lt;link rel="icon" href="favicon.ico" type="image/x-icon"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;页眉&lt;/header&gt;
+  &lt;nav&gt;导航&lt;/nav&gt;
+  &lt;main&gt;
+    &lt;article&gt;主要内容&lt;/article&gt;
+    &lt;aside&gt;侧边栏&lt;/aside&gt;
+  &lt;/main&gt;
+  &lt;footer&gt;页脚&lt;/footer&gt;
+  &lt;script src="app.js" defer&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <h3>A.3.2 常用语义标签</h3>
+
+  <table class="reading-path-table"><thead><tr><th>标签</th><th>语义</th><th>常用属性</th></tr></thead><tbody><tr><td><code><header></code></td><td>页面/区块头部</td><td>无</td></tr><tr><td><code><nav></code></td><td>导航链接</td><td>无</td></tr><tr><td><code><main></code></td><td>主要内容（唯一）</td><td>无</td></tr><tr><td><code><article></code></td><td>独立内容区块</td><td>无</td></tr><tr><td><code><section></code></td><td>内容分区</td><td>无</td></tr><tr><td><code><aside></code></td><td>侧边内容</td><td>无</td></tr><tr><td><code><footer></code></td><td>页面/区块底部</td><td>无</td></tr><tr><td><code><a></code></td><td>链接</td><td>href, target, rel</td></tr><tr><td><code><img></code></td><td>图片</td><td>src, alt, width, height</td></tr><tr><td><code><input></code></td><td>输入框</td><td>type, name, value, placeholder</td></tr><tr><td><code><button></code></td><td>按钮</td><td>type, disabled</td></tr><tr><td><code><form></code></td><td>表单</td><td>action, method, enctype</td></tr><tr><td><code><label></code></td><td>标签</td><td>for</td></tr><tr><td><code><textarea></code></td><td>多行文本输入</td><td>rows, cols</td></tr><tr><td><code><select></code></td><td>下拉选择</td><td>name</td></tr><tr><td><code><option></code></td><td>选项</td><td>value, selected</td></tr><tr><td><code><table></code></td><td>表格</td><td>border</td></tr><tr><td><code><thead></code></td><td>表格头部</td><td>无</td></tr><tr><td><code><tbody></code></td><td>表格主体</td><td>无</td></tr><tr><td><code><tr></code></td><td>表格行</td><td>无</td></tr><tr><td><code><th></code></td><td>表头单元格</td><td>scope</td></tr><tr><td><code><td></code></td><td>表格单元格</td><td>无</td></tr></tbody></table>
+
+  <h3>A.3.3 HTML5 表单输入类型</h3>
+
+  <table class="reading-path-table"><thead><tr><th>type 值</th><th>用途</th><th>特点</th></tr></thead><tbody><tr><td><code>text</code></td><td>普通文本</td><td>单行文本输入</td></tr><tr><td><code>email</code></td><td>邮箱地址</td><td>自动验证格式</td></tr><tr><td><code>password</code></td><td>密码</td><td>输入内容隐藏</td></tr><tr><td><code>number</code></td><td>数字输入</td><td>显示数字键盘</td></tr><tr><td><code>tel</code></td><td>电话号码</td><td>显示电话键盘</td></tr><tr><td><code>url</code></td><td>网址</td><td>自动验证格式</td></tr><tr><td><code>date</code></td><td>日期选择</td><td>显示日期选择器</td></tr><tr><td><code>time</code></td><td>时间选择</td><td>显示时间选择器</td></tr><tr><td><code>datetime-local</code></td><td>日期时间</td><td>本地日期时间选择器</td></tr><tr><td><code>range</code></td><td>滑块</td><td>范围选择</td></tr><tr><td><code>checkbox</code></td><td>复选框</td><td>可多选</td></tr><tr><td><code>radio</code></td><td>单选按钮</td><td>同组互斥</td></tr><tr><td><code>file</code></td><td>文件上传</td><td>支持 multiple 属性</td></tr><tr><td><code>color</code></td><td>颜色选择</td><td>显示颜色选择器</td></tr><tr><td><code>search</code></td><td>搜索框</td><td>样式优化</td></tr><tr><td><code>hidden</code></td><td>隐藏字段</td><td>不显示但提交</td></tr></tbody></table>
+
+  <h3>A.3.4 Flexbox 布局（最常用）</h3>
+
+  <pre><code>/* 容器属性 */
+.container {
+  display: flex;              /* 启用 Flexbox */
+  flex-direction: row;        /* row | row-reverse | column | column-reverse */
+  justify-content: flex-start;/* flex-start | center | flex-end | space-between | space-around | space-evenly */
+  align-items: stretch;       /* stretch | flex-start | center | flex-end | baseline */
+  flex-wrap: nowrap;          /* nowrap | wrap | wrap-reverse */
+  gap: 16px;                 /* 项目间距 */
+  align-content: stretch;     /* flex-start | center | flex-end | space-between | space-around | stretch */
+}
+
+/* 项目属性 */
+.item {
+  flex-grow: 0;              /* 放大比例 */
+  flex-shrink: 1;            /* 缩小比例 */
+  flex-basis: auto;          /* 基础大小 */
+  flex: 1;                   /* 简写: flex-grow flex-shrink flex-basis */
+  align-self: auto;          /* 单独对齐方式 */
+  order: 0;                  /* 排列顺序 */
+}
+
+/* 常用布局示例 */
+/* 水平居中 */
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 两栏布局 */
+.two-columns {
+  display: flex;
+  gap: 16px;
+}
+.sidebar { width: 250px; flex-shrink: 0; }
+.main { flex: 1; }
+
+/* 响应式换行 */
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* 等分布局 */
+.equal-width {
+  display: flex;
+}
+.equal-width &gt; * {
+  flex: 1;
+}
+
+/* 固定侧边栏，内容自适应 */
+.layout {
+  display: flex;
+}
+.aside {
+  width: 200px;
+  flex-shrink: 0;
+}
+.content {
+  flex: 1;
+  min-width: 0; /* 防止内容溢出 */
+}</code></pre>
+
+  <h3>A.3.5 Grid 布局</h3>
+
+  <pre><code>/* 容器属性 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* 三列等宽 */
+  grid-template-rows: auto;               /* 行高自动 */
+  gap: 16px;                              /* 间距 */
+  
+  /* 区域命名 */
+  grid-template-areas:
+    "header header header"
+    "sidebar main main"
+    "footer footer footer";
+}
+
+/* 项目定位 */
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main { grid-area: main; }
+.footer { grid-area: footer; }
+
+/* 响应式列数 */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;  /* 单列 */
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "main"
+      "footer";
+  }
+}
+
+/* 跨越多个单元格 */
+.span-two {
+  grid-column: span 2;  /* 跨越2列 */
+  grid-row: span 2;     /* 跨越2行 */
+}
+
+/* 精确位置 */
+.item {
+  grid-column: 2 / 4;   /* 从第2列到第4列 */
+  grid-row: 1 / 3;      /* 从第1行到第3行 */
+}
+
+/* 命名网格线 */
+.grid-lines {
+  display: grid;
+  grid-template-columns: [sidebar-start] 200px [sidebar-end content-start] 1fr [content-end];
+  grid-template-rows: [header-start] 100px [header-end content-start] 1fr [content-end];
+}
+
+/* 自动填充 */
+.auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}</code></pre>
+
+  <h3>A.3.6 CSS 选择器优先级</h3>
+
+  <table class="reading-path-table"><thead><tr><th>优先级</th><th>选择器类型</th><th>示例</th><th>权重值</th></tr></thead><tbody><tr><td>1（最高）</td><td>!important</td><td><code>color: red !important</code></td><td>无限</td></tr><tr><td>2</td><td>内联样式</td><td><code><div style="color: red"></code></td><td>1000</td></tr><tr><td>3</td><td>ID 选择器</td><td><code>#header</code></td><td>100</td></tr><tr><td>4</td><td>类选择器</td><td><code>.btn</code></td><td>10</td></tr><tr><td>4</td><td>伪类</td><td><code>:hover</code>, <code>:nth-child(2)</code></td><td>10</td></tr><tr><td>4</td><td>属性选择器</td><td><code>[type="text"]</code></td><td>10</td></tr><tr><td>5（最低）</td><td>元素选择器</td><td><code>div</code>, <code>p</code></td><td>1</td></tr><tr><td>5</td><td>伪元素</td><td><code>::before</code>, <code>::after</code></td><td>1</td></tr></tbody></table>
+
+  <pre><code>/* 选择器组合示例 */
+/* 权重: 100 + 10 = 110 */
+#header .logo { }
+
+/* 权重: 10 + 1 = 11 */
+.container p { }
+
+/* 权重: 10 + 10 + 1 = 21 */
+.btn.primary:hover { }</code></pre>
+
+  <h3>A.3.7 CSS 常用属性速查</h3>
+
+  <table class="reading-path-table"><thead><tr><th>属性类别</th><th>属性</th><th>常用值</th></tr></thead><tbody><tr><td>布局</td><td><code>display</code></td><td>block, inline, inline-block, flex, grid, none</td></tr><tr><td>布局</td><td><code>position</code></td><td>static, relative, absolute, fixed, sticky</td></tr><tr><td>布局</td><td><code>float</code></td><td>left, right, none</td></tr><tr><td>布局</td><td><code>clear</code></td><td>left, right, both</td></tr><tr><td>盒模型</td><td><code>margin</code></td><td>length, auto</td></tr><tr><td>盒模型</td><td><code>padding</code></td><td>length</td></tr><tr><td>盒模型</td><td><code>border</code></td><td>width style color</td></tr><tr><td>盒模型</td><td><code>box-sizing</code></td><td>content-box, border-box</td></tr><tr><td>文本</td><td><code>font-size</code></td><td>px, em, rem, %</td></tr><tr><td>文本</td><td><code>font-weight</code></td><td>normal, bold, 100-900</td></tr><tr><td>文本</td><td><code>text-align</code></td><td>left, right, center, justify</td></tr><tr><td>文本</td><td><code>text-decoration</code></td><td>none, underline, line-through</td></tr><tr><td>文本</td><td><code>line-height</code></td><td>number, length, %</td></tr><tr><td>颜色</td><td><code>color</code></td><td>color name, #hex, rgb(), rgba()</td></tr><tr><td>背景</td><td><code>background</code></td><td>color, image, gradient</td></tr><tr><td>尺寸</td><td><code>width/height</code></td><td>length, %, auto</td></tr><tr><td>尺寸</td><td><code>min-width/min-height</code></td><td>length, %</td></tr><tr><td>尺寸</td><td><code>max-width/max-height</code></td><td>length, %</td></tr><tr><td>圆角</td><td><code>border-radius</code></td><td>length, %</td></tr><tr><td>阴影</td><td><code>box-shadow</code></td><td>offset-x offset-y blur spread color</td></tr><tr><td>阴影</td><td><code>text-shadow</code></td><td>offset-x offset-y blur color</td></tr><tr><td>动画</td><td><code>transition</code></td><td>property duration timing</td></tr><tr><td>动画</td><td><code>animation</code></td><td>name duration timing iteration</td></tr><tr><td>变换</td><td><code>transform</code></td><td>translate, rotate, scale, skew</td></tr><tr><td>溢出</td><td><code>overflow</code></td><td>visible, hidden, scroll, auto</td></tr><tr><td>光标</td><td><code>cursor</code></td><td>pointer, default, text, move</td></tr><tr><td>不透明度</td><td><code>opacity</code></td><td>0-1</td></tr></tbody></table>
+
+  <h3>A.3.8 CSS 响应式设计</h3>
+
+  <pre><code>/* 媒体查询基础 */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
+/* 多个断点 */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .sidebar {
+    width: 200px;
+  }
+}
+
+/* 移动端优先 */
+.container {
+  padding: 0 12px;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 0 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* 响应式网格 */
+.responsive-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 隐藏元素 */
+@media (max-width: 640px) {
+  .desktop-only {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) {
+  .mobile-only {
+    display: none;
+  }
+}
+
+/* 弹性图片 */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 响应式字体大小 */
+html {
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 20px;
+  }
+}</code></pre>
+
+  <h3>A.3.9 CSS 动画与过渡</h3>
+
+  <pre><code>/* 过渡动画 */
+.button {
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.button:hover {
+  background-color: #007bff;
+  transform: translateY(-2px);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+/* 关键帧动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 使用动画 */
+.card {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.loader {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.sidebar {
+  animation: slideIn 0.3s ease-out;
+}
+
+.bouncing-ball {
+  animation: bounce 0.5s ease-in-out infinite;
+}
+
+.spinner {
+  animation: rotate 2s linear infinite;
+}
+
+/* 动画延迟 */
+.card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.card:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.card:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+/* 性能优化 */
+.animated-element {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}</code></pre>
+
+  <h3>A.3.10 CSS 高级选择器</h3>
+
+  <pre><code>/* 属性选择器 */
+input[type="text"] {
+  border: 1px solid #ccc;
+}
+
+a[href^="https://"] {
+  color: #007bff;
+}
+
+img[src$=".png"] {
+  border-radius: 8px;
+}
+
+a[href*="example"] {
+  font-weight: bold;
+}
+
+/* 伪类选择器 */
+li:nth-child(odd) {
+  background-color: #f8f9fa;
+}
+
+li:nth-child(3n) {
+  border-right: 2px solid #007bff;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+button:not(:disabled):hover {
+  background-color: #0056b3;
+}
+
+p:first-of-type {
+  margin-top: 0;
+}
+
+p:last-of-type {
+  margin-bottom: 0;
+}
+
+/* 伪元素选择器 */
+p::first-line {
+  font-weight: bold;
+}
+
+p::first-letter {
+  font-size: 2em;
+  float: left;
+  margin-right: 0.5em;
+}
+
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.tooltip::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background-color: #333;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.tooltip:hover::before {
+  opacity: 1;
+}
+
+/* 组合选择器 */
+header &gt; nav &gt; ul &gt; li {
+  display: inline-block;
+}
+
+article + article {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #eee;
+}
+
+section ~ footer {
+  margin-top: 48px;
+}
+
+/* :is() 选择器（简化选择器列表） */
+:is(header, footer, aside) {
+  background-color: #f8f9fa;
+}
+
+/* :where() 选择器（权重为0） */
+:where(.btn, .link) {
+  color: #007bff;
+}
+
+/* :has() 选择器（父选择器） */
+.card:has(.featured) {
+  border-color: #007bff;
+}
+
+/* :not() 否定选择器 */
+div:not(.special) {
+  opacity: 0.5;
+}</code></pre>
+
+  <div class="title-divider"></div>
+
+  <h2>A.4 SQL 基础查询</h2>
+
+  <h3>A.4.1 基础语句</h3>
+
+  <pre><code>-- 查询指定列
+SELECT column1, column2 FROM table_name;
+
+-- 查询所有列（生产环境慎用）
+SELECT * FROM users;
+
+-- 条件过滤
+SELECT * FROM users WHERE age &gt; 18;
+
+-- 排序
+SELECT * FROM users ORDER BY created_at DESC;
+
+-- 限制数量
+SELECT * FROM users LIMIT 10;
+
+-- 分页
+SELECT * FROM users LIMIT 10 OFFSET 20;
+
+-- 去重
+SELECT DISTINCT category FROM products;
+
+-- 计数
+SELECT COUNT(*) FROM users;
+
+-- 别名
+SELECT name AS username, age AS user_age FROM users;
+
+-- 计算列
+SELECT name, price * quantity AS total FROM orders;
+
+-- 字符串拼接（PostgreSQL）
+SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM users;
+
+-- 字符串拼接（MySQL）
+SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM users;
+
+-- 字符串拼接（SQL Server）
+SELECT first_name + ' ' + last_name AS full_name FROM users;</code></pre>
+
+  <h3>A.4.2 WHERE 子句条件运算符</h3>
+
+  <table class="reading-path-table"><thead><tr><th>运算符</th><th>描述</th><th>示例</th></tr></thead><tbody><tr><td><code>=</code></td><td>等于</td><td><code>WHERE name = 'Alice'</code></td></tr><tr><td><code><></code> / <code>!=</code></td><td>不等于</td><td><code>WHERE status <> 'deleted'</code></td></tr><tr><td><code>></code></td><td>大于</td><td><code>WHERE price > 100</code></td></tr><tr><td><code><</code></td><td>小于</td><td><code>WHERE age < 18</code></td></tr><tr><td><code>>=</code></td><td>大于等于</td><td><code>WHERE score >= 60</code></td></tr><tr><td><code><=</code></td><td>小于等于</td><td><code>WHERE created_at <= '2024-01-01'</code></td></tr><tr><td><code>BETWEEN</code></td><td>在范围内</td><td><code>WHERE price BETWEEN 100 AND 200</code></td></tr><tr><td><code>IN</code></td><td>在列表中</td><td><code>WHERE status IN ('active', 'pending')</code></td></tr><tr><td><code>LIKE</code></td><td>模糊匹配</td><td><code>WHERE name LIKE '%Alice%'</code></td></tr><tr><td><code>ILIKE</code></td><td>大小写不敏感模糊匹配（PostgreSQL）</td><td><code>WHERE name ILIKE '%alice%'</code></td></tr><tr><td><code>IS NULL</code></td><td>为空</td><td><code>WHERE deleted_at IS NULL</code></td></tr><tr><td><code>IS NOT NULL</code></td><td>不为空</td><td><code>WHERE deleted_at IS NOT NULL</code></td></tr><tr><td><code>AND</code></td><td>逻辑与</td><td><code>WHERE age > 18 AND status = 'active'</code></td></tr><tr><td><code>OR</code></td><td>逻辑或</td><td><code>WHERE category = 'book' OR price < 50</code></td></tr><tr><td><code>NOT</code></td><td>逻辑非</td><td><code>WHERE NOT status = 'deleted'</code></td></tr></tbody></table>
+
+  <h3>A.4.3 数据操作语句（DML）</h3>
+
+  <pre><code>-- 插入单条数据
+INSERT INTO users (name, email, age) 
+VALUES ('Alice', 'alice@example.com', 30);
+
+-- 返回插入的行（PostgreSQL）
+INSERT INTO users (name, email) 
+VALUES ('Bob', 'bob@example.com')
+RETURNING *;
+
+-- 批量插入
+INSERT INTO users (name, email) 
+VALUES ('Bob', 'bob@example.com'),
+       ('Charlie', 'charlie@example.com');
+
+-- 更新数据
+UPDATE users 
+SET name = 'Alice Smith', age = 31 
+WHERE id = 1;
+
+-- 更新多个表（PostgreSQL）
+UPDATE users u
+SET last_login = CURRENT_TIMESTAMP
+FROM sessions s
+WHERE u.id = s.user_id
+  AND s.expires_at &gt; CURRENT_TIMESTAMP;
+
+-- 删除数据
+DELETE FROM users 
+WHERE id = 1;
+
+-- 删除并返回（PostgreSQL）
+DELETE FROM users 
+WHERE status = 'inactive'
+RETURNING *;
+
+-- 截断表（清空所有数据）
+TRUNCATE TABLE users;
+
+-- 截断表并重置序列（PostgreSQL）
+TRUNCATE TABLE users RESTART IDENTITY;
+
+-- 合并（Upsert，PostgreSQL）
+INSERT INTO users (id, name, email)
+VALUES (1, 'Alice', 'alice@example.com')
+ON CONFLICT (id) DO UPDATE SET
+  name = EXCLUDED.name,
+  email = EXCLUDED.email;
+
+-- 合并（MySQL）
+INSERT INTO users (id, name, email)
+VALUES (1, 'Alice', 'alice@example.com')
+ON DUPLICATE KEY UPDATE
+  name = VALUES(name),
+  email = VALUES(email);</code></pre>
+
+  <h3>A.4.4 JOIN 关联查询</h3>
+
+  <table class="reading-path-table"><thead><tr><th>JOIN 类型</th><th>说明</th><th>语法示例</th></tr></thead><tbody><tr><td>INNER JOIN</td><td>只返回两表匹配的行</td><td><code>SELECT * FROM a INNER JOIN b ON a.id = b.a_id</code></td></tr><tr><td>LEFT JOIN</td><td>返回左表所有行，右表匹配的行</td><td><code>SELECT * FROM a LEFT JOIN b ON a.id = b.a_id</code></td></tr><tr><td>RIGHT JOIN</td><td>返回右表所有行，左表匹配的行</td><td><code>SELECT * FROM a RIGHT JOIN b ON a.id = b.a_id</code></td></tr><tr><td>FULL JOIN</td><td>返回两表所有行</td><td><code>SELECT * FROM a FULL JOIN b ON a.id = b.a_id</code></td></tr><tr><td>CROSS JOIN</td><td>笛卡尔积</td><td><code>SELECT * FROM a CROSS JOIN b</code></td></tr><tr><td>NATURAL JOIN</td><td>自动按同名列匹配</td><td><code>SELECT * FROM a NATURAL JOIN b</code></td></tr></tbody></table>
+
+  <pre><code>-- JOIN 示例
+SELECT orders.id, users.name, orders.total
+FROM orders
+JOIN users ON orders.user_id = users.id
+WHERE orders.status = 'completed';
+
+-- 多表 JOIN
+SELECT o.id, u.name, p.name AS product_name, o.total
+FROM orders o
+JOIN users u ON o.user_id = u.id
+JOIN order_items oi ON o.id = oi.order_id
+JOIN products p ON oi.product_id = p.id
+WHERE o.created_at &gt;= '2024-01-01';
+
+-- 自 JOIN
+SELECT e.name AS employee, m.name AS manager
+FROM employees e
+LEFT JOIN employees m ON e.manager_id = m.id;
+
+-- LEFT JOIN 查找不存在的记录
+SELECT u.id, u.name
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+WHERE o.id IS NULL;</code></pre>
+
+  <h3>A.4.5 聚合函数</h3>
+
+  <table class="reading-path-table"><thead><tr><th>函数</th><th>作用</th><th>示例</th></tr></thead><tbody><tr><td><code>COUNT()</code></td><td>计数</td><td><code>COUNT(*)</code></td></tr><tr><td><code>SUM()</code></td><td>求和</td><td><code>SUM(price)</code></td></tr><tr><td><code>AVG()</code></td><td>平均值</td><td><code>AVG(score)</code></td></tr><tr><td><code>MAX()</code></td><td>最大值</td><td><code>MAX(created_at)</code></td></tr><tr><td><code>MIN()</code></td><td>最小值</td><td><code>MIN(price)</code></td></tr><tr><td><code>GROUP_CONCAT()</code></td><td>字符串拼接（MySQL）</td><td><code>GROUP_CONCAT(name)</code></td></tr><tr><td><code>STRING_AGG()</code></td><td>字符串拼接（PostgreSQL）</td><td><code>STRING_AGG(name, ', ')</code></td></tr><tr><td><code>ARRAY_AGG()</code></td><td>数组聚合（PostgreSQL）</td><td><code>ARRAY_AGG(name)</code></td></tr><tr><td><code>STDDEV()</code></td><td>标准差</td><td><code>STDDEV(score)</code></td></tr><tr><td><code>VARIANCE()</code></td><td>方差</td><td><code>VARIANCE(score)</code></td></tr></tbody></table>
+
+  <pre><code>-- GROUP BY 分组聚合
+SELECT category, COUNT(*) as count, AVG(price) as avg_price
+FROM products
+GROUP BY category
+HAVING COUNT(*) &gt; 10;
+
+-- ROLLUP（小计和总计）
+SELECT category, brand, SUM(quantity) as total
+FROM products
+GROUP BY ROLLUP(category, brand);
+
+-- CUBE（所有组合）
+SELECT category, brand, SUM(quantity) as total
+FROM products
+GROUP BY CUBE(category, brand);</code></pre>
+
+  <h3>A.4.6 子查询与CTE</h3>
+
+  <pre><code>-- 子查询
+SELECT name, price
+FROM products
+WHERE price &gt; (SELECT AVG(price) FROM products);
+
+-- 相关子查询
+SELECT name, 
+       (SELECT COUNT(*) FROM orders WHERE orders.product_id = products.id) as order_count
+FROM products;
+
+-- EXISTS 子查询
+SELECT name
+FROM products p
+WHERE EXISTS (
+  SELECT 1 FROM orders o 
+  WHERE o.product_id = p.id 
+    AND o.order_date &gt;= '2024-01-01'
+);
+
+-- NOT EXISTS 子查询
+SELECT name
+FROM users u
+WHERE NOT EXISTS (
+  SELECT 1 FROM orders o 
+  WHERE o.user_id = u.id
+);
+
+-- IN 子查询
+SELECT *
+FROM products
+WHERE category IN (
+  SELECT category FROM categories WHERE is_active = true
+);
+
+-- CTE（公共表表达式）
+WITH monthly_sales AS (
+  SELECT 
+    DATE_TRUNC('month', order_date) as month,
+    SUM(total) as total_sales
+  FROM orders
+  GROUP BY DATE_TRUNC('month', order_date)
+)
+SELECT 
+  month,
+  total_sales,
+  LAG(total_sales) OVER (ORDER BY month) as previous_month,
+  ROUND((total_sales - LAG(total_sales) OVER (ORDER BY month)) * 100.0 / LAG(total_sales) OVER (ORDER BY month), 2) as growth_rate
+FROM monthly_sales;
+
+-- 多CTE
+WITH 
+  active_users AS (
+    SELECT id, name FROM users WHERE status = 'active'
+  ),
+  user_orders AS (
+    SELECT user_id, COUNT(*) as order_count 
+    FROM orders 
+    WHERE created_at &gt;= '2024-01-01'
+    GROUP BY user_id
+  )
+SELECT au.name, COALESCE(uo.order_count, 0) as orders
+FROM active_users au
+LEFT JOIN user_orders uo ON au.id = uo.user_id
+ORDER BY orders DESC;
+
+-- 递归CTE（树形结构）
+WITH RECURSIVE category_tree AS (
+  SELECT id, name, parent_id, 1 as level
+  FROM categories
+  WHERE parent_id IS NULL
+  UNION ALL
+  SELECT c.id, c.name, c.parent_id, ct.level + 1
+  FROM categories c
+  JOIN category_tree ct ON c.parent_id = ct.id
+)
+SELECT * FROM category_tree ORDER BY level, name;</code></pre>
+
+  <h3>A.4.7 窗口函数</h3>
+
+  <pre><code>-- 基本窗口函数
+SELECT 
+  name,
+  department,
+  salary,
+  AVG(salary) OVER (PARTITION BY department) as avg_dept_salary,
+  ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) as rank
+FROM employees;
+
+-- 排名函数
+SELECT 
+  name,
+  score,
+  ROW_NUMBER() OVER (ORDER BY score DESC) as row_num,
+  RANK() OVER (ORDER BY score DESC) as rank,
+  DENSE_RANK() OVER (ORDER BY score DESC) as dense_rank
+FROM students;
+
+-- LAG 和 LEAD
+SELECT 
+  date,
+  sales,
+  LAG(sales) OVER (ORDER BY date) as previous_day,
+  LEAD(sales) OVER (ORDER BY date) as next_day,
+  sales - LAG(sales) OVER (ORDER BY date) as daily_change
+FROM daily_sales;
+
+-- 累计求和
+SELECT 
+  date,
+  sales,
+  SUM(sales) OVER (ORDER BY date) as cumulative_sales,
+  SUM(sales) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) as weekly_avg
+FROM daily_sales;
+
+-- 窗口帧
+SELECT 
+  id,
+  value,
+  AVG(value) OVER (ORDER BY id ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING) as moving_avg
+FROM metrics;
+
+-- NTILE（分桶）
+SELECT 
+  name,
+  salary,
+  NTILE(4) OVER (ORDER BY salary DESC) as quartile
+FROM employees;
+
+-- FIRST_VALUE 和 LAST_VALUE
+SELECT 
+  department,
+  name,
+  salary,
+  FIRST_VALUE(salary) OVER (PARTITION BY department ORDER BY salary DESC) as highest_salary,
+  LAST_VALUE(salary) OVER (PARTITION BY department ORDER BY salary DESC ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) as lowest_salary
+FROM employees;
+
+#### A.4.8 数据库设计基础
+</code></pre>
+
+  <p>-- 创建表</p>
+
+  <p>CREATE TABLE users (</p>
+
+  <p>id SERIAL PRIMARY KEY,</p>
+
+  <p>username VARCHAR(50) NOT NULL UNIQUE,</p>
+
+  <p>email VARCHAR(100) NOT NULL UNIQUE,</p>
+
+  <p>password_hash VARCHAR(255) NOT NULL,</p>
+
+  <p>created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,</p>
+
+  <p>updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP</p>
+
+  <p>);</p>
+
+  <p>-- 添加外键约束</p>
+
+  <p>CREATE TABLE orders (</p>
+
+  <p>id SERIAL PRIMARY KEY,</p>
+
+  <p>user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,</p>
+
+  <p>total NUMERIC(10, 2) NOT NULL,</p>
+
+  <p>status VARCHAR(20) DEFAULT 'pending',</p>
+
+  <p>created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP</p>
+
+  <p>);</p>
+
+  <p>-- 创建索引</p>
+
+  <p>CREATE INDEX idx_users_email ON users(email);</p>
+
+  <p>CREATE INDEX idx_orders_user_id ON orders(user_id);</p>
+
+  <p>CREATE INDEX idx_orders_created_at ON orders(created_at);</p>
+
+  <p>-- 复合索引</p>
+
+  <p>CREATE INDEX idx_orders_user_status ON orders(user_id, status);</p>
+
+  <p>-- 唯一索引</p>
+
+  <p>CREATE UNIQUE INDEX idx_users_username ON users(username);</p>
+
+  <p>-- 视图</p>
+
+  <p>CREATE VIEW active_users AS</p>
+
+  <p>SELECT id, username, email</p>
+
+  <p>FROM users</p>
+
+  <p>WHERE created_at >= NOW() - INTERVAL '30 days';</p>
+
+  <p>-- 触发器（自动更新时间戳）</p>
+
+  <p>CREATE OR REPLACE FUNCTION update_modified_column()</p>
+
+  <p>RETURNS TRIGGER AS $$</p>
+
+  <p>BEGIN</p>
+
+  <p>NEW.updated_at = CURRENT_TIMESTAMP;</p>
+
+  <p>RETURN NEW;</p>
+
+  <p>END;</p>
+
+  <p>$$ LANGUAGE plpgsql;</p>
+
+  <p>CREATE TRIGGER update_users_modtime</p>
+
+  <p>BEFORE UPDATE ON users</p>
+
+  <p>FOR EACH ROW EXECUTE FUNCTION update_modified_column();</p>
+
+  <p>-- 存储过程</p>
+
+  <p>CREATE OR REPLACE FUNCTION get_user_orders(user_id INT)</p>
+
+  <p>RETURNS TABLE(order_id INT, total NUMERIC, status VARCHAR) AS $$</p>
+
+  <p>BEGIN</p>
+
+  <p>RETURN QUERY</p>
+
+  <p>SELECT id, total, status</p>
+
+  <p>FROM orders</p>
+
+  <p>WHERE orders.user_id = get_user_orders.user_id</p>
+
+  <p>ORDER BY created_at DESC;</p>
+
+  <p>END;</p>
+
+  <p>$$ LANGUAGE plpgsql;</p>
+
+  <p>-- 序列</p>
+
+  <p>CREATE SEQUENCE order_id_seq START WITH 1 INCREMENT BY 1;</p>
+
+  <p>-- 检查约束</p>
+
+  <p>CREATE TABLE products (</p>
+
+  <p>id SERIAL PRIMARY KEY,</p>
+
+  <p>name VARCHAR(100) NOT NULL,</p>
+
+  <p>price NUMERIC(10, 2) NOT NULL CHECK (price > 0),</p>
+
+  <p>stock INT NOT NULL CHECK (stock >= 0)</p>
+
+  <p>);</p>
+
+  <p>-- 枚举类型（PostgreSQL）</p>
+
+  <p>CREATE TYPE order_status AS ENUM ('pending', 'processing', 'completed', 'cancelled');</p>
+
+  <p>CREATE TABLE orders (</p>
+
+  <p>id SERIAL PRIMARY KEY,</p>
+
+  <p>status order_status DEFAULT 'pending'</p>
+
+  <p>);</p>
+
+  <pre><code>
+#### A.4.9 SQL 性能优化
+</code></pre>
+
+  <p>-- 避免 SELECT *</p>
+
+  <p>-- 坏</p>
+
+  <p>SELECT * FROM users;</p>
+
+  <p>-- 好</p>
+
+  <p>SELECT id, name, email FROM users;</p>
+
+  <p>-- 使用索引</p>
+
+  <p>-- 确保 WHERE 条件和 JOIN 条件上有索引</p>
+
+  <p>SELECT * FROM orders WHERE user_id = 123; -- 需要 idx_orders_user_id</p>
+
+  <p>-- 避免在索引列上使用函数</p>
+
+  <p>-- 坏（无法使用索引）</p>
+
+  <p>SELECT * FROM users WHERE UPPER(email) = 'ALICE@EXAMPLE.COM';</p>
+
+  <p>-- 好</p>
+
+  <p>SELECT * FROM users WHERE email = 'alice@example.com';</p>
+
+  <p>-- 使用 LIMIT 限制结果</p>
+
+  <p>SELECT * FROM logs ORDER BY created_at DESC LIMIT 100;</p>
+
+  <p>-- 避免 N+1 查询</p>
+
+  <p>-- 坏（N+1 查询）</p>
+
+  <p>SELECT * FROM users;</p>
+
+  <p>-- 然后对每个用户执行 SELECT * FROM orders WHERE user_id = ?</p>
+
+  <p>-- 好（JOIN 或预加载）</p>
+
+  <p>SELECT u.*, o.*</p>
+
+  <p>FROM users u</p>
+
+  <p>LEFT JOIN orders o ON u.id = o.user_id</p>
+
+  <p>WHERE u.id = 123;</p>
+
+  <p>-- 使用 EXISTS 替代 IN</p>
+
+  <p>-- 当子查询结果很大时，EXISTS 更高效</p>
+
+  <p>SELECT name</p>
+
+  <p>FROM products p</p>
+
+  <p>WHERE EXISTS (</p>
+
+  <p>SELECT 1 FROM orders o</p>
+
+  <p>WHERE o.product_id = p.id</p>
+
+  <p>);</p>
+
+  <p>-- 使用 UNION ALL 替代 UNION</p>
+
+  <p>-- UNION 会去重，UNION ALL 不会，更快</p>
+
+  <p>SELECT name FROM users</p>
+
+  <p>UNION ALL</p>
+
+  <p>SELECT name FROM admins;</p>
+
+  <p>-- 分析查询计划</p>
+
+  <p>EXPLAIN ANALYZE SELECT * FROM orders WHERE user_id = 123;</p>
+
+  <pre><code>
+---
+
+### A.5 终端命令速查
+
+#### A.5.1 文件系统操作
+
+| 命令 | 作用 | 常用示例 |
+|------|------|---------|
+| `ls` | 列出目录内容 | `ls -la`（显示所有文件） |
+| `cd` | 切换目录 | `cd projects/my-app` |
+| `pwd` | 显示当前路径 | `pwd` |
+| `mkdir` | 创建目录 | `mkdir -p a/b/c`（递归创建） |
+| `rm` | 删除文件/目录 | `rm -rf dir`（⚠️ 慎用） |
+| `cp` | 复制 | `cp file.txt backup/` |
+| `mv` | 移动/重命名 | `mv old.txt new.txt` |
+| `touch` | 创建空文件 | `touch app.js` |
+| `cat` | 查看文件内容 | `cat file.txt` |
+| `less` | 分页查看 | `less file.txt` |
+| `head` | 查看文件开头 | `head -20 file.txt` |
+| `tail` | 查看文件末尾 | `tail -f log.txt`（实时监控） |
+| `find` | 查找文件 | `find . -name "*.py"` |
+| `grep` | 搜索文本 | `grep "error" log.txt` |
+| `ln` | 创建链接 | `ln -s target linkname`（软链接） |
+| `chmod` | 修改权限 | `chmod 755 script.sh` |
+| `chown` | 修改所有者 | `chown user:group file.txt` |
+| `du` | 查看目录大小 | `du -sh .`（人类可读） |
+| `df` | 查看磁盘空间 | `df -h`（人类可读） |
+
+#### A.5.2 搜索与文本处理
+
+| 命令 | 作用 | 常用示例 |
+|------|------|---------|
+| `grep` | 搜索文本 | `grep "error" log.txt` |
+| `grep -r` | 递归搜索 | `grep -r "TODO" .` |
+| `grep -i` | 忽略大小写 | `grep -i "Error" log.txt` |
+| `grep -v` | 反向匹配 | `grep -v "DEBUG" log.txt` |
+| `find` | 查找文件 | `find . -name "*.py"` |
+| `find -type f` | 查找文件（非目录） | `find . -type f -name "*.js"` |
+| `sed` | 文本替换 | `sed 's/old/new/g' file.txt` |
+| `sed -i` | 原地替换 | `sed -i 's/old/new/g' file.txt` |
+| `awk` | 文本处理 | `awk '{print $1}' file.txt` |
+| `cut` | 提取字段 | `cut -d',' -f1 file.csv` |
+| `sort` | 排序 | `sort file.txt` |
+| `sort -r` | 反向排序 | `sort -r file.txt` |
+| `uniq` | 去重 | `sort file.txt \| uniq` |
+| `wc` | 统计 | `wc -l file.txt`（行数） |
+| `tr` | 字符替换 | `tr '[:lower:]' '[:upper:]'` |
+| `cut` | 截取 | `cut -c 1-10 file.txt` |
+
+#### A.5.3 网络与进程
+
+| 命令 | 作用 | 常用示例 |
+|------|------|---------|
+| `curl` | HTTP 请求 | `curl https://api.example.com` |
+| `curl -X POST` | POST 请求 | `curl -X POST -d '{"name":"Alice"}' https://api.example.com` |
+| `curl -H` | 添加请求头 | `curl -H "Authorization: Bearer token" https://api.example.com` |
+| `wget` | 下载文件 | `wget https://example.com/file.zip` |
+| `ps` | 查看进程 | `ps aux` |
+| `ps aux \| grep` | 查找进程 | `ps aux \| grep node` |
+| `kill` | 终止进程 | `kill -9 PID` |
+| `killall` | 终止所有同名进程 | `killall node` |
+| `netstat` | 网络状态 | `netstat -tlnp` |
+| `ss` | 网络连接 | `ss -tlnp`（比 netstat 更快） |
+| `ping` | 网络连通性 | `ping google.com` |
+| `dig` | DNS 查询 | `dig example.com` |
+| `nslookup` | DNS 查询 | `nslookup example.com` |
+| `traceroute` | 路由追踪 | `traceroute google.com` |
+| `mtr` | 网络诊断 | `mtr google.com` |
+
+#### A.5.4 文件内容操作
+</code></pre>
+
+  <h1>查看文件内容</h1>
+
+  <p>cat file.txt          # 显示全部内容</p>
+
+  <p>less file.txt         # 分页查看（按 q 退出）</p>
+
+  <p>head -20 file.txt     # 查看前20行</p>
+
+  <p>tail -20 file.txt     # 查看后20行</p>
+
+  <p>tail -f log.txt       # 实时监控文件</p>
+
+  <h1>编辑文件</h1>
+
+  <p>nano file.txt         # 简单编辑器</p>
+
+  <p>vim file.txt          # 强大编辑器</p>
+
+  <h1>比较文件</h1>
+
+  <p>diff file1.txt file2.txt    # 显示差异</p>
+
+  <p>diff -u file1.txt file2.txt # 统一格式</p>
+
+  <p>comm file1.txt file2.txt    # 逐行比较</p>
+
+  <h1>文件压缩</h1>
+
+  <p>tar -czvf archive.tar.gz dir/   # 创建压缩包</p>
+
+  <p>tar -xzvf archive.tar.gz       # 解压压缩包</p>
+
+  <p>zip archive.zip file1.txt file2.txt  # 创建 zip</p>
+
+  <p>unzip archive.zip              # 解压 zip</p>
+
+  <h1>文件权限</h1>
+
+  <p>chmod 755 script.sh   # rwxr-xr-x</p>
+
+  <p>chmod +x script.sh    # 添加执行权限</p>
+
+  <p>chmod -w file.txt     # 移除写权限</p>
+
+  <pre><code>
+#### A.5.5 系统信息
+
+| 命令 | 作用 | 常用示例 |
+|------|------|---------|
+| `uname` | 系统信息 | `uname -a` |
+| `whoami` | 当前用户 | `whoami` |
+| `date` | 当前时间 | `date` |
+| `uptime` | 系统运行时间 | `uptime` |
+| `free` | 内存使用 | `free -h` |
+| `top` | 进程监控 | `top` |
+| `htop` | 进程监控（更友好） | `htop` |
+| `df` | 磁盘空间 | `df -h` |
+| `du` | 目录大小 | `du -sh .` |
+
+---
+
+### A.6 Git 常用命令
+
+#### A.6.1 基础命令
+
+| 命令 | 作用 | 示例 |
+|------|------|------|
+| `git init` | 初始化仓库 | `git init my-project` |
+| `git clone` | 克隆仓库 | `git clone https://github.com/user/repo.git` |
+| `git add` | 暂存文件 | `git add .` 或 `git add file.txt` |
+| `git commit` | 提交变更 | `git commit -m "feat: add new feature"` |
+| `git push` | 推送到远程 | `git push origin main` |
+| `git pull` | 拉取更新 | `git pull origin main` |
+| `git branch` | 分支管理 | `git branch -a`（查看所有分支） |
+| `git checkout` | 切换分支 | `git checkout feature-branch` |
+| `git merge` | 合并分支 | `git merge feature-branch` |
+| `git status` | 查看状态 | `git status` |
+| `git log` | 查看提交历史 | `git log --oneline` |
+| `git diff` | 查看变更 | `git diff` |
+| `git reset` | 撤销暂存 | `git reset HEAD file.txt` |
+| `git revert` | 撤销提交 | `git revert &lt;commit-hash&gt;` |
+
+#### A.6.2 Git 工作流示例
+</code></pre>
+
+  <h1>创建新功能分支</h1>
+
+  <p>git checkout -b feature/login</p>
+
+  <h1>修改文件后暂存</h1>
+
+  <p>git add .</p>
+
+  <h1>提交（遵循 Conventional Commits）</h1>
+
+  <p>git commit -m "feat(auth): add login page with OAuth"</p>
+
+  <h1>推送分支到远程</h1>
+
+  <p>git push -u origin feature/login</p>
+
+  <h1>拉取最新主分支</h1>
+
+  <p>git checkout main</p>
+
+  <p>git pull origin main</p>
+
+  <h1>合并分支（或创建 Pull Request）</h1>
+
+  <p>git checkout feature/login</p>
+
+  <p>git merge main</p>
+
+  <h1>解决冲突后提交</h1>
+
+  <p>git add .</p>
+
+  <p>git commit -m "fix: resolve merge conflicts"</p>
+
+  <h1>删除本地分支</h1>
+
+  <p>git checkout main</p>
+
+  <p>git branch -d feature/login</p>
+
+  <h1>删除远程分支</h1>
+
+  <p>git push origin --delete feature/login</p>
+
+  <pre><code>
+#### A.6.3 Git 配置
+</code></pre>
+
+  <h1>配置用户信息</h1>
+
+  <p>git config --global user.name "Your Name"</p>
+
+  <p>git config --global user.email "you@example.com"</p>
+
+  <h1>设置默认分支名</h1>
+
+  <p>git config --global init.defaultBranch main</p>
+
+  <h1>设置编辑器</h1>
+
+  <p>git config --global core.editor "code --wait"</p>
+
+  <h1>设置别名</h1>
+
+  <p>git config --global alias.st status</p>
+
+  <p>git config --global alias.ci commit</p>
+
+  <p>git config --global alias.co checkout</p>
+
+  <p>git config --global alias.br branch</p>
+
+  <p>git config --global alias.unstage "reset HEAD --"</p>
+
+  <p>git config --global alias.last "log -1 HEAD"</p>
+
+  <h1>查看配置</h1>
+
+  <p>git config --list --global</p>
+
+  <h1>配置行尾符</h1>
+
+  <p>git config --global core.autocrlf true  # Windows</p>
+
+  <p>git config --global core.autocrlf input  # macOS/Linux</p>
+
+  <h1>配置缓存时间</h1>
+
+  <p>git config --global credential.helper cache --timeout=3600</p>
+
+  <pre><code>
+#### A.6.4 Git 高级操作
+</code></pre>
+
+  <h1>交互式暂存</h1>
+
+  <p>git add -i</p>
+
+  <h1>撤销工作区修改</h1>
+
+  <p>git checkout -- file.txt</p>
+
+  <h1>修改最后一次提交</h1>
+
+  <p>git add .</p>
+
+  <p>git commit --amend</p>
+
+  <h1>合并多个提交</h1>
+
+  <p>git rebase -i HEAD~3</p>
+
+  <h1>创建标签</h1>
+
+  <p>git tag -v1.0.0</p>
+
+  <p>git push origin v1.0.0</p>
+
+  <h1>查看远程仓库</h1>
+
+  <p>git remote -v</p>
+
+  <h1>添加远程仓库</h1>
+
+  <p>git remote add upstream https://github.com/original/repo.git</p>
+
+  <h1>拉取上游更新</h1>
+
+  <p>git fetch upstream</p>
+
+  <p>git merge upstream/main</p>
+
+  <h1>清理未跟踪文件</h1>
+
+  <p>git clean -f</p>
+
+  <h1>强制推送（谨慎使用）</h1>
+
+  <p>git push origin main --force</p>
+
+  <h1>查看文件历史</h1>
+
+  <p>git log --oneline --follow -- file.txt</p>
+
+  <h1>显示分支图</h1>
+
+  <p>git log --oneline --graph --all</p>
+
+  <h1>暂存当前工作</h1>
+
+  <p>git stash</p>
+
+  <p>git stash list</p>
+
+  <p>git stash apply</p>
+
+  <p>git stash drop</p>
+
+  <p>git stash pop</p>
+
+  <h1>恢复删除的文件</h1>
+
+  <p>git checkout <commit-hash> -- file.txt</p>
+
+  <h1>清理本地过期分支</h1>
+
+  <p>git fetch --prune</p>
+
+  <p>git branch --merged | grep -v "\*" | xargs -n 1 git branch -d</p>
+
+  <pre><code>
+#### A.6.5 .gitignore 模板
+</code></pre>
+
+  <h1>Node.js</h1>
+
+  <p>node_modules/</p>
+
+  <p>npm-debug.log*</p>
+
+  <p>yarn-debug.log*</p>
+
+  <p>yarn-error.log*</p>
+
+  <p>.DS_Store</p>
+
+  <h1>环境变量</h1>
+
+  <p>.env</p>
+
+  <p>.env.local</p>
+
+  <p>.env.*.local</p>
+
+  <h1>构建输出</h1>
+
+  <p>dist/</p>
+
+  <p>build/</p>
+
+  <p>.next/</p>
+
+  <p>out/</p>
+
+  <p>.vite/</p>
+
+  <h1>编辑器</h1>
+
+  <p>.vscode/</p>
+
+  <p>.idea/</p>
+
+  <p>*.swp</p>
+
+  <p>*.swo</p>
+
+  <p>*~</p>
+
+  <h1>测试覆盖</h1>
+
+  <p>coverage/</p>
+
+  <p>.nyc_output/</p>
+
+  <h1>日志</h1>
+
+  <p>*.log</p>
+
+  <p>logs/</p>
+
+  <h1>数据库</h1>
+
+  <p>*.sqlite</p>
+
+  <p>*.db</p>
+
+  <h1>OS</h1>
+
+  <p>Thumbs.db</p>
+
+  <p>ehthumbs.db</p>
+
+  <p>Icon?</p>
+
+  <p>._*</p>
+
+  <h1>包管理</h1>
+
+  <p>pnpm-lock.yaml</p>
+
+  <p>package-lock.json</p>
+
+  <p>yarn.lock</p>
+
+  <pre><code>
+---
+
+### A.7 Docker 常用命令
+
+#### A.7.1 镜像操作
+
+| 命令 | 作用 | 示例 |
+|------|------|------|
+| `docker pull` | 拉取镜像 | `docker pull nginx:latest` |
+| `docker build` | 构建镜像 | `docker build -t myapp .` |
+| `docker images` | 列出镜像 | `docker images` |
+| `docker rmi` | 删除镜像 | `docker rmi nginx:latest` |
+| `docker tag` | 打标签 | `docker tag myapp:latest myapp:v1.0` |
+| `docker push` | 推送镜像 | `docker push myapp:latest` |
+
+#### A.7.2 容器操作
+
+| 命令 | 作用 | 示例 |
+|------|------|------|
+| `docker run` | 运行容器 | `docker run -d -p 80:80 nginx` |
+| `docker ps` | 列出运行中容器 | `docker ps` |
+| `docker ps -a` | 列出所有容器 | `docker ps -a` |
+| `docker stop` | 停止容器 | `docker stop &lt;container-id&gt;` |
+| `docker start` | 启动容器 | `docker start &lt;container-id&gt;` |
+| `docker rm` | 删除容器 | `docker rm &lt;container-id&gt;` |
+| `docker exec` | 进入容器 | `docker exec -it &lt;container-id&gt; bash` |
+| `docker logs` | 查看日志 | `docker logs -f &lt;container-id&gt;` |
+| `docker inspect` | 查看容器详情 | `docker inspect &lt;container-id&gt;` |
+
+#### A.7.3 Docker Compose
+</code></pre>
+
+  <h1>docker-compose.yml</h1>
+
+  <p>version: '3.8'</p>
+
+  <p>services:</p>
+
+  <p>web:</p>
+
+  <p>build: .</p>
+
+  <p>ports:</p>
+
+  <ul>
+<li>"3000:3000"</li>
+</ul>
+
+  <p>environment:</p>
+
+  <ul>
+<li>NODE_ENV=production</li>
+<li>DATABASE_URL=postgres://db:5432/mydb</li>
+</ul>
+
+  <p>depends_on:</p>
+
+  <ul>
+<li>db</li>
+</ul>
+
+  <p>volumes:</p>
+
+  <ul>
+<li>.:/app</li>
+</ul>
+
+  <p>db:</p>
+
+  <p>image: postgres:15</p>
+
+  <p>volumes:</p>
+
+  <ul>
+<li>postgres_data:/var/lib/postgresql/data</li>
+</ul>
+
+  <p>environment:</p>
+
+  <ul>
+<li>POSTGRES_DB=mydb</li>
+<li>POSTGRES_USER=admin</li>
+<li>POSTGRES_PASSWORD=secret</li>
+</ul>
+
+  <p>volumes:</p>
+
+  <p>postgres_data:</p>
+
+  <pre><code></code></pre>
+
+  <h1>启动服务</h1>
+
+  <p>docker-compose up -d</p>
+
+  <h1>查看日志</h1>
+
+  <p>docker-compose logs -f</p>
+
+  <h1>停止服务</h1>
+
+  <p>docker-compose down</p>
+
+  <h1>重建服务</h1>
+
+  <p>docker-compose up -d --build</p>
+
+  <h1>进入容器</h1>
+
+  <p>docker-compose exec web bash</p>
+
+  <h1>查看服务状态</h1>
+
+  <p>docker-compose ps</p>
+
+  <pre><code>
+---
+
+### A.8 JavaScript/TypeScript 高级特性
+
+#### A.8.1 异步编程进阶
+</code></pre>
+
+  <p>// Promise.allSettled 处理多个可能失败的操作</p>
+
+  <p>async function fetchMultipleUrls(urls: string[]) {</p>
+
+  <p>const results = await Promise.allSettled(</p>
+
+  <p>urls.map(url => fetch(url).then(r => r.json()))</p>
+
+  <p>);</p>
+
+  <p>const successes = results</p>
+
+  <p>.filter(r => r.status === 'fulfilled')</p>
+
+  <p>.map(r => (r as PromiseFulfilledResult<any>).value);</p>
+
+  <p>const failures = results</p>
+
+  <p>.filter(r => r.status === 'rejected')</p>
+
+  <p>.map(r => (r as PromiseRejectedResult).reason);</p>
+
+  <p>return { successes, failures };</p>
+
+  <p>}</p>
+
+  <p>// 使用 AbortController 取消请求</p>
+
+  <p>async function fetchWithCancel(url: string, signal: AbortSignal) {</p>
+
+  <p>const response = await fetch(url, { signal });</p>
+
+  <p>return response.json();</p>
+
+  <p>}</p>
+
+  <p>const controller = new AbortController();</p>
+
+  <p>fetchWithCancel('/api/data', controller.signal);</p>
+
+  <p>controller.abort(); // 取消请求</p>
+
+  <p>// 异步生成器</p>
+
+  <p>async function* paginatedFetch(url: string) {</p>
+
+  <p>let nextUrl = url;</p>
+
+  <p>while (nextUrl) {</p>
+
+  <p>const response = await fetch(nextUrl);</p>
+
+  <p>const data = await response.json();</p>
+
+  <p>yield data.results;</p>
+
+  <p>nextUrl = data.next;</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>// 并发任务限制</p>
+
+  <p>async function limitedConcurrency<T>(</p>
+
+  <p>tasks: (() => Promise<T>)[],</p>
+
+  <p>limit: number</p>
+
+  <p>): Promise<T[]> {</p>
+
+  <p>const results: T[] = [];</p>
+
+  <p>const executing = new Set<Promise<T>>();</p>
+
+  <p>for (const task of tasks) {</p>
+
+  <p>const promise = task().then(result => {</p>
+
+  <p>executing.delete(promise);</p>
+
+  <p>return result;</p>
+
+  <p>});</p>
+
+  <p>executing.add(promise);</p>
+
+  <p>results.push(promise);</p>
+
+  <p>if (executing.size >= limit) {</p>
+
+  <p>await Promise.race(executing);</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>return Promise.all(results);</p>
+
+  <p>}</p>
+
+  <pre><code>
+#### A.8.2 元编程与反射
+</code></pre>
+
+  <p>// Proxy 拦截对象操作</p>
+
+  <p>const validator = {</p>
+
+  <p>get(target: object, prop: string) {</p>
+
+  <p>if (!(prop in target)) {</p>
+
+  <p>throw new Error(<code>Property "${prop}" does not exist</code>);</p>
+
+  <p>}</p>
+
+  <p>return target[prop as keyof typeof target];</p>
+
+  <p>},</p>
+
+  <p>set(target: object, prop: string, value: any) {</p>
+
+  <p>if (prop === 'age' && (typeof value !== 'number' || value < 0)) {</p>
+
+  <p>throw new Error('Age must be a positive number');</p>
+
+  <p>}</p>
+
+  <p>target[prop as keyof typeof target] = value;</p>
+
+  <p>return true;</p>
+
+  <p>}</p>
+
+  <p>};</p>
+
+  <p>const person = new Proxy({ name: 'Alice', age: 30 }, validator);</p>
+
+  <p>// Reflect API</p>
+
+  <p>const obj = { a: 1, b: 2 };</p>
+
+  <p>Reflect.get(obj, 'a');           // 1</p>
+
+  <p>Reflect.set(obj, 'c', 3);       // true</p>
+
+  <p>Reflect.has(obj, 'b');          // true</p>
+
+  <p>Reflect.deleteProperty(obj, 'c'); // true</p>
+
+  <p>Reflect.ownKeys(obj);           // ['a', 'b']</p>
+
+  <p>// 动态属性访问</p>
+
+  <p>const propertyName = 'age';</p>
+
+  <p>Reflect.get(person, propertyName); // 30</p>
+
+  <p>// 类装饰器工厂</p>
+
+  <p>function configurable(value: boolean) {</p>
+
+  <p>return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {</p>
+
+  <p>descriptor.configurable = value;</p>
+
+  <p>};</p>
+
+  <p>}</p>
+
+  <p>// Mixin 模式</p>
+
+  <p>type Constructor<T = {}> = new (...args: any[]) => T;</p>
+
+  <p>function Timestamped<TBase extends Constructor>(Base: TBase) {</p>
+
+  <p>return class extends Base {</p>
+
+  <p>createdAt = new Date();</p>
+
+  <p>updatedAt = new Date();</p>
+
+  <p>save() {</p>
+
+  <p>this.updatedAt = new Date();</p>
+
+  <p>// 保存逻辑</p>
+
+  <p>}</p>
+
+  <p>};</p>
+
+  <p>}</p>
+
+  <p>class User {</p>
+
+  <p>constructor(public name: string) {}</p>
+
+  <p>}</p>
+
+  <p>const TimestampedUser = Timestamped(User);</p>
+
+  <pre><code>
+#### A.8.3 错误处理与调试
+</code></pre>
+
+  <p>// 自定义错误类</p>
+
+  <p>class AppError extends Error {</p>
+
+  <p>constructor(</p>
+
+  <p>public message: string,</p>
+
+  <p>public code: string,</p>
+
+  <p>public statusCode: number = 500</p>
+
+  <p>) {</p>
+
+  <p>super(message);</p>
+
+  <p>this.name = 'AppError';</p>
+
+  <p>Error.captureStackTrace(this, this.constructor);</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>// 使用 try-catch-finally</p>
+
+  <p>async function safeOperation() {</p>
+
+  <p>let resource;</p>
+
+  <p>try {</p>
+
+  <p>resource = await acquireResource();</p>
+
+  <p>return await resource.process();</p>
+
+  <p>} catch (error) {</p>
+
+  <p>console.error('Operation failed:', error);</p>
+
+  <p>throw new AppError('Operation failed', 'OPERATION_FAILED');</p>
+
+  <p>} finally {</p>
+
+  <p>if (resource) {</p>
+
+  <p>await resource.release();</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>// 错误边界（React）</p>
+
+  <p>class ErrorBoundary extends React.Component {</p>
+
+  <p>state = { hasError: false, error: null };</p>
+
+  <p>static getDerivedStateFromError(error: Error) {</p>
+
+  <p>return { hasError: true, error };</p>
+
+  <p>}</p>
+
+  <p>componentDidCatch(error: Error, info: React.ErrorInfo) {</p>
+
+  <p>console.error('Error caught:', error, info);</p>
+
+  <p>}</p>
+
+  <p>render() {</p>
+
+  <p>if (this.state.hasError) {</p>
+
+  <p>return <FallbackComponent error={this.state.error} />;</p>
+
+  <p>}</p>
+
+  <p>return this.props.children;</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>// 调试技巧</p>
+
+  <p>function debugLog(...args: any[]) {</p>
+
+  <p>if (process.env.NODE_ENV === 'development') {</p>
+
+  <p>console.log('[DEBUG]', ...args);</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>// 性能监控</p>
+
+  <p>function measurePerformance(label: string) {</p>
+
+  <p>const start = performance.now();</p>
+
+  <p>return {</p>
+
+  <p>end: () => {</p>
+
+  <p>const duration = performance.now() - start;</p>
+
+  <p>console.log(<code>${label} took ${duration.toFixed(2)}ms</code>);</p>
+
+  <p>return duration;</p>
+
+  <p>}</p>
+
+  <p>};</p>
+
+  <p>}</p>
+
+  <pre><code>
+---
+
+### A.9 Python 高级特性
+
+#### A.9.1 元类编程
+</code></pre>
+
+  <h1>简单元类</h1>
+
+  <p>class SingletonMeta(type):</p>
+
+  <p>_instances = {}</p>
+
+  <p>def __call__(cls, *args, **kwargs):</p>
+
+  <p>if cls not in cls._instances:</p>
+
+  <p>cls._instances[cls] = super().__call__(*args, **kwargs)</p>
+
+  <p>return cls._instances[cls]</p>
+
+  <p>class Database(metaclass=SingletonMeta):</p>
+
+  <p>def __init__(self):</p>
+
+  <p>self.connection = None</p>
+
+  <h1>元类验证</h1>
+
+  <p>class ValidateMeta(type):</p>
+
+  <p>def __new__(cls, name, bases, attrs):</p>
+
+  <h1>验证类属性</h1>
+
+  <p>if 'required' in attrs:</p>
+
+  <p>if not isinstance(attrs['required'], list):</p>
+
+  <p>raise TypeError("required must be a list")</p>
+
+  <p>return super().__new__(cls, name, bases, attrs)</p>
+
+  <p>class Model(metaclass=ValidateMeta):</p>
+
+  <p>required = ['name', 'id']</p>
+
+  <pre><code>
+#### A.9.2 上下文管理器进阶
+</code></pre>
+
+  <p>from contextlib import contextmanager, ExitStack</p>
+
+  <h1>嵌套上下文管理器</h1>
+
+  <p>@contextmanager</p>
+
+  <p>def nested_contexts():</p>
+
+  <p>with open('file1.txt') as f1, open('file2.txt') as f2:</p>
+
+  <p>yield (f1, f2)</p>
+
+  <h1>使用 ExitStack 管理动态数量的上下文</h1>
+
+  <p>def process_files(file_paths):</p>
+
+  <p>with ExitStack() as stack:</p>
+
+  <p>files = [stack.enter_context(open(path)) for path in file_paths]</p>
+
+  <p>return [f.read() for f in files]</p>
+
+  <h1>抑制异常</h1>
+
+  <p>from contextlib import suppress</p>
+
+  <p>with suppress(FileNotFoundError):</p>
+
+  <p>os.remove('non_existent_file.txt')</p>
+
+  <pre><code>
+#### A.9.3 并发编程
+</code></pre>
+
+  <h1>线程池</h1>
+
+  <p>from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor</p>
+
+  <p>def fetch_url(url):</p>
+
+  <p>import requests</p>
+
+  <p>return requests.get(url).text</p>
+
+  <h1>线程池（IO密集型任务）</h1>
+
+  <p>with ThreadPoolExecutor(max_workers=10) as executor:</p>
+
+  <p>results = list(executor.map(fetch_url, urls))</p>
+
+  <h1>进程池（CPU密集型任务）</h1>
+
+  <p>with ProcessPoolExecutor(max_workers=4) as executor:</p>
+
+  <p>results = list(executor.map(compute_intensive_task, data))</p>
+
+  <h1>异步线程池</h1>
+
+  <p>async def async_fetch(urls):</p>
+
+  <p>loop = asyncio.get_event_loop()</p>
+
+  <p>with ThreadPoolExecutor() as pool:</p>
+
+  <p>tasks = [loop.run_in_executor(pool, fetch_url, url) for url in urls]</p>
+
+  <p>return await asyncio.gather(*tasks)</p>
+
+  <pre><code>
+#### A.9.4 装饰器进阶
+</code></pre>
+
+  <h1>类装饰器</h1>
+
+  <p>class timer_decorator:</p>
+
+  <p>def __init__(self, func):</p>
+
+  <p>self.func = func</p>
+
+  <p>self.call_count = 0</p>
+
+  <p>def __call__(self, *args, **kwargs):</p>
+
+  <p>self.call_count += 1</p>
+
+  <p>import time</p>
+
+  <p>start = time.time()</p>
+
+  <p>result = self.func(*args, **kwargs)</p>
+
+  <p>elapsed = time.time() - start</p>
+
+  <p>print(f"{self.func.__name__} called {self.call_count} times, took {elapsed:.2f}s")</p>
+
+  <p>return result</p>
+
+  <h1>参数化装饰器</h1>
+
+  <p>def repeat(times: int):</p>
+
+  <p>def decorator(func):</p>
+
+  <p>def wrapper(*args, **kwargs):</p>
+
+  <p>results = []</p>
+
+  <p>for _ in range(times):</p>
+
+  <p>results.append(func(*args, **kwargs))</p>
+
+  <p>return results</p>
+
+  <p>return wrapper</p>
+
+  <p>return decorator</p>
+
+  <h1>装饰器组合</h1>
+
+  <p>@timer_decorator</p>
+
+  <p>@repeat(times=3)</p>
+
+  <p>def expensive_operation():</p>
+
+  <h1>...</h1>
+
+  <p>pass</p>
+
+  <h1>装饰器用于缓存</h1>
+
+  <p>from functools import lru_cache</p>
+
+  <p>@lru_cache(maxsize=128)</p>
+
+  <p>def fibonacci(n: int) -> int:</p>
+
+  <p>if n < 2:</p>
+
+  <p>return n</p>
+
+  <p>return fibonacci(n-1) + fibonacci(n-2)</p>
+
+  <pre><code>
+---
+
+### A.10 SQL 高级查询
+
+#### A.10.1 递归查询
+</code></pre>
+
+  <p>-- 树形结构遍历</p>
+
+  <p>WITH RECURSIVE category_hierarchy AS (</p>
+
+  <p>SELECT</p>
+
+  <p>id,</p>
+
+  <p>name,</p>
+
+  <p>parent_id,</p>
+
+  <p>1 as level,</p>
+
+  <p>ARRAY[id] as path</p>
+
+  <p>FROM categories</p>
+
+  <p>WHERE parent_id IS NULL</p>
+
+  <p>UNION ALL</p>
+
+  <p>SELECT</p>
+
+  <p>c.id,</p>
+
+  <p>c.name,</p>
+
+  <p>c.parent_id,</p>
+
+  <p>ch.level + 1,</p>
+
+  <p>ch.path || c.id</p>
+
+  <p>FROM categories c</p>
+
+  <p>JOIN category_hierarchy ch ON c.parent_id = ch.id</p>
+
+  <p>)</p>
+
+  <p>SELECT * FROM category_hierarchy ORDER BY path;</p>
+
+  <p>-- 层级路径</p>
+
+  <p>WITH RECURSIVE path_builder AS (</p>
+
+  <p>SELECT</p>
+
+  <p>id,</p>
+
+  <p>name,</p>
+
+  <p>parent_id,</p>
+
+  <p>name as full_path</p>
+
+  <p>FROM categories</p>
+
+  <p>WHERE parent_id IS NULL</p>
+
+  <p>UNION ALL</p>
+
+  <p>SELECT</p>
+
+  <p>c.id,</p>
+
+  <p>c.name,</p>
+
+  <p>c.parent_id,</p>
+
+  <p>pb.full_path || ' > ' || c.name</p>
+
+  <p>FROM categories c</p>
+
+  <p>JOIN path_builder pb ON c.parent_id = pb.id</p>
+
+  <p>)</p>
+
+  <p>SELECT * FROM path_builder;</p>
+
+  <pre><code>
+#### A.10.2 窗口函数进阶
+</code></pre>
+
+  <p>-- 累计求和与移动平均</p>
+
+  <p>SELECT</p>
+
+  <p>date,</p>
+
+  <p>sales,</p>
+
+  <p>SUM(sales) OVER (ORDER BY date) as cumulative_sales,</p>
+
+  <p>AVG(sales) OVER (ORDER BY date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) as weekly_avg,</p>
+
+  <p>AVG(sales) OVER (ORDER BY date RANGE BETWEEN INTERVAL '7 days' PRECEDING AND CURRENT ROW) as rolling_7d_avg</p>
+
+  <p>FROM daily_sales;</p>
+
+  <p>-- 同比分析</p>
+
+  <p>WITH monthly_sales AS (</p>
+
+  <p>SELECT</p>
+
+  <p>DATE_TRUNC('month', sale_date) as month,</p>
+
+  <p>SUM(amount) as total_sales</p>
+
+  <p>FROM sales</p>
+
+  <p>GROUP BY DATE_TRUNC('month', sale_date)</p>
+
+  <p>)</p>
+
+  <p>SELECT</p>
+
+  <p>month,</p>
+
+  <p>total_sales,</p>
+
+  <p>LAG(total_sales, 12) OVER (ORDER BY month) as sales_last_year,</p>
+
+  <p>ROUND((total_sales - LAG(total_sales, 12) OVER (ORDER BY month)) * 100.0 / NULLIF(LAG(total_sales, 12) OVER (ORDER BY month), 0), 2) as yoy_growth_pct</p>
+
+  <p>FROM monthly_sales;</p>
+
+  <p>-- 百分位数</p>
+
+  <p>SELECT</p>
+
+  <p>id,</p>
+
+  <p>value,</p>
+
+  <p>PERCENT_RANK() OVER (ORDER BY value) as percent_rank,</p>
+
+  <p>CUME_DIST() OVER (ORDER BY value) as cumulative_distribution,</p>
+
+  <p>NTILE(100) OVER (ORDER BY value) as percentile</p>
+
+  <p>FROM metrics;</p>
+
+  <pre><code>
+#### A.10.3 性能优化进阶
+</code></pre>
+
+  <p>-- 覆盖索引（包含所有查询字段）</p>
+
+  <p>CREATE INDEX idx_users_name_email ON users(name) INCLUDE (email, created_at);</p>
+
+  <p>-- 部分索引</p>
+
+  <p>CREATE INDEX idx_active_users ON users(id) WHERE status = 'active';</p>
+
+  <p>-- 表达式索引</p>
+
+  <p>CREATE INDEX idx_users_email_lower ON users(LOWER(email));</p>
+
+  <p>-- 物化视图</p>
+
+  <p>CREATE MATERIALIZED VIEW daily_sales_summary AS</p>
+
+  <p>SELECT</p>
+
+  <p>DATE_TRUNC('day', sale_date) as day,</p>
+
+  <p>SUM(amount) as total_sales,</p>
+
+  <p>COUNT(DISTINCT customer_id) as unique_customers</p>
+
+  <p>FROM sales</p>
+
+  <p>GROUP BY DATE_TRUNC('day', sale_date);</p>
+
+  <p>-- 刷新物化视图</p>
+
+  <p>REFRESH MATERIALIZED VIEW daily_sales_summary;</p>
+
+  <p>-- 并行查询</p>
+
+  <p>SET max_parallel_workers_per_gather = 4;</p>
+
+  <p>-- 查询重写优化</p>
+
+  <p>-- 原查询</p>
+
+  <p>SELECT * FROM orders WHERE EXTRACT(YEAR FROM created_at) = 2024;</p>
+
+  <p>-- 优化后（可以使用索引）</p>
+
+  <p>SELECT * FROM orders</p>
+
+  <p>WHERE created_at >= '2024-01-01' AND created_at < '2025-01-01';</p>
+
+  <p>-- 使用 CTE 优化复杂查询</p>
+
+  <p>WITH recent_users AS (</p>
+
+  <p>SELECT id FROM users WHERE created_at >= NOW() - INTERVAL '30 days'</p>
+
+  <p>),</p>
+
+  <p>user_orders AS (</p>
+
+  <p>SELECT user_id, COUNT(*) as order_count FROM orders GROUP BY user_id</p>
+
+  <p>)</p>
+
+  <p>SELECT ru.id, COALESCE(uo.order_count, 0) as orders</p>
+
+  <p>FROM recent_users ru</p>
+
+  <p>LEFT JOIN user_orders uo ON ru.id = uo.user_id;</p>
+
+  <pre><code>
+---
+
+### A.11 终端命令进阶
+
+#### A.11.1 高级搜索与过滤
+</code></pre>
+
+  <h1>查找包含特定模式的文件</h1>
+
+  <p>grep -r "TODO" --include="*.ts" .</p>
+
+  <h1>查找大文件</h1>
+
+  <p>find . -type f -size +100M -exec ls -lh {} \;</p>
+
+  <h1>查找最近修改的文件</h1>
+
+  <p>find . -type f -mtime -7 -exec ls -la {} \;</p>
+
+  <h1>搜索并替换多个文件</h1>
+
+  <p>grep -l "old-text" --include="*.md" . | xargs sed -i 's/old-text/new-text/g'</p>
+
+  <h1>统计代码行数</h1>
+
+  <p>find . -name "*.ts" -o -name "*.tsx" | xargs wc -l</p>
+
+  <h1>排除目录搜索</h1>
+
+  <p>grep -r "pattern" . --exclude-dir=node_modules --exclude-dir=.git</p>
+
+  <h1>正则表达式搜索</h1>
+
+  <p>grep -E "^[A-Z].*[.!?]$" file.txt</p>
+
+  <h1>显示匹配上下文</h1>
+
+  <p>grep -A 5 -B 5 "error" log.txt</p>
+
+  <pre><code>
+#### A.11.2 进程管理
+</code></pre>
+
+  <h1>查看进程树</h1>
+
+  <p>pstree -p</p>
+
+  <h1>查找端口占用</h1>
+
+  <p>lsof -i :3000</p>
+
+  <p>ss -tlnp | grep 3000</p>
+
+  <h1>终止端口占用进程</h1>
+
+  <p>kill -9 $(lsof -t -i :3000)</p>
+
+  <h1>后台运行命令</h1>
+
+  <p>nohup node server.js &</p>
+
+  <h1>查看后台任务</h1>
+
+  <p>jobs</p>
+
+  <h1>前台/后台切换</h1>
+
+  <p>fg %1</p>
+
+  <p>bg %1</p>
+
+  <h1>进程资源监控</h1>
+
+  <p>top -p <PID></p>
+
+  <p>htop</p>
+
+  <pre><code>
+#### A.11.3 文件操作进阶
+</code></pre>
+
+  <h1>批量重命名</h1>
+
+  <p>for f in *.txt; do mv "$f" "${f%.txt}.md"; done</p>
+
+  <h1>创建符号链接</h1>
+
+  <p>ln -s /path/to/original /path/to/link</p>
+
+  <h1>比较目录差异</h1>
+
+  <p>diff -r dir1 dir2</p>
+
+  <h1>批量修改文件权限</h1>
+
+  <p>find . -type f -name "*.sh" -exec chmod +x {} \;</p>
+
+  <h1>查找重复文件</h1>
+
+  <p>fdupes -r .</p>
+
+  <h1>安全删除（移到回收站）</h1>
+
+  <p>trash-put file.txt</p>
+
+  <h1>创建时间戳文件</h1>
+
+  <p>touch -d "2024-01-15 10:30:00" file.txt</p>
+
+  <h1>文件内容排序去重</h1>
+
+  <p>sort file.txt | uniq -c | sort -rn</p>
+
+  <h1>统计词频</h1>
+
+  <p>cat file.txt | tr '[:upper:]' '[:lower:]' | grep -oE '\w+' | sort | uniq -c | sort -rn | head -20</p>
+
+  <pre><code>
+#### A.11.4 网络操作
+</code></pre>
+
+  <h1>测试端口连通性</h1>
+
+  <p>nc -zv localhost 3000</p>
+
+  <h1>下载整个网站</h1>
+
+  <p>wget -r -p -np https://example.com/docs/</p>
+
+  <h1>HTTP 请求详细信息</h1>
+
+  <p>curl -v https://api.example.com</p>
+
+  <h1>发送 JSON 请求</h1>
+
+  <p>curl -X POST https://api.example.com/data \</p>
+
+  <p>-H "Content-Type: application/json" \</p>
+
+  <p>-d '{"name":"Alice","age":30}'</p>
+
+  <h1>保存响应到文件</h1>
+
+  <p>curl -o output.json https://api.example.com/data</p>
+
+  <h1>使用代理</h1>
+
+  <p>curl -x http://proxy:8080 https://example.com</p>
+
+  <h1>测试网站性能</h1>
+
+  <p>curl -s -w "Time: %{time_total}s\nSize: %{size_download} bytes\n" -o /dev/null https://example.com</p>
+
+  <pre><code>
+---
+
+### A.12 Git 工作流进阶
+
+#### A.12.1 Git Flow
+</code></pre>
+
+  <h1>初始化 Git Flow</h1>
+
+  <p>git flow init</p>
+
+  <h1>创建功能分支</h1>
+
+  <p>git flow feature start login-feature</p>
+
+  <h1>完成功能分支</h1>
+
+  <p>git flow feature finish login-feature</p>
+
+  <h1>创建发布分支</h1>
+
+  <p>git flow release start 1.0.0</p>
+
+  <h1>完成发布分支</h1>
+
+  <p>git flow release finish 1.0.0</p>
+
+  <h1>创建热修复分支</h1>
+
+  <p>git flow hotfix start critical-bug</p>
+
+  <h1>完成热修复</h1>
+
+  <p>git flow hotfix finish critical-bug</p>
+
+  <pre><code>
+#### A.12.2 高级合并策略
+</code></pre>
+
+  <h1>合并时保留分支历史</h1>
+
+  <p>git merge --no-ff feature-branch</p>
+
+  <h1>仅获取特定提交</h1>
+
+  <p>git cherry-pick <commit-hash></p>
+
+  <h1>交互式变基（重新排序/合并提交）</h1>
+
+  <p>git rebase -i HEAD~5</p>
+
+  <h1>从另一个分支获取特定提交</h1>
+
+  <p>git rebase --onto main feature-branch start-commit..end-commit</p>
+
+  <h1>解决合并冲突</h1>
+
+  <p>git merge feature-branch</p>
+
+  <h1>编辑冲突文件后</h1>
+
+  <p>git add .</p>
+
+  <p>git commit</p>
+
+  <h1>使用 mergetool 解决冲突</h1>
+
+  <p>git mergetool</p>
+
+  <pre><code>
+#### A.12.3 分支管理
+</code></pre>
+
+  <h1>清理已合并的本地分支</h1>
+
+  <p>git branch --merged | grep -v "\*" | xargs -n 1 git branch -d</p>
+
+  <h1>清理远程已删除的分支</h1>
+
+  <p>git fetch --prune</p>
+
+  <h1>创建带说明的标签</h1>
+
+  <p>git tag -a v1.0.0 -m "Version 1.0.0 release"</p>
+
+  <h1>推送所有标签</h1>
+
+  <p>git push --tags</p>
+
+  <h1>查看标签详情</h1>
+
+  <p>git show v1.0.0</p>
+
+  <h1>创建轻量级标签（无说明）</h1>
+
+  <p>git tag v1.0.0-lightweight</p>
+
+  <pre><code>
+#### A.12.4 数据恢复
+</code></pre>
+
+  <h1>恢复已删除的提交</h1>
+
+  <p>git reflog</p>
+
+  <p>git checkout <commit-hash></p>
+
+  <h1>恢复已删除的分支</h1>
+
+  <p>git reflog | grep "branch-name"</p>
+
+  <p>git checkout -b branch-name <commit-hash></p>
+
+  <h1>从远程仓库恢复</h1>
+
+  <p>git fetch origin</p>
+
+  <p>git reset --hard origin/main</p>
+
+  <h1>撤销本地所有修改</h1>
+
+  <p>git checkout .</p>
+
+  <p>git clean -fd</p>
+
+  <h1>恢复特定文件到特定版本</h1>
+
+  <p>git checkout <commit-hash> -- path/to/file.txt</p>
+
+  <pre><code>
+---
+
+### A.13 正则表达式速查
+
+#### A.13.1 基本字符匹配
+
+| 模式 | 描述 | 示例 | 匹配结果 |
+|------|------|------|---------|
+| `.` | 匹配任意单个字符（除换行） | `a.c` | `abc`, `a1c`, `a_c` |
+| `\w` | 匹配单词字符（字母、数字、下划线） | `\w+` | `hello`, `test_1` |
+| `\W` | 匹配非单词字符 | `\W` | `@`, `#`, ` ` |
+| `\d` | 匹配数字 | `\d{3}` | `123`, `456` |
+| `\D` | 匹配非数字 | `\D+` | `abc`, `hello` |
+| `\s` | 匹配空白字符（空格、Tab、换行） | `\s` | ` `, `\t`, `\n` |
+| `\S` | 匹配非空白字符 | `\S+` | `hello`, `world` |
+| `\b` | 匹配单词边界 | `\bword\b` | 独立单词 `word` |
+| `\B` | 匹配非单词边界 | `\Bword` | `sword` 中的 `word` |
+
+#### A.13.2 量词与重复
+
+| 量词 | 描述 | 示例 | 含义 |
+|------|------|------|------|
+| `*` | 零次或多次 | `a*` | `""`, `a`, `aa`, `aaa` |
+| `+` | 一次或多次 | `a+` | `a`, `aa`, `aaa` |
+| `?` | 零次或一次 | `a?` | `""`, `a` |
+| `{n}` | 恰好 n 次 | `\d{3}` | 三位数字 |
+| `{n,}` | 至少 n 次 | `\d{2,}` | 两位及以上数字 |
+| `{n,m}` | n 到 m 次 | `\d{2,4}` | 两位到四位数字 |
+| `*?` | 非贪婪匹配（零次或多次） | `a.*?b` | 最短匹配 |
+| `+?` | 非贪婪匹配（一次或多次） | `a.+?b` | 最短匹配 |
+
+#### A.13.3 字符类与分组
+</code></pre>
+
+  <h1>字符类</h1>
+
+  <p>[abc]      # 匹配 a, b, c 中的任意一个</p>
+
+  <p>[a-z]      # 匹配小写字母</p>
+
+  <p>[A-Z]      # 匹配大写字母</p>
+
+  <p>[0-9]      # 匹配数字</p>
+
+  <p>[a-zA-Z]   # 匹配任意字母</p>
+
+  <p>[^abc]     # 匹配除 a, b, c 外的任意字符</p>
+
+  <h1>预定义字符类</h1>
+
+  <p>[0-9]      # 等价于 \d</p>
+
+  <p>[^0-9]     # 等价于 \D</p>
+
+  <p>[a-zA-Z0-9_]  # 等价于 \w</p>
+
+  <h1>分组</h1>
+
+  <p>(abc)      # 捕获分组 - 捕获匹配的文本</p>
+
+  <p>(?:abc)    # 非捕获分组 - 仅分组不捕获</p>
+
+  <p>(?<name>...)  # 命名分组（Python/JS 支持）</p>
+
+  <h1>引用分组（反向引用）</h1>
+
+  <p>\1         # 引用第一个捕获组</p>
+
+  <p>\2         # 引用第二个捕获组</p>
+
+  <p>$1         # 在替换中引用第一个捕获组（JS）</p>
+
+  <pre><code>
+#### A.13.4 锚点与边界
+
+| 锚点 | 描述 | 示例 |
+|------|------|------|
+| `^` | 字符串开头 | `^Hello` |
+| `$` | 字符串结尾 | `world$` |
+| `\A` | 字符串绝对开头 | `\AHello` |
+| `\Z` | 字符串绝对结尾 | `world\Z` |
+| `^...$` | 精确匹配整行 | `^\d{3}-\d{4}$` |
+
+#### A.13.5 常用正则模式
+</code></pre>
+
+  <h1>邮箱地址</h1>
+
+  <p>^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$</p>
+
+  <h1>URL</h1>
+
+  <p>https?://[^\s/$.?#].[^\s]*</p>
+
+  <h1>手机号（中国大陆）</h1>
+
+  <p>^1[3-9]\d{9}$</p>
+
+  <h1>IP 地址（IPv4）</h1>
+
+  <p>^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$</p>
+
+  <h1>日期（YYYY-MM-DD）</h1>
+
+  <p>^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$</p>
+
+  <h1>HTML 标签</h1>
+
+  <p><[^>]+></p>
+
+  <h1>中文汉字</h1>
+
+  <p>^[\u4e00-\u9fa5]+$</p>
+
+  <h1>密码强度（至少8位，包含大小写字母和数字）</h1>
+
+  <p>^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$</p>
+
+  <h1>颜色十六进制</h1>
+
+  <p>^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$</p>
+
+  <h1>用户名（字母开头，允许字母数字下划线，4-16位）</h1>
+
+  <p>^[a-zA-Z]\w{3,15}$</p>
+
+  <pre><code>
+#### A.13.6 正则表达式在各语言中的使用
+</code></pre>
+
+  <p>// JavaScript</p>
+
+  <p>const email = "user@example.com";</p>
+
+  <p>const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;</p>
+
+  <p>console.log(emailRegex.test(email)); // true</p>
+
+  <p>// 提取匹配</p>
+
+  <p>const text = "Phone: 138-1234-5678";</p>
+
+  <p>const phoneRegex = /(\d{3})-(\d{4})-(\d{4})/;</p>
+
+  <p>const match = text.match(phoneRegex);</p>
+
+  <p>console.log(match[0]); // "138-1234-5678"</p>
+
+  <p>console.log(match[1]); // "138"</p>
+
+  <p>// 替换</p>
+
+  <p>const sentence = "Hello, World!";</p>
+
+  <p>const replaced = sentence.replace(/World/g, "JavaScript");</p>
+
+  <p>console.log(replaced); // "Hello, JavaScript!"</p>
+
+  <p>// 全局匹配</p>
+
+  <p>const colors = "red green blue";</p>
+
+  <p>const allColors = colors.match(/\w+/g); // ["red", "green", "blue"]</p>
+
+  <p>// 命名捕获组</p>
+
+  <p>const dateStr = "2024-01-15";</p>
+
+  <p>const dateRegex = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;</p>
+
+  <p>const { year, month, day } = dateStr.match(dateRegex).groups;</p>
+
+  <pre><code></code></pre>
+
+  <h1>Python</h1>
+
+  <p>import re</p>
+
+  <h1>匹配</h1>
+
+  <p>pattern = r'^\d{3}-\d{4}-\d{4}$'</p>
+
+  <p>phone = "138-1234-5678"</p>
+
+  <p>if re.match(pattern, phone):</p>
+
+  <p>print("Valid phone")</p>
+
+  <h1>搜索</h1>
+
+  <p>text = "Contact: 138-1234-5678 or 139-8765-4321"</p>
+
+  <p>phones = re.findall(r'\d{3}-\d{4}-\d{4}', text)</p>
+
+  <p>print(phones)  # ['138-1234-5678', '139-8765-4321']</p>
+
+  <h1>替换</h1>
+
+  <p>clean = re.sub(r'\d', '*', "Phone: 12345")</p>
+
+  <p>print(clean)  # "Phone: <strong>*</strong>"</p>
+
+  <h1>编译正则（提高性能）</h1>
+
+  <p>phone_pattern = re.compile(r'^\d{3}-\d{4}-\d{4}$')</p>
+
+  <p>result = phone_pattern.match("138-1234-5678")</p>
+
+  <h1>命名分组</h1>
+
+  <p>pattern = re.compile(r'(?P<area>\d{3})-(?P<exchange>\d{4})-(?P<number>\d{4})')</p>
+
+  <p>match = pattern.match("138-1234-5678")</p>
+
+  <p>print(match.group('area'))  # "138"</p>
+
+  <h1>分割</h1>
+
+  <p>parts = re.split(r'[,;\s]+', "a,b;c d")</p>
+
+  <p>print(parts)  # ['a', 'b', 'c', 'd']</p>
+
+  <pre><code>
+#### A.13.7 正则表达式性能优化
+</code></pre>
+
+  <p>// 避免灾难性回溯</p>
+
+  <p>// 坏模式（可能导致回溯灾难）</p>
+
+  <p>const badPattern = /(a+)+b/;</p>
+
+  <p>// 好模式</p>
+
+  <p>const goodPattern = /a+b/;</p>
+
+  <p>// 使用非捕获组提高性能</p>
+
+  <p>// 慢（不需要捕获时使用捕获组）</p>
+
+  <p>const slow = /(?:abc|def)+/;</p>
+
+  <p>// 快</p>
+
+  <p>const fast = /(?:abc|def)+/;</p>
+
+  <p>// 锚定匹配</p>
+
+  <p>// 慢（没有锚点，需要扫描整个字符串）</p>
+
+  <p>const unanchored = /pattern/;</p>
+
+  <p>// 快（明确开头）</p>
+
+  <p>const anchored = /^pattern/;</p>
+
+  <p>// 使用字符类替代选择分支</p>
+
+  <p>const slowAlt = /a|b|c|d|e/;</p>
+
+  <p>const fastClass = /[a-e]/;</p>
+
+  <p>// 避免贪婪匹配与通配符的组合</p>
+
+  <p>// 慢</p>
+
+  <p>const slowGreedy = /<.*>/;</p>
+
+  <p>// 快（使用非贪婪）</p>
+
+  <p>const nonGreedy = /<.*?>/;</p>
+
+  <pre><code>
+#### A.13.8 正则表达式调试技巧
+</code></pre>
+
+  <h1>在线测试工具</h1>
+
+  <h1>https://regex101.com - 实时匹配、解释</h1>
+
+  <h1>https://regexr.com - 交互式学习</h1>
+
+  <h1>https://regex-visual.com - 可视化正则</h1>
+
+  <h1>命令行测试</h1>
+
+  <p>echo "test123" | grep -E "^[a-z]+\d+$"</p>
+
+  <p>echo "hello@world.com" | grep -P "^[\w.]+@[\w.]+\.\w+$"</p>
+
+  <pre><code>
+---
+
+### A.14 Shell 脚本基础
+
+#### A.14.1 脚本结构
+</code></pre>
+
+  <p>#!/bin/bash</p>
+
+  <h1>shebang: 指定解释器路径</h1>
+
+  <h1>注释以 # 开头</h1>
+
+  <h1>严格模式</h1>
+
+  <p>set -e      # 遇到错误立即退出</p>
+
+  <p>set -u      # 使用未定义变量时报错</p>
+
+  <p>set -o pipefail  # 管道中任一命令失败则整体失败</p>
+
+  <h1>常用组合</h1>
+
+  <p>set -euo pipefail</p>
+
+  <pre><code>
+#### A.14.2 变量与参数
+</code></pre>
+
+  <h1>变量赋值（等号两侧不能有空格）</h1>
+
+  <p>name="Alice"</p>
+
+  <p>count=42</p>
+
+  <p>readonly PI=3.14159  # 只读变量</p>
+
+  <h1>变量使用</h1>
+
+  <p>echo $name</p>
+
+  <p>echo "Hello, ${name}!"  # 推荐带花括号</p>
+
+  <h1>默认值</h1>
+
+  <p>echo ${name:-"Guest"}   # 变量未设置时使用默认值</p>
+
+  <p>echo ${name:="Guest"}   # 变量未设置时赋默认值</p>
+
+  <p>echo ${name:?"Error: name not set"}  # 未设置时报错</p>
+
+  <h1>命令行参数</h1>
+
+  <p>echo $0    # 脚本名</p>
+
+  <p>echo $1    # 第一个参数</p>
+
+  <p>echo $#    # 参数个数</p>
+
+  <p>echo $@    # 所有参数</p>
+
+  <p>echo $*    # 所有参数（作为单个字符串）</p>
+
+  <h1>特殊变量</h1>
+
+  <p>echo $?    # 上一条命令的退出码</p>
+
+  <p>echo $$    # 当前进程 PID</p>
+
+  <p>echo $!    # 后台进程 PID</p>
+
+  <pre><code>
+#### A.14.3 字符串操作
+</code></pre>
+
+  <p>str="Hello, World!"</p>
+
+  <h1>字符串长度</h1>
+
+  <p>echo ${#str}  # 13</p>
+
+  <h1>截取</h1>
+
+  <p>echo ${str:7}     # "World!"</p>
+
+  <p>echo ${str:7:5}   # "World"</p>
+
+  <p>echo ${str:0:5}   # "Hello"</p>
+
+  <h1>替换</h1>
+
+  <p>echo ${str/World/Bash}  # "Hello, Bash!"</p>
+
+  <p>echo ${str//o/O}        # "HellO, WOrld!"（全局替换）</p>
+
+  <h1>删除匹配前缀</h1>
+
+  <p>echo ${str#Hello}  # ", World!"</p>
+
+  <p>echo ${str##*o}    # "rld!"（最长匹配）</p>
+
+  <h1>删除匹配后缀</h1>
+
+  <p>echo ${str%!}      # "Hello, World"</p>
+
+  <p>echo ${str%%.*}    # 删除第一个 . 之后内容</p>
+
+  <h1>大小写转换</h1>
+
+  <p>echo ${str,,}  # "hello, world!"（转小写）</p>
+
+  <p>echo ${str^^}  # "HELLO, WORLD!"（转大写）</p>
+
+  <pre><code>
+#### A.14.4 条件判断
+</code></pre>
+
+  <h1>if 语句</h1>
+
+  <p>if [ "$name" = "Alice" ]; then</p>
+
+  <p>echo "Hello Alice"</p>
+
+  <p>elif [ "$name" = "Bob" ]; then</p>
+
+  <p>echo "Hello Bob"</p>
+
+  <p>else</p>
+
+  <p>echo "Hello stranger"</p>
+
+  <p>fi</p>
+
+  <h1>文件测试</h1>
+
+  <p>if [ -f "$file" ]; then      # 是否是普通文件</p>
+
+  <p>echo "$file exists"</p>
+
+  <p>fi</p>
+
+  <p>if [ -d "$dir" ]; then       # 是否是目录</p>
+
+  <p>echo "$dir is a directory"</p>
+
+  <p>fi</p>
+
+  <p>if [ -e "$path" ]; then      # 是否存在</p>
+
+  <p>echo "$path exists"</p>
+
+  <p>fi</p>
+
+  <p>if [ -r "$file" ]; then      # 是否可读</p>
+
+  <p>echo "readable"</p>
+
+  <p>fi</p>
+
+  <p>if [ -w "$file" ]; then      # 是否可写</p>
+
+  <p>echo "writable"</p>
+
+  <p>fi</p>
+
+  <p>if [ -x "$file" ]; then      # 是否可执行</p>
+
+  <p>echo "executable"</p>
+
+  <p>fi</p>
+
+  <p>if [ -s "$file" ]; then      # 文件是否非空</p>
+
+  <p>echo "not empty"</p>
+
+  <p>fi</p>
+
+  <h1>数值比较</h1>
+
+  <p>if [ "$count" -eq 10 ]; then  # 等于</p>
+
+  <p>echo "count is 10"</p>
+
+  <p>fi</p>
+
+  <p>if [ "$count" -ne 10 ]; then  # 不等于</p>
+
+  <p>echo "count is not 10"</p>
+
+  <p>fi</p>
+
+  <p>if [ "$count" -gt 10 ]; then  # 大于</p>
+
+  <p>if [ "$count" -ge 10 ]; then  # 大于等于</p>
+
+  <p>if [ "$count" -lt 10 ]; then  # 小于</p>
+
+  <p>if [ "$count" -le 10 ]; then  # 小于等于</p>
+
+  <h1>字符串比较</h1>
+
+  <p>if [ "$str" = "hello" ]; then     # 等于</p>
+
+  <p>echo "match"</p>
+
+  <p>fi</p>
+
+  <p>if [ "$str" != "hello" ]; then    # 不等于</p>
+
+  <p>echo "no match"</p>
+
+  <p>fi</p>
+
+  <p>if [ -z "$str" ]; then            # 是否为空</p>
+
+  <p>echo "empty string"</p>
+
+  <p>fi</p>
+
+  <p>if [ -n "$str" ]; then            # 是否非空</p>
+
+  <p>echo "non-empty string"</p>
+
+  <p>fi</p>
+
+  <h1>逻辑运算</h1>
+
+  <p>if [ "$a" = "x" ] && [ "$b" = "y" ]; then  # and</p>
+
+  <p>echo "both match"</p>
+
+  <p>fi</p>
+
+  <p>if [ "$a" = "x" ] || [ "$b" = "y" ]; then  # or</p>
+
+  <p>echo "one matches"</p>
+
+  <p>fi</p>
+
+  <p>if ! [ -f "$file" ]; then                  # not</p>
+
+  <p>echo "file does not exist"</p>
+
+  <p>fi</p>
+
+  <h1>双括号（高级）</h1>
+
+  <p>if [[ "$name" == A* ]]; then    # 通配符匹配</p>
+
+  <p>echo "name starts with A"</p>
+
+  <p>fi</p>
+
+  <p>if [[ "$str" =~ ^[0-9]+$ ]]; then  # 正则匹配</p>
+
+  <p>echo "str is all digits"</p>
+
+  <p>fi</p>
+
+  <pre><code>
+#### A.14.5 循环
+</code></pre>
+
+  <h1>for 循环（列表）</h1>
+
+  <p>for fruit in apple banana cherry; do</p>
+
+  <p>echo "I like $fruit"</p>
+
+  <p>done</p>
+
+  <h1>for 循环（数字范围）</h1>
+
+  <p>for i in {1..10}; do</p>
+
+  <p>echo "Number: $i"</p>
+
+  <p>done</p>
+
+  <h1>for 循环（C 风格）</h1>
+
+  <p>for ((i=0; i<10; i++)); do</p>
+
+  <p>echo "Count: $i"</p>
+
+  <p>done</p>
+
+  <h1>for 循环（命令输出）</h1>
+
+  <p>for file in *.txt; do</p>
+
+  <p>echo "Processing $file"</p>
+
+  <p>done</p>
+
+  <h1>while 循环</h1>
+
+  <p>count=0</p>
+
+  <p>while [ $count -lt 5 ]; do</p>
+
+  <p>echo "Count: $count"</p>
+
+  <p>((count++))</p>
+
+  <p>done</p>
+
+  <h1>until 循环（条件为假时执行）</h1>
+
+  <p>count=0</p>
+
+  <p>until [ $count -ge 5 ]; do</p>
+
+  <p>echo "Count: $count"</p>
+
+  <p>((count++))</p>
+
+  <p>done</p>
+
+  <h1>读取文件</h1>
+
+  <p>while IFS= read -r line; do</p>
+
+  <p>echo "Line: $line"</p>
+
+  <p>done < "input.txt"</p>
+
+  <h1>循环控制</h1>
+
+  <p>for i in {1..10}; do</p>
+
+  <p>if [ $i -eq 5 ]; then</p>
+
+  <p>break      # 跳出循环</p>
+
+  <p>fi</p>
+
+  <p>if [ $i -eq 3 ]; then</p>
+
+  <p>continue   # 跳过当前迭代</p>
+
+  <p>fi</p>
+
+  <p>echo "Number: $i"</p>
+
+  <p>done</p>
+
+  <pre><code>
+#### A.14.6 函数
+</code></pre>
+
+  <h1>函数定义</h1>
+
+  <p>function greet() {</p>
+
+  <p>echo "Hello, $1!"</p>
+
+  <p>}</p>
+
+  <h1>简化定义</h1>
+
+  <p>greet() {</p>
+
+  <p>local name=$1   # local: 局部变量</p>
+
+  <p>echo "Hello, $name!"</p>
+
+  <p>}</p>
+
+  <h1>调用函数</h1>
+
+  <p>greet "Alice"</p>
+
+  <h1>返回值</h1>
+
+  <p>add() {</p>
+
+  <p>local sum=$(( $1 + $2 ))</p>
+
+  <p>echo $sum      # 通过标准输出返回</p>
+
+  <p>}</p>
+
+  <p>result=$(add 3 5)</p>
+
+  <p>echo "Result: $result"  # 8</p>
+
+  <h1>返回退出码</h1>
+
+  <p>is_even() {</p>
+
+  <p>local num=$1</p>
+
+  <p>if [ $((num % 2)) -eq 0 ]; then</p>
+
+  <p>return 0   # 成功（偶数）</p>
+
+  <p>else</p>
+
+  <p>return 1   # 失败（奇数）</p>
+
+  <p>fi</p>
+
+  <p>}</p>
+
+  <p>if is_even 4; then</p>
+
+  <p>echo "4 is even"</p>
+
+  <p>fi</p>
+
+  <pre><code>
+#### A.14.7 输入输出重定向
+</code></pre>
+
+  <h1>标准输出重定向</h1>
+
+  <p>command > output.txt     # 覆盖写入</p>
+
+  <p>command >> output.txt    # 追加写入</p>
+
+  <h1>标准错误重定向</h1>
+
+  <p>command 2> error.log</p>
+
+  <p>command 2>> error.log</p>
+
+  <h1>同时重定向</h1>
+
+  <p>command > output.log 2>&1    # stdout 和 stderr 合并</p>
+
+  <p>command &> output.log        # bash 简写</p>
+
+  <p>command > output.log 2> error.log  # 分别重定向</p>
+
+  <h1>输入重定向</h1>
+
+  <p>command < input.txt</p>
+
+  <p>command <<< "inline string"  # 字符串作为输入</p>
+
+  <h1>Here Document</h1>
+
+  <p>cat << EOF</p>
+
+  <p>This is a</p>
+
+  <p>multi-line</p>
+
+  <p>text</p>
+
+  <p>EOF</p>
+
+  <h1>丢弃输出</h1>
+
+  <p>command > /dev/null 2>&1</p>
+
+  <h1>管道</h1>
+
+  <p>command1 | command2          # 标准输出管道</p>
+
+  <p>command1 2>&1 | command2     # 标准错误也通过管道</p>
+
+  <pre><code>
+#### A.14.8 数组
+</code></pre>
+
+  <h1>定义数组</h1>
+
+  <p>fruits=("apple" "banana" "cherry")</p>
+
+  <p>numbers=(1 2 3 4 5)</p>
+
+  <h1>访问元素</h1>
+
+  <p>echo ${fruits[0]}      # "apple"</p>
+
+  <p>echo ${fruits[1]}      # "banana"</p>
+
+  <h1>所有元素</h1>
+
+  <p>echo ${fruits[@]}      # "apple banana cherry"</p>
+
+  <p>echo ${fruits[*]}      # "apple banana cherry"</p>
+
+  <h1>数组长度</h1>
+
+  <p>echo ${#fruits[@]}     # 3</p>
+
+  <h1>添加元素</h1>
+
+  <p>fruits+=("orange")</p>
+
+  <p>fruits[5]="grape"</p>
+
+  <h1>删除元素</h1>
+
+  <p>unset fruits[1]</p>
+
+  <h1>遍历数组</h1>
+
+  <p>for fruit in "${fruits[@]}"; do</p>
+
+  <p>echo "Fruit: $fruit"</p>
+
+  <p>done</p>
+
+  <h1>关联数组（bash 4+）</h1>
+
+  <p>declare -A user</p>
+
+  <p>user["name"]="Alice"</p>
+
+  <p>user["age"]=30</p>
+
+  <p>echo ${user["name"]}  # "Alice"</p>
+
+  <pre><code>
+#### A.14.9 实用脚本模式
+</code></pre>
+
+  <p>#!/bin/bash</p>
+
+  <p>set -euo pipefail</p>
+
+  <h1>日志函数</h1>
+
+  <p>log_info() {</p>
+
+  <p>echo "[INFO] $(date '+%Y-%m-%d %H:%M:%S') - $1"</p>
+
+  <p>}</p>
+
+  <p>log_error() {</p>
+
+  <p>echo "[ERROR] $(date '+%Y-%m-%d %H:%M:%S') - $1" >&2</p>
+
+  <p>}</p>
+
+  <h1>错误处理</h1>
+
+  <p>cleanup() {</p>
+
+  <p>log_info "Cleaning up..."</p>
+
+  <h1>清理临时文件</h1>
+
+  <p>rm -f /tmp/temp_*</p>
+
+  <p>}</p>
+
+  <p>trap cleanup EXIT  # 脚本退出时执行清理</p>
+
+  <h1>参数解析</h1>
+
+  <p>usage() {</p>
+
+  <p>echo "Usage: $0 [-n name] [-v] [-h]"</p>
+
+  <p>echo "  -n name    Set name"</p>
+
+  <p>echo "  -v         Verbose mode"</p>
+
+  <p>echo "  -h         Show help"</p>
+
+  <p>exit 1</p>
+
+  <p>}</p>
+
+  <p>verbose=false</p>
+
+  <p>while getopts "n:vh" opt; do</p>
+
+  <p>case $opt in</p>
+
+  <p>n)</p>
+
+  <p>name="$OPTARG"</p>
+
+  <p>;;</p>
+
+  <p>v)</p>
+
+  <p>verbose=true</p>
+
+  <p>;;</p>
+
+  <p>h)</p>
+
+  <p>usage</p>
+
+  <p>;;</p>
+
+  <p>\?)</p>
+
+  <p>usage</p>
+
+  <p>;;</p>
+
+  <p>esac</p>
+
+  <p>done</p>
+
+  <h1>进度条</h1>
+
+  <p>progress() {</p>
+
+  <p>local current=$1</p>
+
+  <p>local total=$2</p>
+
+  <p>local width=50</p>
+
+  <p>local percent=$((current * 100 / total))</p>
+
+  <p>local filled=$((current * width / total))</p>
+
+  <p>local empty=$((width - filled))</p>
+
+  <p>printf "\r["</p>
+
+  <p>printf "%${filled}s" | tr ' ' '#'</p>
+
+  <p>printf "%${empty}s" | tr ' ' '-'</p>
+
+  <p>printf "] %d%%" $percent</p>
+
+  <p>}</p>
+
+  <h1>使用示例</h1>
+
+  <p>for i in {1..10}; do</p>
+
+  <p>progress $i 10</p>
+
+  <p>sleep 0.1</p>
+
+  <p>done</p>
+
+  <p>echo ""</p>
+
+  <pre><code>
+#### A.14.10 常见脚本任务
+</code></pre>
+
+  <h1>备份目录</h1>
+
+  <p>backup_dir() {</p>
+
+  <p>local src=$1</p>
+
+  <p>local dest=${2:-./backup}</p>
+
+  <p>local timestamp=$(date +%Y%m%d_%H%M%S)</p>
+
+  <p>local backup_file="${dest}/backup_${timestamp}.tar.gz"</p>
+
+  <p>mkdir -p "$dest"</p>
+
+  <p>tar -czf "$backup_file" "$src"</p>
+
+  <p>echo "Backup created: $backup_file"</p>
+
+  <p>}</p>
+
+  <h1>批量文件重命名</h1>
+
+  <p>batch_rename() {</p>
+
+  <p>local pattern=$1</p>
+
+  <p>local replacement=$2</p>
+
+  <p>for file in *"$pattern"*; do</p>
+
+  <p>if [ -f "$file" ]; then</p>
+
+  <p>local new_name="${file//$pattern/$replacement}"</p>
+
+  <p>mv "$file" "$new_name"</p>
+
+  <p>echo "Renamed: $file -> $new_name"</p>
+
+  <p>fi</p>
+
+  <p>done</p>
+
+  <p>}</p>
+
+  <h1>系统健康检查</h1>
+
+  <p>health_check() {</p>
+
+  <p>echo "=== System Health Check ==="</p>
+
+  <p>echo "Uptime: $(uptime -p)"</p>
+
+  <p>echo "Memory:"</p>
+
+  <p>free -h</p>
+
+  <p>echo "Disk:"</p>
+
+  <p>df -h /</p>
+
+  <p>echo "CPU Load:"</p>
+
+  <p>top -bn1 | head -5</p>
+
+  <p>}</p>
+
+  <pre><code>
+---
+
+### A.15 GraphQL 查询语言
+
+#### A.15.1 基本查询
+</code></pre>
+
+  <h1>查询（Query）- 读取数据</h1>
+
+  <p>query GetUser {</p>
+
+  <p>user(id: "1") {</p>
+
+  <p>id</p>
+
+  <p>name</p>
+
+  <p>email</p>
+
+  <p>posts {</p>
+
+  <p>title</p>
+
+  <p>content</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <h1>带变量的查询</h1>
+
+  <p>query GetUser($userId: ID!) {</p>
+
+  <p>user(id: $userId) {</p>
+
+  <p>id</p>
+
+  <p>name</p>
+
+  <p>email</p>
+
+  <p>posts(limit: 10) {</p>
+
+  <p>title</p>
+
+  <p>createdAt</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <h1>查询变量定义</h1>
+
+  <h1>{</h1>
+
+  <h1>"userId": "1"</h1>
+
+  <h1>}</h1>
+
+  <pre><code>
+#### A.15.2 变更（Mutation）
+</code></pre>
+
+  <h1>变更（Mutation）- 写入数据</h1>
+
+  <p>mutation CreatePost {</p>
+
+  <p>createPost(input: {</p>
+
+  <p>title: "Hello GraphQL"</p>
+
+  <p>content: "This is my first post"</p>
+
+  <p>authorId: "1"</p>
+
+  <p>}) {</p>
+
+  <p>id</p>
+
+  <p>title</p>
+
+  <p>createdAt</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <h1>带变量的变更</h1>
+
+  <p>mutation CreateUser($input: CreateUserInput!) {</p>
+
+  <p>createUser(input: $input) {</p>
+
+  <p>id</p>
+
+  <p>name</p>
+
+  <p>email</p>
+
+  <p>token</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <h1>变量</h1>
+
+  <h1>{</h1>
+
+  <h1>"input": {</h1>
+
+  <h1>"name": "Alice",</h1>
+
+  <h1>"email": "alice@example.com",</h1>
+
+  <h1>"password": "secure123"</h1>
+
+  <h1>}</h1>
+
+  <h1>}</h1>
+
+  <pre><code>
+#### A.15.3 订阅（Subscription）
+</code></pre>
+
+  <h1>订阅（Subscription）- 实时更新</h1>
+
+  <p>subscription OnNewMessage {</p>
+
+  <p>newMessage(roomId: "general") {</p>
+
+  <p>id</p>
+
+  <p>content</p>
+
+  <p>sender {</p>
+
+  <p>name</p>
+
+  <p>avatar</p>
+
+  <p>}</p>
+
+  <p>createdAt</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>subscription OnUserStatusChanged {</p>
+
+  <p>userStatusChanged {</p>
+
+  <p>userId</p>
+
+  <p>status</p>
+
+  <p>lastSeen</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <pre><code>
+#### A.15.4 Schema 定义
+</code></pre>
+
+  <h1>类型定义</h1>
+
+  <p>type User {</p>
+
+  <p>id: ID!</p>
+
+  <p>name: String!</p>
+
+  <p>email: String!</p>
+
+  <p>age: Int</p>
+
+  <p>posts: [Post!]!</p>
+
+  <p>createdAt: DateTime!</p>
+
+  <p>}</p>
+
+  <p>type Post {</p>
+
+  <p>id: ID!</p>
+
+  <p>title: String!</p>
+
+  <p>content: String!</p>
+
+  <p>author: User!</p>
+
+  <p>comments: [Comment!]!</p>
+
+  <p>createdAt: DateTime!</p>
+
+  <p>}</p>
+
+  <p>type Comment {</p>
+
+  <p>id: ID!</p>
+
+  <p>content: String!</p>
+
+  <p>author: User!</p>
+
+  <p>createdAt: DateTime!</p>
+
+  <p>}</p>
+
+  <h1>枚举</h1>
+
+  <p>enum Role {</p>
+
+  <p>ADMIN</p>
+
+  <p>USER</p>
+
+  <p>GUEST</p>
+
+  <p>}</p>
+
+  <h1>接口</h1>
+
+  <p>interface Node {</p>
+
+  <p>id: ID!</p>
+
+  <p>createdAt: DateTime!</p>
+
+  <p>}</p>
+
+  <p>type Article implements Node {</p>
+
+  <p>id: ID!</p>
+
+  <p>createdAt: DateTime!</p>
+
+  <p>title: String!</p>
+
+  <p>body: String!</p>
+
+  <p>}</p>
+
+  <h1>联合类型</h1>
+
+  <p>union SearchResult = User | Post | Comment</p>
+
+  <h1>输入类型（用于变更）</h1>
+
+  <p>input CreateUserInput {</p>
+
+  <p>name: String!</p>
+
+  <p>email: String!</p>
+
+  <p>password: String!</p>
+
+  <p>role: Role = USER</p>
+
+  <p>}</p>
+
+  <p>input UpdatePostInput {</p>
+
+  <p>title: String</p>
+
+  <p>content: String</p>
+
+  <p>}</p>
+
+  <pre><code>
+#### A.15.5 高级查询模式
+</code></pre>
+
+  <h1>分片（Fragment）- 复用字段</h1>
+
+  <p>fragment UserFields on User {</p>
+
+  <p>id</p>
+
+  <p>name</p>
+
+  <p>email</p>
+
+  <p>avatar</p>
+
+  <p>}</p>
+
+  <p>query GetUsers {</p>
+
+  <p>users {</p>
+
+  <p>...UserFields</p>
+
+  <p>posts {</p>
+
+  <p>...PostFields</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>fragment PostFields on Post {</p>
+
+  <p>id</p>
+
+  <p>title</p>
+
+  <p>excerpt</p>
+
+  <p>createdAt</p>
+
+  <p>}</p>
+
+  <h1>内联分片</h1>
+
+  <p>query GetNode($id: ID!) {</p>
+
+  <p>node(id: $id) {</p>
+
+  <p>... on User {</p>
+
+  <p>name</p>
+
+  <p>email</p>
+
+  <p>}</p>
+
+  <p>... on Post {</p>
+
+  <p>title</p>
+
+  <p>content</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <h1>指令</h1>
+
+  <p>query GetUsers($includeEmail: Boolean!) {</p>
+
+  <p>users {</p>
+
+  <p>id</p>
+
+  <p>name</p>
+
+  <p>email @include(if: $includeEmail)</p>
+
+  <p>age @skip(if: $includeEmail)</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <h1>别名</h1>
+
+  <p>query GetUserData {</p>
+
+  <p>alice: user(id: "1") {</p>
+
+  <p>name</p>
+
+  <p>email</p>
+
+  <p>}</p>
+
+  <p>bob: user(id: "2") {</p>
+
+  <p>name</p>
+
+  <p>email</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <pre><code>
+#### A.15.6 Apollo Client 使用示例
+</code></pre>
+
+  <p>// Apollo Client 配置</p>
+
+  <p>import { ApolloClient, InMemoryCache, gql } from '@apollo/client';</p>
+
+  <p>const client = new ApolloClient({</p>
+
+  <p>uri: 'https://api.example.com/graphql',</p>
+
+  <p>cache: new InMemoryCache(),</p>
+
+  <p>});</p>
+
+  <p>// 查询</p>
+
+  <p>const GET_USERS = gql`</p>
+
+  <p>query GetUsers {</p>
+
+  <p>users {</p>
+
+  <p>id</p>
+
+  <p>name</p>
+
+  <p>email</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>`;</p>
+
+  <p>const { data, loading, error } = await client.query({</p>
+
+  <p>query: GET_USERS,</p>
+
+  <p>});</p>
+
+  <p>// 带变量的查询</p>
+
+  <p>const GET_USER = gql`</p>
+
+  <p>query GetUser($id: ID!) {</p>
+
+  <p>user(id: $id) {</p>
+
+  <p>id</p>
+
+  <p>name</p>
+
+  <p>posts {</p>
+
+  <p>title</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>`;</p>
+
+  <p>const { data } = await client.query({</p>
+
+  <p>query: GET_USER,</p>
+
+  <p>variables: { id: "1" },</p>
+
+  <p>});</p>
+
+  <p>// 变更</p>
+
+  <p>const CREATE_POST = gql`</p>
+
+  <p>mutation CreatePost($input: CreatePostInput!) {</p>
+
+  <p>createPost(input: $input) {</p>
+
+  <p>id</p>
+
+  <p>title</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>`;</p>
+
+  <p>const { data } = await client.mutate({</p>
+
+  <p>mutation: CREATE_POST,</p>
+
+  <p>variables: {</p>
+
+  <p>input: {</p>
+
+  <p>title: "New Post",</p>
+
+  <p>content: "Content here",</p>
+
+  <p>authorId: "1",</p>
+
+  <p>},</p>
+
+  <p>},</p>
+
+  <p>});</p>
+
+  <pre><code>
+#### A.15.7 GraphQL vs REST 对比
+
+| 特性 | GraphQL | REST |
+|------|---------|------|
+| 数据获取 | 客户端指定所需字段 | 服务器返回固定结构 |
+| 请求数量 | 单请求获取多资源 | 可能需要多个请求 |
+| 过度获取 | 避免 | 常见 |
+| 版本管理 | 无需版本号 | 通常需要版本号 |
+| 缓存 | 需要客户端处理 | 原生 HTTP 缓存 |
+| 学习曲线 | 较陡峭 | 较平缓 |
+| 工具生态 | Apollo、Relay | Swagger、Postman |
+| 文档 | 自省机制 | Swagger/OpenAPI |
+| 文件上传 | 需额外处理 | 原生支持 |
+
+#### A.15.8 最佳实践
+</code></pre>
+
+  <h1>分页规范（Relay 连接规范）</h1>
+
+  <p>type Query {</p>
+
+  <p>users(first: Int, after: String): UserConnection!</p>
+
+  <p>posts(first: Int, after: String, orderBy: PostOrder): PostConnection!</p>
+
+  <p>}</p>
+
+  <p>type UserConnection {</p>
+
+  <p>edges: [UserEdge!]!</p>
+
+  <p>pageInfo: PageInfo!</p>
+
+  <p>}</p>
+
+  <p>type UserEdge {</p>
+
+  <p>node: User!</p>
+
+  <p>cursor: String!</p>
+
+  <p>}</p>
+
+  <p>type PageInfo {</p>
+
+  <p>hasNextPage: Boolean!</p>
+
+  <p>hasPreviousPage: Boolean!</p>
+
+  <p>startCursor: String</p>
+
+  <p>endCursor: String</p>
+
+  <p>}</p>
+
+  <h1>错误处理</h1>
+
+  <p>type Mutation {</p>
+
+  <p>createUser(input: CreateUserInput!): CreateUserPayload!</p>
+
+  <p>}</p>
+
+  <p>type CreateUserPayload {</p>
+
+  <p>user: User</p>
+
+  <p>errors: [Error!]</p>
+
+  <p>}</p>
+
+  <p>type Error {</p>
+
+  <p>field: String!</p>
+
+  <p>message: String!</p>
+
+  <p>}</p>
+
+  <pre><code>
+---
+
+### A.16 配置格式深入：TOML
+
+#### A.16.1 TOML 基础语法
+</code></pre>
+
+  <h1>TOML - 极简配置格式，常用于 Rust/Cargo、Python/pyproject.toml</h1>
+
+  <h1>键值对</h1>
+
+  <p>title = "My Application"</p>
+
+  <p>port = 3000</p>
+
+  <p>debug = true</p>
+
+  <h1>字符串</h1>
+
+  <p>name = "Alice"</p>
+
+  <p>description = """</p>
+
+  <p>Multi-line</p>
+
+  <p>string</p>
+
+  <p>"""</p>
+
+  <p>path = "C:\\Users\\Alice"  # 转义</p>
+
+  <p>raw = 'C:\Users\Alice'     # 原始字符串，不转义</p>
+
+  <h1>整数</h1>
+
+  <p>count = 42</p>
+
+  <p>hex = 0xDEADBEEF</p>
+
+  <p>octal = 0o755</p>
+
+  <p>binary = 0b11010110</p>
+
+  <h1>浮点数</h1>
+
+  <p>pi = 3.14</p>
+
+  <p>negative = -0.01</p>
+
+  <p>sci = 5e+22</p>
+
+  <h1>布尔值</h1>
+
+  <p>enabled = true</p>
+
+  <p>disabled = false</p>
+
+  <h1>日期时间</h1>
+
+  <p>date = 2024-01-15</p>
+
+  <p>time = 10:30:00</p>
+
+  <p>datetime = 2024-01-15T10:30:00Z</p>
+
+  <p>datetime_local = 2024-01-15T10:30:00+08:00</p>
+
+  <h1>表格（Table）</h1>
+
+  <p>[server]</p>
+
+  <p>host = "0.0.0.0"</p>
+
+  <p>port = 8080</p>
+
+  <p>[server.logging]</p>
+
+  <p>level = "info"</p>
+
+  <p>file = "server.log"</p>
+
+  <h1>数组</h1>
+
+  <p>ports = [3000, 3001, 3002]</p>
+
+  <p>names = ["Alice", "Bob", "Charlie"]</p>
+
+  <h1>表格数组</h1>
+
+  <p>[[products]]</p>
+
+  <p>name = "Laptop"</p>
+
+  <p>price = 999.99</p>
+
+  <p>tags = ["electronics", "computers"]</p>
+
+  <p>[[products]]</p>
+
+  <p>name = "Phone"</p>
+
+  <p>price = 699.99</p>
+
+  <p>tags = ["electronics", "mobile"]</p>
+
+  <h1>内联表格</h1>
+
+  <p>point = { x = 10, y = 20 }</p>
+
+  <pre><code>
+#### A.16.2 格式对比总结
+
+| 特性 | JSON | YAML | TOML | INI |
+|------|------|------|------|-----|
+| 可读性 | 一般 | 好 | 很好 | 好 |
+| 注释支持 | 否 | 是 | 是 | 是 |
+| 复杂度 | 低 | 高 | 低 | 很低 |
+| 类型系统 | 较丰富 | 丰富 | 明确 | 仅字符串 |
+| 循环引用 | 否 | 可 | 否 | 否 |
+| 多文档 | 否 | 是（---） | 否 | 否 |
+| 流行领域 | Web API | 配置/K8s | 项目配置 | 旧式配置 |
+| 解析速度 | 快 | 慢 | 快 | 很快 |
+
+---
+
+### A.17 Web API 设计模式
+
+#### A.17.1 RESTful API 设计规范
+</code></pre>
+
+  <p>// 基础路由设计</p>
+
+  <p>// GET    /api/users          - 获取用户列表</p>
+
+  <p>// POST   /api/users          - 创建用户</p>
+
+  <p>// GET    /api/users/:id      - 获取单个用户</p>
+
+  <p>// PUT    /api/users/:id      - 更新用户（全量）</p>
+
+  <p>// PATCH  /api/users/:id      - 更新用户（部分）</p>
+
+  <p>// DELETE /api/users/:id      - 删除用户</p>
+
+  <p>// 查询参数</p>
+
+  <p>// GET /api/users?page=1&limit=20</p>
+
+  <p>// GET /api/users?sort=created_at&order=desc</p>
+
+  <p>// GET /api/users?search=alice&status=active</p>
+
+  <p>// 关联资源</p>
+
+  <p>// GET /api/users/:id/posts      - 用户的帖子</p>
+
+  <p>// GET /api/posts/:id/comments   - 帖子的评论</p>
+
+  <pre><code></code></pre>
+
+  <p>// Express.js REST API 示例</p>
+
+  <p>import express from 'express';</p>
+
+  <p>const app = express();</p>
+
+  <p>app.use(express.json());</p>
+
+  <p>// 列表查询</p>
+
+  <p>app.get('/api/users', async (req, res) => {</p>
+
+  <p>const { page = 1, limit = 20, sort = 'created_at', order = 'desc' } = req.query;</p>
+
+  <p>const users = await db.users.findMany({</p>
+
+  <p>skip: (Number(page) - 1) * Number(limit),</p>
+
+  <p>take: Number(limit),</p>
+
+  <p>orderBy: { [sort as string]: order },</p>
+
+  <p>});</p>
+
+  <p>const total = await db.users.count();</p>
+
+  <p>res.json({</p>
+
+  <p>data: users,</p>
+
+  <p>pagination: {</p>
+
+  <p>page: Number(page),</p>
+
+  <p>limit: Number(limit),</p>
+
+  <p>total,</p>
+
+  <p>totalPages: Math.ceil(total / Number(limit)),</p>
+
+  <p>},</p>
+
+  <p>});</p>
+
+  <p>});</p>
+
+  <p>// 创建资源</p>
+
+  <p>app.post('/api/users', async (req, res) => {</p>
+
+  <p>const { name, email, age } = req.body;</p>
+
+  <p>// 输入验证</p>
+
+  <p>if (!name || !email) {</p>
+
+  <p>return res.status(400).json({ error: 'Name and email are required' });</p>
+
+  <p>}</p>
+
+  <p>const user = await db.users.create({</p>
+
+  <p>data: { name, email, age },</p>
+
+  <p>});</p>
+
+  <p>res.status(201).json({ data: user });</p>
+
+  <p>});</p>
+
+  <p>// 错误处理中间件</p>
+
+  <p>app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {</p>
+
+  <p>console.error(err.stack);</p>
+
+  <p>res.status(500).json({</p>
+
+  <p>error: 'Internal Server Error',</p>
+
+  <p>message: process.env.NODE_ENV === 'development' ? err.message : undefined,</p>
+
+  <p>});</p>
+
+  <p>});</p>
+
+  <pre><code>
+#### A.17.2 API 响应格式规范
+</code></pre>
+
+  <p>// 成功响应</p>
+
+  <p>interface SuccessResponse<T> {</p>
+
+  <p>success: true;</p>
+
+  <p>data: T;</p>
+
+  <p>metadata?: {</p>
+
+  <p>page?: number;</p>
+
+  <p>limit?: number;</p>
+
+  <p>total?: number;</p>
+
+  <p>timestamp: string;</p>
+
+  <p>};</p>
+
+  <p>}</p>
+
+  <p>// 错误响应</p>
+
+  <p>interface ErrorResponse {</p>
+
+  <p>success: false;</p>
+
+  <p>error: {</p>
+
+  <p>code: string;</p>
+
+  <p>message: string;</p>
+
+  <p>details?: Record<string, string[]>;</p>
+
+  <p>};</p>
+
+  <p>}</p>
+
+  <p>// 使用示例</p>
+
+  <p>// 成功: { "success": true, "data": { "id": 1, "name": "Alice" } }</p>
+
+  <p>// 列表: { "success": true, "data": [...], "metadata": { "page": 1, "total": 50 } }</p>
+
+  <p>// 错误: { "success": false, "error": { "code": "VALIDATION_ERROR", "message": "Invalid input" } }</p>
+
+  <pre><code>
+#### A.17.3 API 认证模式
+</code></pre>
+
+  <p>// JWT 认证中间件</p>
+
+  <p>import jwt from 'jsonwebtoken';</p>
+
+  <p>interface AuthRequest extends express.Request {</p>
+
+  <p>user?: { id: string; role: string };</p>
+
+  <p>}</p>
+
+  <p>const authenticate = (req: AuthRequest, res: express.Response, next: express.NextFunction) => {</p>
+
+  <p>const authHeader = req.headers.authorization;</p>
+
+  <p>if (!authHeader || !authHeader.startsWith('Bearer ')) {</p>
+
+  <p>return res.status(401).json({ error: 'Authorization header required' });</p>
+
+  <p>}</p>
+
+  <p>const token = authHeader.split(' ')[1];</p>
+
+  <p>try {</p>
+
+  <p>const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string; role: string };</p>
+
+  <p>req.user = decoded;</p>
+
+  <p>next();</p>
+
+  <p>} catch (err) {</p>
+
+  <p>return res.status(401).json({ error: 'Invalid or expired token' });</p>
+
+  <p>}</p>
+
+  <p>};</p>
+
+  <p>// 角色验证</p>
+
+  <p>const authorize = (...roles: string[]) => {</p>
+
+  <p>return (req: AuthRequest, res: express.Response, next: express.NextFunction) => {</p>
+
+  <p>if (!req.user || !roles.includes(req.user.role)) {</p>
+
+  <p>return res.status(403).json({ error: 'Insufficient permissions' });</p>
+
+  <p>}</p>
+
+  <p>next();</p>
+
+  <p>};</p>
+
+  <p>};</p>
+
+  <p>// 使用</p>
+
+  <p>app.get('/api/admin/users', authenticate, authorize('admin'), async (req, res) => {</p>
+
+  <p>const users = await db.users.findMany();</p>
+
+  <p>res.json({ data: users });</p>
+
+  <p>});</p>
+
+  <pre><code>
+#### A.17.4 API 版本管理
+</code></pre>
+
+  <p>// URL 版本</p>
+
+  <p>// /api/v1/users</p>
+
+  <p>// /api/v2/users</p>
+
+  <p>// 请求头版本</p>
+
+  <p>// Accept: application/vnd.myapp.v1+json</p>
+
+  <p>// Express URL 版本</p>
+
+  <p>const v1Router = express.Router();</p>
+
+  <p>const v2Router = express.Router();</p>
+
+  <p>v1Router.get('/users', (req, res) => {</p>
+
+  <p>res.json({ version: 'v1', users: [] });</p>
+
+  <p>});</p>
+
+  <p>v2Router.get('/users', (req, res) => {</p>
+
+  <p>res.json({ version: 'v2', users: [], metadata: {} });</p>
+
+  <p>});</p>
+
+  <p>app.use('/api/v1', v1Router);</p>
+
+  <p>app.use('/api/v2', v2Router);</p>
+
+  <pre><code>
+---
+
+### A.18 React 常用模式速查
+
+#### A.18.1 组件基础
+</code></pre>
+
+  <p>// 函数组件</p>
+
+  <p>function Welcome({ name }: { name: string }) {</p>
+
+  <p>return <h1>Hello, {name}!</h1>;</p>
+
+  <p>}</p>
+
+  <p>// 箭头函数组件</p>
+
+  <p>const Welcome: React.FC<{ name: string }> = ({ name }) => {</p>
+
+  <p>return <h1>Hello, {name}!</h1>;</p>
+
+  <p>};</p>
+
+  <p>// 带状态组件</p>
+
+  <p>import { useState } from 'react';</p>
+
+  <p>function Counter() {</p>
+
+  <p>const [count, setCount] = useState(0);</p>
+
+  <p>return (</p>
+
+  <p><div></p>
+
+  <p><p>Count: {count}</p></p>
+
+  <p><button onClick={() => setCount(count + 1)}>+</button></p>
+
+  <p><button onClick={() => setCount(count - 1)}>-</button></p>
+
+  <p></div></p>
+
+  <p>);</p>
+
+  <p>}</p>
+
+  <pre><code>
+#### A.18.2 Hooks 常用模式
+</code></pre>
+
+  <p>import { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';</p>
+
+  <p>// useEffect - 副作用</p>
+
+  <p>function UserProfile({ userId }: { userId: string }) {</p>
+
+  <p>const [user, setUser] = useState(null);</p>
+
+  <p>const [loading, setLoading] = useState(true);</p>
+
+  <p>useEffect(() => {</p>
+
+  <p>let cancelled = false;</p>
+
+  <p>const fetchUser = async () => {</p>
+
+  <p>setLoading(true);</p>
+
+  <p>const response = await fetch(<code>/api/users/${userId}</code>);</p>
+
+  <p>const data = await response.json();</p>
+
+  <p>if (!cancelled) {</p>
+
+  <p>setUser(data);</p>
+
+  <p>setLoading(false);</p>
+
+  <p>}</p>
+
+  <p>};</p>
+
+  <p>fetchUser();</p>
+
+  <p>return () => {</p>
+
+  <p>cancelled = true;  // 清理函数</p>
+
+  <p>};</p>
+
+  <p>}, [userId]);  // 依赖项</p>
+
+  <p>if (loading) return <div>Loading...</div>;</p>
+
+  <p>return <div>{user?.name}</div>;</p>
+
+  <p>}</p>
+
+  <p>// useCallback - 避免函数重创建</p>
+
+  <p>const handleSubmit = useCallback(async (data: FormData) => {</p>
+
+  <p>const response = await fetch('/api/submit', {</p>
+
+  <p>method: 'POST',</p>
+
+  <p>body: JSON.stringify(data),</p>
+
+  <p>});</p>
+
+  <p>return response.json();</p>
+
+  <p>}, []);  // 空依赖表示函数不会改变</p>
+
+  <p>// useMemo - 避免重复计算</p>
+
+  <p>const sortedItems = useMemo(() => {</p>
+
+  <p>return items.sort((a, b) => a.name.localeCompare(b.name));</p>
+
+  <p>}, [items]);</p>
+
+  <p>// useRef - 引用 DOM</p>
+
+  <p>function AutoFocus() {</p>
+
+  <p>const inputRef = useRef<HTMLInputElement>(null);</p>
+
+  <p>useEffect(() => {</p>
+
+  <p>inputRef.current?.focus();</p>
+
+  <p>}, []);</p>
+
+  <p>return <input ref={inputRef} type="text" />;</p>
+
+  <p>}</p>
+
+  <p>// useRef - 保存可变值</p>
+
+  <p>function Timer() {</p>
+
+  <p>const intervalRef = useRef<number | null>(null);</p>
+
+  <p>const startTimer = useCallback(() => {</p>
+
+  <p>intervalRef.current = setInterval(() => {</p>
+
+  <p>console.log('Tick');</p>
+
+  <p>}, 1000);</p>
+
+  <p>}, []);</p>
+
+  <p>const stopTimer = useCallback(() => {</p>
+
+  <p>if (intervalRef.current) {</p>
+
+  <p>clearInterval(intervalRef.current);</p>
+
+  <p>}</p>
+
+  <p>}, []);</p>
+
+  <p>return <div></p>
+
+  <p><button onClick={startTimer}>Start</button></p>
+
+  <p><button onClick={stopTimer}>Stop</button></p>
+
+  <p></div>;</p>
+
+  <p>}</p>
+
+  <pre><code>
+#### A.18.3 自定义 Hooks
+</code></pre>
+
+  <p>// useLocalStorage</p>
+
+  <p>function useLocalStorage<T>(key: string, initialValue: T) {</p>
+
+  <p>const [storedValue, setStoredValue] = useState<T>(() => {</p>
+
+  <p>try {</p>
+
+  <p>const item = window.localStorage.getItem(key);</p>
+
+  <p>return item ? JSON.parse(item) : initialValue;</p>
+
+  <p>} catch (error) {</p>
+
+  <p>return initialValue;</p>
+
+  <p>}</p>
+
+  <p>});</p>
+
+  <p>const setValue = useCallback((value: T | ((val: T) => T)) => {</p>
+
+  <p>try {</p>
+
+  <p>const valueToStore = value instanceof Function ? value(storedValue) : value;</p>
+
+  <p>setStoredValue(valueToStore);</p>
+
+  <p>window.localStorage.setItem(key, JSON.stringify(valueToStore));</p>
+
+  <p>} catch (error) {</p>
+
+  <p>console.error('Error saving to localStorage:', error);</p>
+
+  <p>}</p>
+
+  <p>}, [key, storedValue]);</p>
+
+  <p>return [storedValue, setValue] as const;</p>
+
+  <p>}</p>
+
+  <p>// useDebounce</p>
+
+  <p>function useDebounce<T>(value: T, delay: number = 300): T {</p>
+
+  <p>const [debouncedValue, setDebouncedValue] = useState(value);</p>
+
+  <p>useEffect(() => {</p>
+
+  <p>const timer = setTimeout(() => {</p>
+
+  <p>setDebouncedValue(value);</p>
+
+  <p>}, delay);</p>
+
+  <p>return () => clearTimeout(timer);</p>
+
+  <p>}, [value, delay]);</p>
+
+  <p>return debouncedValue;</p>
+
+  <p>}</p>
+
+  <p>// useFetch</p>
+
+  <p>function useFetch<T>(url: string) {</p>
+
+  <p>const [data, setData] = useState<T | null>(null);</p>
+
+  <p>const [loading, setLoading] = useState(true);</p>
+
+  <p>const [error, setError] = useState<Error | null>(null);</p>
+
+  <p>useEffect(() => {</p>
+
+  <p>let cancelled = false;</p>
+
+  <p>const fetchData = async () => {</p>
+
+  <p>setLoading(true);</p>
+
+  <p>setError(null);</p>
+
+  <p>try {</p>
+
+  <p>const response = await fetch(url);</p>
+
+  <p>if (!response.ok) throw new Error(<code>HTTP error: ${response.status}</code>);</p>
+
+  <p>const result = await response.json();</p>
+
+  <p>if (!cancelled) {</p>
+
+  <p>setData(result);</p>
+
+  <p>}</p>
+
+  <p>} catch (err) {</p>
+
+  <p>if (!cancelled) {</p>
+
+  <p>setError(err instanceof Error ? err : new Error('Unknown error'));</p>
+
+  <p>}</p>
+
+  <p>} finally {</p>
+
+  <p>if (!cancelled) {</p>
+
+  <p>setLoading(false);</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>};</p>
+
+  <p>fetchData();</p>
+
+  <p>return () => { cancelled = true; };</p>
+
+  <p>}, [url]);</p>
+
+  <p>return { data, loading, error };</p>
+
+  <p>}</p>
+
+  <p>// 使用自定义 Hook</p>
+
+  <p>function SearchComponent() {</p>
+
+  <p>const [searchTerm, setSearchTerm] = useState('');</p>
+
+  <p>const debouncedSearch = useDebounce(searchTerm, 500);</p>
+
+  <p>const { data, loading } = useFetch<User[]>(<code>/api/users?search=${debouncedSearch}</code>);</p>
+
+  <p>return (</p>
+
+  <p><div></p>
+
+  <p><input</p>
+
+  <p>type="text"</p>
+
+  <p>value={searchTerm}</p>
+
+  <p>onChange={(e) => setSearchTerm(e.target.value)}</p>
+
+  <p>placeholder="Search users..."</p>
+
+  <p>/></p>
+
+  <p>{loading ? <p>Loading...</p> : (</p>
+
+  <p><ul></p>
+
+  <p>{data?.map(user => <li key={user.id}>{user.name}</li>)}</p>
+
+  <p></ul></p>
+
+  <p>)}</p>
+
+  <p></div></p>
+
+  <p>);</p>
+
+  <p>}</p>
+
+  <pre><code>
+#### A.18.4 React 性能优化
+</code></pre>
+
+  <p>// React.memo - 避免不必要重渲染</p>
+
+  <p>const ExpensiveComponent = React.memo(({ data }: { data: User }) => {</p>
+
+  <p>return <div>{/* 复杂渲染 */}</div>;</p>
+
+  <p>});</p>
+
+  <p>// useMemo 防止 props 重新创建</p>
+
+  <p>function Parent() {</p>
+
+  <p>const config = useMemo(() => ({</p>
+
+  <p>theme: 'dark',</p>
+
+  <p>size: 'large',</p>
+
+  <p>}), []);</p>
+
+  <p>return <Child config={config} />;</p>
+
+  <p>}</p>
+
+  <p>// useCallback 防止回调函数重新创建</p>
+
+  <p>function Parent() {</p>
+
+  <p>const [count, setCount] = useState(0);</p>
+
+  <p>const increment = useCallback(() => {</p>
+
+  <p>setCount(prev => prev + 1);</p>
+
+  <p>}, []);</p>
+
+  <p>return <Child onClick={increment} />;</p>
+
+  <p>}</p>
+
+  <p>// 虚拟列表（react-window）</p>
+
+  <p>import { FixedSizeList } from 'react-window';</p>
+
+  <p>function VirtualList({ items }: { items: string[] }) {</p>
+
+  <p>const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => (</p>
+
+  <p><div style={style}>Item {items[index]}</div></p>
+
+  <p>);</p>
+
+  <p>return (</p>
+
+  <p><FixedSizeList</p>
+
+  <p>height={400}</p>
+
+  <p>itemCount={items.length}</p>
+
+  <p>itemSize={35}</p>
+
+  <p>width={300}</p>
+
+  <blockquote>
+
+  <p></p>
+
+  </blockquote>
+
+  <p>{Row}</p>
+
+  <p></FixedSizeList></p>
+
+  <p>);</p>
+
+  <p>}</p>
+
+  <p>// 代码分割（React.lazy + Suspense）</p>
+
+  <p>const LazyComponent = React.lazy(() => import('./HeavyComponent'));</p>
+
+  <p>function App() {</p>
+
+  <p>return (</p>
+
+  <p><Suspense fallback={<div>Loading...</div>}></p>
+
+  <p><LazyComponent /></p>
+
+  <p></Suspense></p>
+
+  <p>);</p>
+
+  <p>}</p>
+
+  <pre><code>
+#### A.18.5 React Router 常用模式
+</code></pre>
+
+  <p>import { BrowserRouter, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';</p>
+
+  <p>function App() {</p>
+
+  <p>return (</p>
+
+  <p><BrowserRouter></p>
+
+  <p><nav></p>
+
+  <p><Link to="/">Home</Link></p>
+
+  <p><Link to="/users">Users</Link></p>
+
+  <p><Link to="/about">About</Link></p>
+
+  <p></nav></p>
+
+  <p><Routes></p>
+
+  <p><Route path="/" element={<Home />} /></p>
+
+  <p><Route path="/users" element={<UserList />} /></p>
+
+  <p><Route path="/users/:id" element={<UserDetail />} /></p>
+
+  <p><Route path="/about" element={<About />} /></p>
+
+  <p><Route path="*" element={<NotFound />} /></p>
+
+  <p></Routes></p>
+
+  <p></BrowserRouter></p>
+
+  <p>);</p>
+
+  <p>}</p>
+
+  <p>// 动态路由参数</p>
+
+  <p>function UserDetail() {</p>
+
+  <p>const { id } = useParams<{ id: string }>();</p>
+
+  <p>const navigate = useNavigate();</p>
+
+  <p>return (</p>
+
+  <p><div></p>
+
+  <p><h1>User: {id}</h1></p>
+
+  <p><button onClick={() => navigate('/users')}>Back</button></p>
+
+  <p></div></p>
+
+  <p>);</p>
+
+  <p>}</p>
+
+  <p>// 嵌套路由</p>
+
+  <p>function Layout() {</p>
+
+  <p>return (</p>
+
+  <p><div></p>
+
+  <p><header></p>
+
+  <p><h1>My App</h1></p>
+
+  <p></header></p>
+
+  <p><Outlet />  {/* 子路由在此渲染 */}</p>
+
+  <p></div></p>
+
+  <p>);</p>
+
+  <p>}</p>
+
+  <p><Routes></p>
+
+  <p><Route path="/" element={<Layout />}></p>
+
+  <p><Route index element={<Home />} /></p>
+
+  <p><Route path="dashboard" element={<Dashboard />} /></p>
+
+  <p><Route path="settings" element={<Settings />} /></p>
+
+  <p></Route></p>
+
+  <p></Routes></p>
+
+  <pre><code>
+#### A.18.6 状态管理模式
+</code></pre>
+
+  <p>// Context + useReducer 模式</p>
+
+  <p>import { createContext, useContext, useReducer, ReactNode } from 'react';</p>
+
+  <p>// 定义状态和动作</p>
+
+  <p>interface AuthState {</p>
+
+  <p>user: User | null;</p>
+
+  <p>loading: boolean;</p>
+
+  <p>error: string | null;</p>
+
+  <p>}</p>
+
+  <p>type AuthAction =</p>
+
+  <table class="reading-path-table"><thead><tr><th>{ type: 'LOGIN_START' }</th></tr></thead><tbody><tr><td>{ type: 'LOGIN_FAILURE'; payload: string }</td></tr><tr><td>{ type: 'LOGOUT' };</td></tr></tbody></table>
+
+  <p>// Reducer</p>
+
+  <p>function authReducer(state: AuthState, action: AuthAction): AuthState {</p>
+
+  <p>switch (action.type) {</p>
+
+  <p>case 'LOGIN_START':</p>
+
+  <p>return { ...state, loading: true, error: null };</p>
+
+  <p>case 'LOGIN_SUCCESS':</p>
+
+  <p>return { user: action.payload, loading: false, error: null };</p>
+
+  <p>case 'LOGIN_FAILURE':</p>
+
+  <p>return { ...state, loading: false, error: action.payload };</p>
+
+  <p>case 'LOGOUT':</p>
+
+  <p>return { user: null, loading: false, error: null };</p>
+
+  <p>default:</p>
+
+  <p>return state;</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>// Context</p>
+
+  <p>const AuthContext = createContext<{</p>
+
+  <p>state: AuthState;</p>
+
+  <p>dispatch: React.Dispatch<AuthAction>;</p>
+
+  <p>} | null>(null);</p>
+
+  <p>// Provider</p>
+
+  <p>function AuthProvider({ children }: { children: ReactNode }) {</p>
+
+  <p>const [state, dispatch] = useReducer(authReducer, {</p>
+
+  <p>user: null,</p>
+
+  <p>loading: false,</p>
+
+  <p>error: null,</p>
+
+  <p>});</p>
+
+  <p>return (</p>
+
+  <p><AuthContext.Provider value={{ state, dispatch }}></p>
+
+  <p>{children}</p>
+
+  <p></AuthContext.Provider></p>
+
+  <p>);</p>
+
+  <p>}</p>
+
+  <p>// 自定义 Hook</p>
+
+  <p>function useAuth() {</p>
+
+  <p>const context = useContext(AuthContext);</p>
+
+  <p>if (!context) {</p>
+
+  <p>throw new Error('useAuth must be used within AuthProvider');</p>
+
+  <p>}</p>
+
+  <p>return context;</p>
+
+  <p>}</p>
+
+  <p>// 使用</p>
+
+  <p>function LoginForm() {</p>
+
+  <p>const { dispatch } = useAuth();</p>
+
+  <p>const handleLogin = async (email: string, password: string) => {</p>
+
+  <p>dispatch({ type: 'LOGIN_START' });</p>
+
+  <p>try {</p>
+
+  <p>const response = await fetch('/api/login', { method: 'POST', body: JSON.stringify({ email, password }) });</p>
+
+  <p>const user = await response.json();</p>
+
+  <p>dispatch({ type: 'LOGIN_SUCCESS', payload: user });</p>
+
+  <p>} catch (err) {</p>
+
+  <p>dispatch({ type: 'LOGIN_FAILURE', payload: 'Login failed' });</p>
+
+  <p>}</p>
+
+  <p>};</p>
+
+  <p>return <form>{/* ... */}</form>;</p>
+
+  <p>}</p>
+
+  <pre><code>
+---
+
+### A.19 数据结构与算法速查
+
+#### A.19.1 时间复杂度速查
+
+| 数据结构 | 访问 | 搜索 | 插入 | 删除 |
+|----------|------|------|------|------|
+| 数组 | O(1) | O(n) | O(n) | O(n) |
+| 栈 | O(n) | O(n) | O(1) | O(1) |
+| 队列 | O(n) | O(n) | O(1) | O(1) |
+| 链表 | O(n) | O(n) | O(1) | O(1) |
+| 哈希表 | O(1)* | O(1)* | O(1)* | O(1)* |
+| 二叉搜索树 | O(log n) | O(log n) | O(log n) | O(log n) |
+| 平衡树 | O(log n) | O(log n) | O(log n) | O(log n) |
+| 堆 | O(n) | O(n) | O(log n) | O(log n) |
+
+*注：哈希表平均时间复杂度为 O(1)，最坏情况为 O(n)
+
+#### A.19.2 排序算法速查
+
+| 算法 | 最好 | 平均 | 最坏 | 空间 | 稳定 |
+|------|------|------|------|------|------|
+| 冒泡排序 | O(n) | O(n²) | O(n²) | O(1) | ✅ |
+| 选择排序 | O(n²) | O(n²) | O(n²) | O(1) | ❌ |
+| 插入排序 | O(n) | O(n²) | O(n²) | O(1) | ✅ |
+| 快速排序 | O(n log n) | O(n log n) | O(n²) | O(log n) | ❌ |
+| 归并排序 | O(n log n) | O(n log n) | O(n log n) | O(n) | ✅ |
+| 堆排序 | O(n log n) | O(n log n) | O(n log n) | O(1) | ❌ |
+| 计数排序 | O(n+k) | O(n+k) | O(n+k) | O(k) | ✅ |
+| 基数排序 | O(nk) | O(nk) | O(nk) | O(n+k) | ✅ |
+
+#### A.19.3 常用算法模式
+</code></pre>
+
+  <p>// 双指针 - 有序数组两数之和</p>
+
+  <p>function twoSum(nums, target) {</p>
+
+  <p>let left = 0, right = nums.length - 1;</p>
+
+  <p>while (left < right) {</p>
+
+  <p>const sum = nums[left] + nums[right];</p>
+
+  <p>if (sum === target) return [left, right];</p>
+
+  <p>if (sum < target) left++;</p>
+
+  <p>else right--;</p>
+
+  <p>}</p>
+
+  <p>return [-1, -1];</p>
+
+  <p>}</p>
+
+  <p>// 滑动窗口 - 最长无重复子串</p>
+
+  <p>function lengthOfLongestSubstring(s) {</p>
+
+  <p>const charSet = new Set();</p>
+
+  <p>let left = 0, maxLength = 0;</p>
+
+  <p>for (let right = 0; right < s.length; right++) {</p>
+
+  <p>while (charSet.has(s[right])) {</p>
+
+  <p>charSet.delete(s[left]);</p>
+
+  <p>left++;</p>
+
+  <p>}</p>
+
+  <p>charSet.add(s[right]);</p>
+
+  <p>maxLength = Math.max(maxLength, right - left + 1);</p>
+
+  <p>}</p>
+
+  <p>return maxLength;</p>
+
+  <p>}</p>
+
+  <p>// 二分查找</p>
+
+  <p>function binarySearch(nums, target) {</p>
+
+  <p>let left = 0, right = nums.length - 1;</p>
+
+  <p>while (left <= right) {</p>
+
+  <p>const mid = Math.floor((left + right) / 2);</p>
+
+  <p>if (nums[mid] === target) return mid;</p>
+
+  <p>if (nums[mid] < target) left = mid + 1;</p>
+
+  <p>else right = mid - 1;</p>
+
+  <p>}</p>
+
+  <p>return -1;</p>
+
+  <p>}</p>
+
+  <p>// 深度优先搜索（DFS）</p>
+
+  <p>function dfs(graph, start, visited = new Set()) {</p>
+
+  <p>visited.add(start);</p>
+
+  <p>console.log(start);</p>
+
+  <p>for (const neighbor of graph[start]) {</p>
+
+  <p>if (!visited.has(neighbor)) {</p>
+
+  <p>dfs(graph, neighbor, visited);</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>// 广度优先搜索（BFS）</p>
+
+  <p>function bfs(graph, start) {</p>
+
+  <p>const visited = new Set([start]);</p>
+
+  <p>const queue = [start];</p>
+
+  <p>while (queue.length > 0) {</p>
+
+  <p>const node = queue.shift();</p>
+
+  <p>console.log(node);</p>
+
+  <p>for (const neighbor of graph[node]) {</p>
+
+  <p>if (!visited.has(neighbor)) {</p>
+
+  <p>visited.add(neighbor);</p>
+
+  <p>queue.push(neighbor);</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>// 动态规划 - 斐波那契数列</p>
+
+  <p>function fibonacci(n) {</p>
+
+  <p>if (n <= 1) return n;</p>
+
+  <p>const dp = [0, 1];</p>
+
+  <p>for (let i = 2; i <= n; i++) {</p>
+
+  <p>dp[i] = dp[i-1] + dp[i-2];</p>
+
+  <p>}</p>
+
+  <p>return dp[n];</p>
+
+  <p>}</p>
+
+  <p>// 动态规划 - 背包问题</p>
+
+  <p>function knapsack(weights, values, capacity) {</p>
+
+  <p>const n = weights.length;</p>
+
+  <p>const dp = Array.from({ length: n + 1 }, () => Array(capacity + 1).fill(0));</p>
+
+  <p>for (let i = 1; i <= n; i++) {</p>
+
+  <p>for (let w = 1; w <= capacity; w++) {</p>
+
+  <p>if (weights[i-1] <= w) {</p>
+
+  <p>dp[i][w] = Math.max(</p>
+
+  <p>values[i-1] + dp[i-1][w - weights[i-1]],</p>
+
+  <p>dp[i-1][w]</p>
+
+  <p>);</p>
+
+  <p>} else {</p>
+
+  <p>dp[i][w] = dp[i-1][w];</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>return dp[n][capacity];</p>
+
+  <p>}</p>
+
+  <p>// 回溯算法 - 全排列</p>
+
+  <p>function permute(nums) {</p>
+
+  <p>const result = [];</p>
+
+  <p>function backtrack(path, remaining) {</p>
+
+  <p>if (remaining.length === 0) {</p>
+
+  <p>result.push([...path]);</p>
+
+  <p>return;</p>
+
+  <p>}</p>
+
+  <p>for (let i = 0; i < remaining.length; i++) {</p>
+
+  <p>path.push(remaining[i]);</p>
+
+  <p>backtrack(path, [...remaining.slice(0, i), ...remaining.slice(i + 1)]);</p>
+
+  <p>path.pop();</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>backtrack([], nums);</p>
+
+  <p>return result;</p>
+
+  <p>}</p>
+
+  <pre><code>
+---
+
+### A.20 Node.js 常用 API 速查
+
+#### A.20.1 文件系统（fs）
+</code></pre>
+
+  <p>import fs from 'fs/promises';</p>
+
+  <p>import fsSync from 'fs';</p>
+
+  <p>// 异步读取文件</p>
+
+  <p>async function readFile() {</p>
+
+  <p>const content = await fs.readFile('file.txt', 'utf-8');</p>
+
+  <p>console.log(content);</p>
+
+  <p>}</p>
+
+  <p>// 异步写入文件</p>
+
+  <p>async function writeFile() {</p>
+
+  <p>await fs.writeFile('output.txt', 'Hello, World!', 'utf-8');</p>
+
+  <p>}</p>
+
+  <p>// 追加内容</p>
+
+  <p>async function appendFile() {</p>
+
+  <p>await fs.appendFile('log.txt', <code>${new Date().toISOString()} - Log entry\n</code>);</p>
+
+  <p>}</p>
+
+  <p>// 检查文件是否存在</p>
+
+  <p>async function fileExists(path) {</p>
+
+  <p>try {</p>
+
+  <p>await fs.access(path);</p>
+
+  <p>return true;</p>
+
+  <p>} catch {</p>
+
+  <p>return false;</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>// 目录操作</p>
+
+  <p>async function dirOperations() {</p>
+
+  <p>await fs.mkdir('new-dir', { recursive: true });  // 创建目录</p>
+
+  <p>const files = await fs.readdir('.');               // 读取目录</p>
+
+  <p>await fs.rmdir('old-dir', { recursive: true });    // 删除目录</p>
+
+  <p>}</p>
+
+  <p>// 文件信息</p>
+
+  <p>async function fileInfo() {</p>
+
+  <p>const stats = await fs.stat('file.txt');</p>
+
+  <p>console.log({</p>
+
+  <p>size: stats.size,</p>
+
+  <p>isFile: stats.isFile(),</p>
+
+  <p>isDirectory: stats.isDirectory(),</p>
+
+  <p>created: stats.birthtime,</p>
+
+  <p>modified: stats.mtime,</p>
+
+  <p>});</p>
+
+  <p>}</p>
+
+  <p>// 流式读取（大文件）</p>
+
+  <p>function streamRead() {</p>
+
+  <p>const readStream = fsSync.createReadStream('large-file.txt', { encoding: 'utf-8' });</p>
+
+  <p>readStream.on('data', (chunk) => {</p>
+
+  <p>console.log(<code>Received ${chunk.length} bytes</code>);</p>
+
+  <p>});</p>
+
+  <p>readStream.on('end', () => {</p>
+
+  <p>console.log('Finished reading');</p>
+
+  <p>});</p>
+
+  <p>}</p>
+
+  <pre><code>
+#### A.20.2 路径处理（path）
+</code></pre>
+
+  <p>import path from 'path';</p>
+
+  <p>// 路径操作</p>
+
+  <p>const fullPath = '/home/user/projects/app/src/index.js';</p>
+
+  <p>console.log(path.dirname(fullPath));      // '/home/user/projects/app/src'</p>
+
+  <p>console.log(path.basename(fullPath));     // 'index.js'</p>
+
+  <p>console.log(path.extname(fullPath));      // '.js'</p>
+
+  <p>console.log(path.parse(fullPath));</p>
+
+  <p>// { root: '/', dir: '/home/user/projects/app/src', base: 'index.js', ext: '.js', name: 'index' }</p>
+
+  <p>// 路径拼接</p>
+
+  <p>const configPath = path.join(__dirname, 'config', 'app.json');</p>
+
+  <p>console.log(configPath);  // 使用当前平台的路径分隔符</p>
+
+  <p>// 路径规范化</p>
+
+  <p>console.log(path.normalize('/home/../home/user/./project'));  // '/home/user/project'</p>
+
+  <p>// 相对路径</p>
+
+  <p>console.log(path.relative('/home/user/projects/app', '/home/user/projects/lib'));</p>
+
+  <p>// '../lib'</p>
+
+  <p>// 绝对路径判断</p>
+
+  <p>console.log(path.isAbsolute('/home/user'));  // true</p>
+
+  <p>console.log(path.isAbsolute('relative/path'));  // false</p>
+
+  <pre><code>
+#### A.20.3 事件（EventEmitter）
+</code></pre>
+
+  <p>import EventEmitter from 'events';</p>
+
+  <p>// 创建事件发射器</p>
+
+  <p>class MyEmitter extends EventEmitter {</p>
+
+  <p>constructor() {</p>
+
+  <p>super();</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>const emitter = new MyEmitter();</p>
+
+  <p>// 监听事件</p>
+
+  <p>emitter.on('data', (data) => {</p>
+
+  <p>console.log('Data received:', data);</p>
+
+  <p>});</p>
+
+  <p>emitter.once('once', () => {</p>
+
+  <p>console.log('This will only fire once');</p>
+
+  <p>});</p>
+
+  <p>// 发射事件</p>
+
+  <p>emitter.emit('data', { id: 1, value: 'test' });</p>
+
+  <p>emitter.emit('once');</p>
+
+  <p>emitter.emit('once');  // 不会触发</p>
+
+  <p>// 错误处理</p>
+
+  <p>emitter.on('error', (err) => {</p>
+
+  <p>console.error('Error:', err.message);</p>
+
+  <p>});</p>
+
+  <p>// 移除监听器</p>
+
+  <p>const handler = (data) => console.log('Handler', data);</p>
+
+  <p>emitter.on('event', handler);</p>
+
+  <p>emitter.off('event', handler);  // 移除特定监听器</p>
+
+  <p>emitter.removeAllListeners();   // 移除所有监听器</p>
+
+  <p>// 检查监听器</p>
+
+  <p>console.log(emitter.listenerCount('data'));  // 1</p>
+
+  <p>console.log(emitter.listeners('data'));       // [Function]</p>
+
+  <pre><code>
+#### A.20.4 子进程（child_process）
+</code></pre>
+
+  <p>import { exec, spawn, execSync } from 'child_process';</p>
+
+  <p>// 执行命令（捕获输出）</p>
+
+  <p>async function runCommand() {</p>
+
+  <p>return new Promise((resolve, reject) => {</p>
+
+  <p>exec('ls -la', (error, stdout, stderr) => {</p>
+
+  <p>if (error) {</p>
+
+  <p>reject(error);</p>
+
+  <p>return;</p>
+
+  <p>}</p>
+
+  <p>resolve(stdout);</p>
+
+  <p>});</p>
+
+  <p>});</p>
+
+  <p>}</p>
+
+  <p>// spawn - 流式输出（适合长时间运行的命令）</p>
+
+  <p>function streamCommand() {</p>
+
+  <p>const child = spawn('node', ['server.js'], {</p>
+
+  <p>stdio: 'inherit',  // 继承父进程的标准输入输出</p>
+
+  <p>env: { ...process.env, NODE_ENV: 'development' },</p>
+
+  <p>});</p>
+
+  <p>child.on('error', (err) => {</p>
+
+  <p>console.error('Failed to start:', err);</p>
+
+  <p>});</p>
+
+  <p>child.on('exit', (code, signal) => {</p>
+
+  <p>console.log(<code>Process exited with code ${code}</code>);</p>
+
+  <p>});</p>
+
+  <p>}</p>
+
+  <p>// 同步执行</p>
+
+  <p>try {</p>
+
+  <p>const result = execSync('git rev-parse HEAD', { encoding: 'utf-8' });</p>
+
+  <p>console.log('Current commit:', result.trim());</p>
+
+  <p>} catch (error) {</p>
+
+  <p>console.error('Git command failed:', error.message);</p>
+
+  <p>}</p>
+
+  <pre><code>
+#### A.20.5 网络（http/https）
+</code></pre>
+
+  <p>import http from 'http';</p>
+
+  <p>import https from 'https';</p>
+
+  <p>// 创建 HTTP 服务器</p>
+
+  <p>const server = http.createServer((req, res) => {</p>
+
+  <p>// 设置响应头</p>
+
+  <p>res.writeHead(200, {</p>
+
+  <p>'Content-Type': 'application/json',</p>
+
+  <p>'Access-Control-Allow-Origin': '*',</p>
+
+  <p>});</p>
+
+  <p>// 请求处理</p>
+
+  <p>const { method, url } = req;</p>
+
+  <p>if (method === 'GET' && url === '/api/health') {</p>
+
+  <p>res.end(JSON.stringify({ status: 'ok' }));</p>
+
+  <p>} else {</p>
+
+  <p>res.writeHead(404);</p>
+
+  <p>res.end(JSON.stringify({ error: 'Not found' }));</p>
+
+  <p>}</p>
+
+  <p>});</p>
+
+  <p>server.listen(3000, () => {</p>
+
+  <p>console.log('Server running on http://localhost:3000');</p>
+
+  <p>});</p>
+
+  <p>// 发送 HTTP 请求</p>
+
+  <p>function httpRequest(url) {</p>
+
+  <p>return new Promise((resolve, reject) => {</p>
+
+  <p>https.get(url, (response) => {</p>
+
+  <p>let data = '';</p>
+
+  <p>response.on('data', (chunk) => {</p>
+
+  <p>data += chunk;</p>
+
+  <p>});</p>
+
+  <p>response.on('end', () => {</p>
+
+  <p>try {</p>
+
+  <p>resolve(JSON.parse(data));</p>
+
+  <p>} catch {</p>
+
+  <p>resolve(data);</p>
+
+  <p>}</p>
+
+  <p>});</p>
+
+  <p>}).on('error', reject);</p>
+
+  <p>});</p>
+
+  <p>}</p>
+
+  <pre><code>
+---
+
+### A.21 调试与错误处理模式
+
+#### A.21.1 JavaScript 调试技巧
+</code></pre>
+
+  <p>// console 高级用法</p>
+
+  <p>console.log('Simple log');</p>
+
+  <p>console.error('Error message');  // 红色输出</p>
+
+  <p>console.warn('Warning');          // 黄色输出</p>
+
+  <p>console.info('Info message');</p>
+
+  <p>console.debug('Debug info');</p>
+
+  <p>// 格式化输出</p>
+
+  <p>console.log('User: %s, Age: %d', 'Alice', 30);</p>
+
+  <p>console.log('Object: %o', { name: 'Alice', age: 30 });</p>
+
+  <p>// 表格输出</p>
+
+  <p>console.table([</p>
+
+  <p>{ name: 'Alice', age: 30 },</p>
+
+  <p>{ name: 'Bob', age: 25 },</p>
+
+  <p>]);</p>
+
+  <p>// 分组</p>
+
+  <p>console.group('User Details');</p>
+
+  <p>console.log('Name: Alice');</p>
+
+  <p>console.log('Age: 30');</p>
+
+  <p>console.groupEnd();</p>
+
+  <p>// 计时</p>
+
+  <p>console.time('fetch-data');</p>
+
+  <p>// ... 耗时操作 ...</p>
+
+  <p>console.timeEnd('fetch-data');  // "fetch-data: 123.45ms"</p>
+
+  <p>// 堆栈跟踪</p>
+
+  <p>console.trace('Trace point');</p>
+
+  <p>// 计数</p>
+
+  <p>console.count('click');  // click: 1</p>
+
+  <p>console.count('click');  // click: 2</p>
+
+  <p>// 性能监控</p>
+
+  <p>performance.mark('start');</p>
+
+  <p>// ... 操作 ...</p>
+
+  <p>performance.mark('end');</p>
+
+  <p>performance.measure('operation', 'start', 'end');</p>
+
+  <p>const measurements = performance.getEntriesByType('measure');</p>
+
+  <pre><code>
+#### A.21.2 Python 调试技巧
+</code></pre>
+
+  <p>import pdb</p>
+
+  <p>import logging</p>
+
+  <p>from time import perf_counter</p>
+
+  <h1>设置断点</h1>
+
+  <p>def buggy_function(x):</p>
+
+  <p>breakpoint()  # Python 3.7+ 进入 pdb 调试器</p>
+
+  <p>return x / 0</p>
+
+  <h1>pdb 命令</h1>
+
+  <h1>n - next (下一行)</h1>
+
+  <h1>s - step into (进入函数)</h1>
+
+  <h1>c - continue (继续执行)</h1>
+
+  <h1>p variable - print variable (打印变量)</h1>
+
+  <h1>l - list (显示源代码)</h1>
+
+  <h1>q - quit (退出调试器)</h1>
+
+  <h1>logging 模块</h1>
+
+  <p>logging.basicConfig(</p>
+
+  <p>level=logging.DEBUG,</p>
+
+  <p>format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',</p>
+
+  <p>handlers=[</p>
+
+  <p>logging.FileHandler('app.log'),</p>
+
+  <p>logging.StreamHandler()</p>
+
+  <p>]</p>
+
+  <p>)</p>
+
+  <p>logger = logging.getLogger(__name__)</p>
+
+  <p>def process_data(data):</p>
+
+  <p>logger.debug(f"Processing data: {data[:100]}...")</p>
+
+  <p>try:</p>
+
+  <p>result = complex_operation(data)</p>
+
+  <p>logger.info(f"Successfully processed data, result: {result}")</p>
+
+  <p>return result</p>
+
+  <p>except ValueError as e:</p>
+
+  <p>logger.error(f"Value error processing data: {e}", exc_info=True)</p>
+
+  <p>raise</p>
+
+  <p>except Exception as e:</p>
+
+  <p>logger.exception(f"Unexpected error: {e}")</p>
+
+  <p>raise</p>
+
+  <h1>性能分析</h1>
+
+  <p>def measure_time(func):</p>
+
+  <p>def wrapper(*args, **kwargs):</p>
+
+  <p>start = perf_counter()</p>
+
+  <p>result = func(*args, **kwargs)</p>
+
+  <p>elapsed = perf_counter() - start</p>
+
+  <p>print(f"{func.__name__} took {elapsed:.4f} seconds")</p>
+
+  <p>return result</p>
+
+  <p>return wrapper</p>
+
+  <p>@measure_time</p>
+
+  <p>def slow_function():</p>
+
+  <p>import time</p>
+
+  <p>time.sleep(1)</p>
+
+  <pre><code>
+#### A.21.3 错误处理最佳实践
+</code></pre>
+
+  <p>// TypeScript 错误处理</p>
+
+  <p>// 自定义错误类层次</p>
+
+  <p>class AppError extends Error {</p>
+
+  <p>constructor(</p>
+
+  <p>message: string,</p>
+
+  <p>public code: string,</p>
+
+  <p>public statusCode: number = 500,</p>
+
+  <p>public details?: Record<string, unknown></p>
+
+  <p>) {</p>
+
+  <p>super(message);</p>
+
+  <p>this.name = 'AppError';</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>class ValidationError extends AppError {</p>
+
+  <p>constructor(message: string, details?: Record<string, string[]>) {</p>
+
+  <p>super(message, 'VALIDATION_ERROR', 400, details);</p>
+
+  <p>this.name = 'ValidationError';</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>class AuthenticationError extends AppError {</p>
+
+  <p>constructor(message: string = 'Authentication required') {</p>
+
+  <p>super(message, 'AUTH_ERROR', 401);</p>
+
+  <p>this.name = 'AuthenticationError';</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>class NotFoundError extends AppError {</p>
+
+  <p>constructor(resource: string, id: string) {</p>
+
+  <p>super(<code>${resource} with id ${id} not found</code>, 'NOT_FOUND', 404);</p>
+
+  <p>this.name = 'NotFoundError';</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>// 全局错误处理</p>
+
+  <p>async function handleApiCall<T>(fn: () => Promise<T>): Promise<T> {</p>
+
+  <p>try {</p>
+
+  <p>return await fn();</p>
+
+  <p>} catch (error) {</p>
+
+  <p>if (error instanceof AppError) {</p>
+
+  <p>throw error;  // 已知错误，继续抛出</p>
+
+  <p>}</p>
+
+  <p>if (error instanceof TypeError) {</p>
+
+  <p>throw new ValidationError('Invalid data type');</p>
+
+  <p>}</p>
+
+  <p>// 未知错误，记录日志</p>
+
+  <p>console.error('Unexpected error:', error);</p>
+
+  <p>throw new AppError('An unexpected error occurred', 'INTERNAL_ERROR', 500);</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>// 重试模式</p>
+
+  <p>async function withRetry<T>(</p>
+
+  <p>fn: () => Promise<T>,</p>
+
+  <p>options: { maxRetries?: number; delay?: number; backoff?: number } = {}</p>
+
+  <p>): Promise<T> {</p>
+
+  <p>const { maxRetries = 3, delay = 1000, backoff = 2 } = options;</p>
+
+  <p>let lastError: Error | null = null;</p>
+
+  <p>for (let attempt = 1; attempt <= maxRetries; attempt++) {</p>
+
+  <p>try {</p>
+
+  <p>return await fn();</p>
+
+  <p>} catch (error) {</p>
+
+  <p>lastError = error instanceof Error ? error : new Error(String(error));</p>
+
+  <p>if (attempt < maxRetries) {</p>
+
+  <p>const waitTime = delay * Math.pow(backoff, attempt - 1);</p>
+
+  <p>console.warn(<code>Attempt ${attempt} failed, retrying in ${waitTime}ms...</code>);</p>
+
+  <p>await new Promise(resolve => setTimeout(resolve, waitTime));</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>}</p>
+
+  <p>throw lastError || new Error('Retry failed');</p>
+
+  <p>}</p>
+
+  <p>// 使用示例</p>
+
+  <p>const data = await withRetry(</p>
+
+  <p>() => fetch('/api/data').then(r => r.json()),</p>
+
+  <p>{ maxRetries: 3, delay: 500 }</p>
+
+  <p>);</p>
+
+  <pre><code>
+---
+
+### Vibe 练习
+
+对 Claude Code 说：
+
+&gt; "我的代码中出现了这个语法：[复制你遇到的语法片段]，帮我解释它是什么意思，并用更简单的代码重写（如果你认为必要的话）。"
+
+&gt; "帮我检查这段 SQL 查询的性能问题，并提供优化建议。"
+
+&gt; "帮我设计一个高效的数据库索引策略，用于以下查询模式..."
+
+&gt; "帮我实现一个正则表达式来匹配 [描述你的匹配需求]，并解释它的各个部分。"
+
+&gt; "帮我写一个 Shell 脚本来自动化 [描述你的任务]，包含错误处理和日志功能。"
+
+&gt; "帮我检查这个 React 组件的性能问题，并提供优化建议。"
+
+&gt; "帮我实现一个 GraphQL 查询来获取 [描述你的数据需求]。"
+
+&gt; "帮我分析这段代码的时间复杂度，并提供优化方案。"
+
+&gt; "帮我用 DSA 模式实现 [描述算法需求]，并解释工作原理。"</code></pre>
+
+</div>
+</body>
+</html>

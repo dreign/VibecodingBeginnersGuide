@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>附录 C 推荐学习路径与资源</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #8a6a7a, #b898a8, #8a6a7a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #8a6a7a; }
+  .title-divider { background: #b898a8; }
+  strong { color: #8a6a7a; }
+  .img-icon { color: #b898a8; }
+  .img-label { color: #8a6a7a; }
+  .img-caption { color: #8a6a7a; }
+  .takeaways-title { color: #8a6a7a; }
+  .takeaways li::before { color: #b898a8; }
+  .vibe-label { color: #8a6a7a; }
+  .vibe-prompt::before { color: #b898a8; }
+  blockquote { border-left-color: #b898a8; }
+  th { color: #8a6a7a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">附录</div>
+  <h1>附录 C 推荐学习路径与资源</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-11<br>  验证环境：无（参考章节）</div>
+
+  <h2>Vibe Coding 技能树检查清单</h2>
+
+  <p>这张清单帮你评估自己的能力水平，找到下一步的学习方向。</p>
+
+  <p><strong>Lv.0——入门（完全零基础）</strong></p>
+
+  <ul>
+<li>[ ] 能启动终端并运行简单命令</li>
+<li>[ ] 安装 Node.js 和 Git</li>
+<li>[ ] 启动 Claude Code 并进入对话</li>
+<li>[ ] 让 AI 创建一个简单的 HTML 页面并在浏览器中打开</li>
+<li>[ ] 理解"意图表达 → AI 执行 → 验证结果"的基本循环</li>
+</ul>
+
+  <p><strong>Lv.1——独立构建简单项目</strong></p>
+
+  <ul>
+<li>[ ] 能用自然语言让 AI 创建多文件项目</li>
+<li>[ ] 能向 AI 准确描述 Bug 并完成调试循环</li>
+<li>[ ] 能使用 Git 做基本版本管理（add、commit、push）</li>
+<li>[ ] 能部署一个纯前端项目到 GitHub Pages 或 Vercel</li>
+<li>[ ] 能使用 <code>.env</code> 文件管理环境变量</li>
+</ul>
+
+  <p><strong>Lv.2——独立构建全栈项目</strong></p>
+
+  <ul>
+<li>[ ] 能设计简单的数据库模型并用 AI 实现</li>
+<li>[ ] 能构建带用户认证的应用</li>
+<li>[ ] 能使用 API Routes 或 FastAPI 构建后端</li>
+<li>[ ] 能阅读和修改 AI 生成的代码</li>
+<li>[ ] 理解基本的 Token 消耗和成本概念</li>
+</ul>
+
+  <p><strong>Lv.3——进阶与优化</strong></p>
+
+  <ul>
+<li>[ ] 能独立设计项目架构（技术选型、目录结构、数据流）</li>
+<li>[ ] 能识别并修复 N+1 查询、缺少索引等常见性能问题</li>
+<li>[ ] 能使用 AI 工具实现 RAG、Agent 等高级模式</li>
+<li>[ ] 能为自己的项目编写测试用例</li>
+<li>[ ] 能搭建 CI/CD 流水线</li>
+</ul>
+
+  <p><strong>Lv.4——一人公司</strong></p>
+
+  <ul>
+<li>[ ] 能从想法出发独立完成一个可交付的产品</li>
+<li>[ ] 能建立产品的监控和用户反馈循环</li>
+<li>[ ] 能管理多个项目的上下文和 Token 成本</li>
+<li>[ ] 能判断哪些功能适合 AI 生成，哪些需要人工介入</li>
+<li>[ ] 能评估和选择合适的第三方服务与开源库</li>
+</ul>
+
+  <p><strong>Lv.5——AI 驱动的开发者</strong></p>
+
+  <ul>
+<li>[ ] 能训练和微调自己的小型模型</li>
+<li>[ ] 能构建 RAG 系统增强应用能力</li>
+<li>[ ] 能使用 Agent 模式自动化复杂工作流</li>
+<li>[ ] 能优化提示词以获得更好的 AI 输出</li>
+<li>[ ] 能理解模型限制并设计容错机制</li>
+</ul>
+
+  <h2>技能树深度扩展</h2>
+
+  <p><strong>前端技能：</strong></p>
+
+  <ul>
+<li>[ ] 掌握 React/Vue/Next.js 框架</li>
+<li>[ ] 能使用 Tailwind CSS 快速构建 UI</li>
+<li>[ ] 理解状态管理（Redux/Zustand/Pinia）</li>
+<li>[ ] 能实现响应式设计</li>
+<li>[ ] 掌握浏览器调试和性能优化</li>
+</ul>
+
+  <p><strong>后端技能：</strong></p>
+
+  <ul>
+<li>[ ] 能设计 RESTful API</li>
+<li>[ ] 理解认证机制（JWT/OAuth）</li>
+<li>[ ] 能使用 ORM（Prisma/SQLAlchemy）</li>
+<li>[ ] 理解数据库索引和查询优化</li>
+<li>[ ] 能配置部署和环境管理</li>
+</ul>
+
+  <p><strong>DevOps 技能：</strong></p>
+
+  <ul>
+<li>[ ] 能设置 CI/CD 流水线</li>
+<li>[ ] 理解 Docker 和容器化</li>
+<li>[ ] 能配置 Nginx 反向代理</li>
+<li>[ ] 理解云服务（AWS/Cloudflare/Vercel）</li>
+<li>[ ] 能设置监控和日志</li>
+</ul>
+
+  <h2>社区与最新工具追踪</h2>
+
+  <p>Vibe Coding 领域变化很快，以下渠道可以帮助你保持更新：</p>
+
+  <p><strong>信息流（推荐选择 1-2 个关注即可，不需要全部订阅）：</strong></p>
+
+  <ul>
+<li><strong>Twitter/X</strong>：关注 Andrej Karpathy（提出 Vibe Coding 概念的人）、AI 工具官方账号</li>
+<li><strong>GitHub Trending</strong>：每周浏览 GitHub Trending，看看有哪些新的 AI 开发工具和项目上榜</li>
+<li><strong>Hacker News</strong>：关于 AI 开发工具的高质量讨论，评论往往比原文更有价值</li>
+<li><strong>Reddit</strong>：r/ChatGPTCoding、r/ClaudeAI、r/coding 等子版块有大量实践分享</li>
+<li><strong>Discord</strong>：Claude Code、Cursor、bolt.new 等工具的官方 Discord 社区——提问和获取帮助最快的地方</li>
+</ul>
+
+  <p><strong>获取信息的建议：</strong></p>
+
+  <ul>
+<li>不要同时关注超过 3 个信息源——信息过载比信息不足更常见</li>
+<li>新工具出来后，不要马上切换——先看至少 2 篇评测再决定是否试用</li>
+<li>社区中的"最佳实践"可能只适用于特定场景——始终回归自己的需求判断</li>
+</ul>
+
+  <h2>延伸阅读</h2>
+
+  <p><strong>关于一人公司与独立开发：</strong></p>
+
+  <ul>
+<li>*The Lean Startup*（Eric Ries）——精益创业方法论，一人公司的产品验证框架</li>
+<li>*Indie Hackers*（indiehackers.com）——独立开发者社区，大量真实收入分享和采访</li>
+<li>*1000 True Fans*（Kevin Kelly）——1000 个真粉理论，一人公司的商业模式基础</li>
+<li>*Make Something Wonderful*（Steve Jobs 书信集）——从产品思维角度理解创造</li>
+</ul>
+
+  <p><strong>关于软件开发思维：</strong></p>
+
+  <ul>
+<li>*The Pragmatic Programmer*（Hunt & Thomas）——程序员必读，虽然出版较早但核心原则仍然适用</li>
+<li>*A Philosophy of Software Design*（John Ousterhout）——关于降低复杂性的系统思考</li>
+<li>*The Mythical Man-Month*（Fred Brooks）——经典中的经典，"人手增加不等于进度加快"</li>
+</ul>
+
+  <p><strong>关于 AI 与编程：</strong></p>
+
+  <ul>
+<li>各 AI 模型的官方文档和技术博客（Anthropic、OpenAI、Google DeepMind）</li>
+<li>*Attention Is All You Need*（Vaswani et al.）——Transformer 论文，如果你对模型原理感兴趣</li>
+<li>AI 工具官方的使用指南和最佳实践（Claude Code、Cursor、GitHub Copilot）</li>
+</ul>
+
+  <h2>实战平台推荐</h2>
+
+  <p>以下平台可以让你快速动手实践，而不需要从零搭建环境：</p>
+
+  <p><strong>快速原型（不需要写代码就能搭建）：</strong></p>
+
+  <ul>
+<li><strong>bolt.new</strong>：在浏览器中通过对话创建全栈应用，自动部署。适合快速原型验证。</li>
+<li><strong>Replit Agent</strong>：在线 IDE + AI Agent，在浏览器中完成开发到部署。适合不需要本地环境的场景。</li>
+<li><strong>v0.dev</strong>：Vercel 出品的 AI UI 生成器。用自然语言生成 React 组件和页面。</li>
+<li><strong>Cursor</strong>：AI 优先的代码编辑器，内置 Claude 模型，支持实时代码补全和解释。</li>
+</ul>
+
+  <p><strong>部署平台：</strong></p>
+
+  <ul>
+<li><strong>Vercel</strong>：前端和全栈应用的首选部署平台。Next.js 原生支持。免费额度充足。</li>
+<li><strong>Netlify</strong>：静态站点和前端应用的另一个选择。比 Vercel 更早做 Jamstack，生态成熟。</li>
+<li><strong>Railway</strong>：适合有后端的全栈应用。部署 FastAPI、PostgreSQL 等很方便。</li>
+<li><strong>Cloudflare Pages</strong>：适合边缘部署。免费额度慷慨，全球 CDN 加速。</li>
+<li><strong>Render</strong>：全栈部署平台，支持 Docker、Node.js、Python 等多种语言。</li>
+</ul>
+
+  <p><strong>学习环境：</strong></p>
+
+  <ul>
+<li><strong>CodeSandbox</strong>：在线 IDE，有大量 AI 开发模板</li>
+<li><strong>StackBlitz</strong>：浏览器内的 Web 开发环境，速度极快</li>
+<li><strong>GitPod</strong>：云端开发环境，一键启动完整的开发环境</li>
+</ul>
+
+  <h2>项目实践路线图</h2>
+
+  <p><strong>入门项目（1-2 天完成）：</strong></p>
+
+  <ol>
+<li><strong>个人主页</strong></li>
+</ol>
+
+  <ul>
+<li>使用 Next.js + Tailwind CSS 构建</li>
+<li>展示个人信息、技能、项目作品</li>
+<li>部署到 Vercel</li>
+</ul>
+
+  <ol>
+<li><strong>待办事项应用</strong></li>
+</ol>
+
+  <ul>
+<li>支持添加、编辑、删除任务</li>
+<li>使用 localStorage 存储数据</li>
+<li>实现任务状态筛选</li>
+</ul>
+
+  <ol>
+<li><strong>天气查询应用</strong></li>
+</ol>
+
+  <ul>
+<li>调用公开天气 API</li>
+<li>显示当前天气和未来预报</li>
+<li>响应式设计</li>
+</ul>
+
+  <p><strong>进阶项目（1-2 周完成）：</strong></p>
+
+  <ol>
+<li><strong>博客平台</strong></li>
+</ol>
+
+  <ul>
+<li>使用 Next.js + Markdown</li>
+<li>支持静态生成和动态路由</li>
+<li>实现标签分类和搜索</li>
+</ul>
+
+  <ol>
+<li><strong>笔记应用</strong></li>
+</ol>
+
+  <ul>
+<li>支持 Markdown 编辑</li>
+<li>使用 Supabase/Prisma 作为后端</li>
+<li>实现用户认证</li>
+</ul>
+
+  <ol>
+<li><strong>在线聊天应用</strong></li>
+</ol>
+
+  <ul>
+<li>使用 WebSocket 或 Pusher</li>
+<li>实现实时消息传递</li>
+<li>支持用户在线状态</li>
+</ul>
+
+  <p><strong>高级项目（2-4 周完成）：</strong></p>
+
+  <ol>
+<li><strong>电商平台</strong></li>
+</ol>
+
+  <ul>
+<li>商品列表、购物车、订单管理</li>
+<li>支付集成（Stripe）</li>
+<li>用户评价系统</li>
+</ul>
+
+  <ol>
+<li><strong>AI 知识库</strong></li>
+</ol>
+
+  <ul>
+<li>使用 RAG 技术</li>
+<li>支持文档上传和问答</li>
+<li>集成 Claude API</li>
+</ul>
+
+  <ol>
+<li><strong>协作工具</strong></li>
+</ol>
+
+  <ul>
+<li>实时协作编辑</li>
+<li>任务分配和进度跟踪</li>
+<li>用户权限管理</li>
+</ul>
+
+  <h2>开源项目参与指南</h2>
+
+  <table class="reading-path-table"><thead><tr><th>阶段</th><th>任务</th><th>说明</th></tr></thead><tbody><tr><td>初级</td><td>修复 Bug</td><td>查找 good first issue，尝试修复简单问题</td></tr><tr><td>中级</td><td>添加小功能</td><td>实现文档中的功能需求</td></tr><tr><td>高级</td><td>重构代码</td><td>优化现有代码结构</td></tr><tr><td>贡献者</td><td>维护项目</td><td>审核 PR、回答问题、规划路线</td></tr></tbody></table>
+
+  <p><strong>寻找开源项目的渠道：</strong></p>
+
+  <ul>
+<li>GitHub Trending</li>
+<li>GitHub Issues（筛选 good first issue）</li>
+<li>Hacktoberfest（每年 10 月）</li>
+<li>社区 Discord/Slack</li>
+</ul>
+
+  <h2>学习资源推荐</h2>
+
+  <h3>免费学习资源</h3>
+
+  <p><strong>编程基础：</strong></p>
+
+  <ul>
+<li><strong>freeCodeCamp</strong> (https://www.freecodecamp.org) - 免费的 Web 开发课程，包含 HTML、CSS、JavaScript、React 等</li>
+<li><strong>Codecademy</strong> (https://www.codecademy.com) - 交互式编程学习平台</li>
+<li><strong>Coursera</strong> (https://www.coursera.org) - 大学课程，部分免费</li>
+<li><strong>edX</strong> (https://www.edx.org) - MIT、Harvard 等名校课程</li>
+</ul>
+
+  <p><strong>前端开发：</strong></p>
+
+  <ul>
+<li><strong>MDN Web Docs</strong> (https://developer.mozilla.org) - Mozilla 的 Web 技术文档</li>
+<li><strong>CSS-Tricks</strong> (https://css-tricks.com) - CSS 技巧和教程</li>
+<li><strong>JavaScript.info</strong> (https://javascript.info) - 现代 JavaScript 教程</li>
+<li><strong>React Docs</strong> (https://react.dev) - React 官方文档</li>
+<li><strong>Vue Docs</strong> (https://vuejs.org) - Vue.js 官方文档</li>
+</ul>
+
+  <p><strong>后端开发：</strong></p>
+
+  <ul>
+<li><strong>Node.js Docs</strong> (https://nodejs.org/docs) - Node.js 官方文档</li>
+<li><strong>Express.js Docs</strong> (https://expressjs.com) - Express 官方文档</li>
+<li><strong>FastAPI Docs</strong> (https://fastapi.tiangolo.com) - FastAPI 官方文档</li>
+<li><strong>Django Docs</strong> (https://docs.djangoproject.com) - Django 官方文档</li>
+<li><strong>Flask Docs</strong> (https://flask.palletsprojects.com) - Flask 官方文档</li>
+</ul>
+
+  <p><strong>数据库：</strong></p>
+
+  <ul>
+<li><strong>PostgreSQL Docs</strong> (https://www.postgresql.org/docs) - PostgreSQL 官方文档</li>
+<li><strong>MySQL Docs</strong> (https://dev.mysql.com/doc) - MySQL 官方文档</li>
+<li><strong>MongoDB Docs</strong> (https://www.mongodb.com/docs) - MongoDB 官方文档</li>
+</ul>
+
+  <p><strong>DevOps：</strong></p>
+
+  <ul>
+<li><strong>Docker Docs</strong> (https://docs.docker.com) - Docker 官方文档</li>
+<li><strong>Kubernetes Docs</strong> (https://kubernetes.io/docs) - Kubernetes 官方文档</li>
+<li><strong>GitHub Actions Docs</strong> (https://docs.github.com/en/actions) - GitHub Actions 官方文档</li>
+</ul>
+
+  <h3>付费学习资源</h3>
+
+  <p><strong>平台：</strong></p>
+
+  <ul>
+<li><strong>Udemy</strong> (https://www.udemy.com) - 大量编程课程，经常打折</li>
+<li><strong>Pluralsight</strong> (https://www.pluralsight.com) - 技术课程订阅平台</li>
+<li><strong>Frontend Masters</strong> (https://frontendmasters.com) - 前端进阶课程</li>
+<li><strong>egghead.io</strong> (https://egghead.io) - 短小精悍的技术课程</li>
+</ul>
+
+  <h2>技术博客与新闻</h2>
+
+  <p><strong>综合技术新闻：</strong></p>
+
+  <ul>
+<li><strong>Hacker News</strong> (https://news.ycombinator.com) - 技术社区新闻聚合</li>
+<li><strong>TechCrunch</strong> (https://techcrunch.com) - 科技新闻</li>
+<li><strong>The Verge</strong> (https://www.theverge.com) - 科技新闻和评论</li>
+</ul>
+
+  <p><strong>技术博客：</strong></p>
+
+  <ul>
+<li><strong>Medium</strong> (https://medium.com) - 技术文章平台</li>
+<li><strong>Dev.to</strong> (https://dev.to) - 开发者社区</li>
+<li><strong>Hashnode</strong> (https://hashnode.com) - 开发者博客平台</li>
+<li><strong>Smashing Magazine</strong> (https://www.smashingmagazine.com) - Web 开发杂志</li>
+</ul>
+
+  <p><strong>AI 相关：</strong></p>
+
+  <ul>
+<li><strong>Anthropic Blog</strong> (https://www.anthropic.com/index/blog) - Claude 官方博客</li>
+<li><strong>OpenAI Blog</strong> (https://openai.com/blog) - OpenAI 官方博客</li>
+<li><strong>Google DeepMind Blog</strong> (https://deepmind.google/discover/blog) - DeepMind 官方博客</li>
+</ul>
+
+  <h2>开源项目参与指南</h2>
+
+  <p><strong>寻找开源项目：</strong></p>
+
+  <table class="reading-path-table"><thead><tr><th>平台</th><th>描述</th></tr></thead><tbody><tr><td>GitHub Trending</td><td>查看热门开源项目</td></tr><tr><td>GitHub Issues</td><td>筛选 good first issue</td></tr><tr><td>Hacktoberfest</td><td>每年 10 月的开源贡献活动</td></tr><tr><td>CodeTriage</td><td>按语言分类的 issues</td></tr></tbody></table>
+
+  <p><strong>贡献流程：</strong></p>
+
+  <ol>
+<li><strong>找到项目</strong> - 在 GitHub 上找到感兴趣的项目</li>
+<li><strong>了解项目</strong> - 阅读 README、CONTRIBUTING.md</li>
+<li><strong>找 issue</strong> - 寻找 good first issue 或 help wanted</li>
+<li><strong>fork 项目</strong> - 创建自己的副本</li>
+<li><strong>创建分支</strong> - 在本地创建 feature 分支</li>
+<li><strong>实现功能</strong> - 编写代码</li>
+<li><strong>测试</strong> - 运行测试</li>
+<li><strong>提交 PR</strong> - 创建 Pull Request</li>
+<li><strong>等待审核</strong> - 回复评论，修改代码</li>
+</ol>
+
+  <p><strong>贡献类型：</strong></p>
+
+  <table class="reading-path-table"><thead><tr><th>类型</th><th>描述</th><th>适合新手</th></tr></thead><tbody><tr><td>Bug Fix</td><td>修复 bug</td><td>✅</td></tr><tr><td>Documentation</td><td>改进文档</td><td>✅</td></tr><tr><td>Feature</td><td>添加新功能</td><td>⚠️</td></tr><tr><td>Refactor</td><td>重构代码</td><td>⚠️</td></tr><tr><td>Translation</td><td>翻译文档</td><td>✅</td></tr></tbody></table>
+
+  <p><strong>示例：贡献一个简单的 Bug Fix</strong></p>
+
+  <pre><code># 1. Fork 项目
+# 2. Clone 自己的仓库
+git clone https://github.com/your-username/project.git
+
+# 3. 添加原仓库作为上游
+git remote add upstream https://github.com/original-owner/project.git
+
+# 4. 创建分支
+git checkout -b fix/bug-description
+
+# 5. 修复代码
+# ... 编辑文件 ...
+
+# 6. 提交
+git add .
+git commit -m "fix: describe the fix"
+
+# 7. 推送到自己的仓库
+git push origin fix/bug-description
+
+# 8. 在 GitHub 上创建 Pull Request</code></pre>
+
+  <h2>面试准备</h2>
+
+  <p><strong>算法与数据结构：</strong></p>
+
+  <ul>
+<li><strong>LeetCode</strong> (https://leetcode.com) - 算法题练习</li>
+<li><strong>HackerRank</strong> (https://www.hackerrank.com) - 编程挑战</li>
+<li><strong>CodeSignal</strong> (https://codesignal.com) - 编码测试</li>
+</ul>
+
+  <p><strong>系统设计：</strong></p>
+
+  <ul>
+<li><strong>System Design Primer</strong> (https://github.com/donnemartin/system-design-primer) - 系统设计入门</li>
+<li><strong>Grokking System Design</strong> - 系统设计课程</li>
+</ul>
+
+  <p><strong>行为面试：</strong></p>
+
+  <ul>
+<li><strong>STAR 方法</strong> - 准备行为问题答案</li>
+<li><strong>常见问题</strong> - 准备自我介绍、项目经历、优缺点等</li>
+</ul>
+
+  <h2>职业发展</h2>
+
+  <p><strong>建立个人品牌：</strong></p>
+
+  <ul>
+<li>写技术博客</li>
+<li>参与开源项目</li>
+<li>在社交媒体分享技术见解</li>
+<li>参加技术会议和 Meetup</li>
+</ul>
+
+  <p><strong>持续学习：</strong></p>
+
+  <ul>
+<li>订阅技术新闻通讯</li>
+<li>参与技术社区讨论</li>
+<li>学习新技术栈</li>
+<li>尝试新的开发工具</li>
+</ul>
+
+  <h2>最后的建议</h2>
+
+  <p>读完所有附录之后，你最应该做的一件事是：</p>
+
+  <p><strong>关掉这本书，打开终端，开始做你的第一个项目。</strong></p>
+
+  <p>"读"不是学习方法。"做"才是。这本书给了你地图和工具，但路上的风景需要你自己去看。</p>
+
+  <div class="title-divider"></div>
+
+  <div class="title-divider"></div>
+
+  <h2>进阶学习资源</h2>
+
+  <h3>算法与数据结构</h3>
+
+  <p><strong>在线平台：</strong></p>
+
+  <ul>
+<li><strong>LeetCode</strong> (https://leetcode.com) - 2000+ 道算法题，覆盖面试高频题</li>
+<li><strong>HackerRank</strong> (https://www.hackerrank.com) - 编程挑战，包含算法、数据结构、SQL 等</li>
+<li><strong>Codeforces</strong> (https://codeforces.com) - 国际算法竞赛平台</li>
+<li><strong>AtCoder</strong> (https://atcoder.jp) - 日本算法竞赛平台，题目质量高</li>
+</ul>
+
+  <p><strong>书籍：</strong></p>
+
+  <ul>
+<li>*Introduction to Algorithms* (CLRS) - 算法圣经</li>
+<li>*Algorithms* (Sedgewick) - 算法入门经典</li>
+<li>*Programming Pearls* - 编程珠玑，算法思想</li>
+<li>*Cracking the Coding Interview* - 面试算法必备</li>
+</ul>
+
+  <p><strong>可视化工具：</strong></p>
+
+  <ul>
+<li><strong>VisuAlgo</strong> (https://visualgo.net) - 数据结构和算法可视化</li>
+<li><strong>Algorithm Visualizer</strong> (https://algorithm-visualizer.org) - 交互式算法可视化</li>
+</ul>
+
+  <h3>系统设计</h3>
+
+  <p><strong>资源：</strong></p>
+
+  <ul>
+<li><strong>System Design Primer</strong> (https://github.com/donnemartin/system-design-primer) - GitHub 热门系统设计资源</li>
+<li><strong>Grokking System Design</strong> - 系统设计课程</li>
+<li><strong>Designing Data-Intensive Applications</strong> (Martin Kleppmann) - 分布式系统设计</li>
+<li><strong>System Design Interview</strong> (Alex Xu) - 系统设计面试指南</li>
+</ul>
+
+  <p><strong>案例分析：</strong></p>
+
+  <ul>
+<li><strong>Scalability at Facebook</strong> - 了解大型系统架构</li>
+<li><strong>Netflix Tech Blog</strong> - Netflix 技术博客</li>
+<li><strong>Uber Engineering</strong> - Uber 技术博客</li>
+<li><strong>Spotify Engineering</strong> - Spotify 技术博客</li>
+</ul>
+
+  <h3>数据库</h3>
+
+  <p><strong>学习资源：</strong></p>
+
+  <ul>
+<li><strong>PostgreSQL Documentation</strong> (https://www.postgresql.org/docs) - PostgreSQL 官方文档</li>
+<li><strong>MySQL Documentation</strong> (https://dev.mysql.com/doc) - MySQL 官方文档</li>
+<li><strong>SQL Zoo</strong> (https://sqlzoo.net) - SQL 在线练习</li>
+<li><strong>Mode Analytics SQL Tutorial</strong> (https://mode.com/sql-tutorial) - SQL 进阶教程</li>
+</ul>
+
+  <p><strong>进阶书籍：</strong></p>
+
+  <ul>
+<li>*Database System Concepts* (Silberschatz) - 数据库系统概念</li>
+<li>*High Performance MySQL* - MySQL 性能优化</li>
+<li>*PostgreSQL Up and Running* - PostgreSQL 实战</li>
+</ul>
+
+  <h3>网络协议</h3>
+
+  <p><strong>学习资源：</strong></p>
+
+  <ul>
+<li><strong>TCP/IP Illustrated</strong> (Stevens) - TCP/IP 协议详解</li>
+<li><strong>Computer Networks</strong> (Tanenbaum) - 计算机网络教材</li>
+<li><strong>HTTP: The Definitive Guide</strong> - HTTP 协议权威指南</li>
+<li><strong>MDN Web Docs</strong> (https://developer.mozilla.org) - Web 技术文档</li>
+</ul>
+
+  <p><strong>实践工具：</strong></p>
+
+  <ul>
+<li><strong>Wireshark</strong> - 网络抓包工具</li>
+<li><strong>tcpdump</strong> - 命令行抓包工具</li>
+<li><strong>curl</strong> - HTTP 请求工具</li>
+</ul>
+
+  <div class="title-divider"></div>
+
+  <h2>实战项目案例</h2>
+
+  <h3>案例 1：实时聊天应用</h3>
+
+  <p><strong>技术栈：</strong></p>
+
+  <ul>
+<li>Frontend: React + TypeScript + Tailwind CSS</li>
+<li>Backend: Node.js + WebSocket / Socket.io</li>
+<li>Database: Redis (缓存) + PostgreSQL (持久化)</li>
+</ul>
+
+  <p><strong>核心功能：</strong></p>
+
+  <ol>
+<li>用户注册/登录</li>
+<li>一对一聊天</li>
+<li>群聊</li>
+<li>文件分享</li>
+<li>消息状态（已发送、已读）</li>
+<li>在线状态</li>
+</ol>
+
+  <p><strong>扩展功能：</strong></p>
+
+  <ul>
+<li>消息加密</li>
+<li>消息撤回</li>
+<li>消息搜索</li>
+<li>通知推送</li>
+</ul>
+
+  <h3>案例 2：电商平台</h3>
+
+  <p><strong>技术栈：</strong></p>
+
+  <ul>
+<li>Frontend: Next.js + TypeScript</li>
+<li>Backend: Node.js + Express / FastAPI</li>
+<li>Database: PostgreSQL + Redis</li>
+<li>Payment: Stripe / PayPal</li>
+</ul>
+
+  <p><strong>核心功能：</strong></p>
+
+  <ol>
+<li>商品展示</li>
+<li>购物车</li>
+<li>订单管理</li>
+<li>支付集成</li>
+<li>用户评价</li>
+</ol>
+
+  <p><strong>扩展功能：</strong></p>
+
+  <ul>
+<li>商品推荐系统</li>
+<li>优惠券系统</li>
+<li>库存管理</li>
+<li>数据分析</li>
+</ul>
+
+  <h3>案例 3：AI 知识库</h3>
+
+  <p><strong>技术栈：</strong></p>
+
+  <ul>
+<li>Frontend: React + TypeScript</li>
+<li>Backend: Python + FastAPI</li>
+<li>Database: PostgreSQL + Pinecone (向量数据库)</li>
+<li>AI: Claude API / OpenAI API</li>
+</ul>
+
+  <p><strong>核心功能：</strong></p>
+
+  <ol>
+<li>文档上传</li>
+<li>文档解析</li>
+<li>语义搜索</li>
+<li>AI 问答</li>
+<li>知识图谱</li>
+</ol>
+
+  <p><strong>扩展功能：</strong></p>
+
+  <ul>
+<li>多模态支持</li>
+<li>实时协作</li>
+<li>权限管理</li>
+<li>版本控制</li>
+</ul>
+
+  <h3>案例 4：任务管理工具</h3>
+
+  <p><strong>技术栈：</strong></p>
+
+  <ul>
+<li>Frontend: Vue.js + TypeScript</li>
+<li>Backend: Go / Node.js</li>
+<li>Database: PostgreSQL</li>
+<li>Sync: WebSocket / Server-Sent Events</li>
+</ul>
+
+  <p><strong>核心功能：</strong></p>
+
+  <ol>
+<li>任务创建/编辑/删除</li>
+<li>任务状态管理</li>
+<li>项目管理</li>
+<li>团队协作</li>
+<li>时间跟踪</li>
+</ol>
+
+  <p><strong>扩展功能：</strong></p>
+
+  <ul>
+<li>甘特图</li>
+<li>看板视图</li>
+<li>报表分析</li>
+<li>集成日历</li>
+</ul>
+
+  <div class="title-divider"></div>
+
+  <h2>开源项目贡献进阶</h2>
+
+  <h3>寻找合适的项目</h3>
+
+  <p><strong>按语言筛选：</strong></p>
+
+  <pre><code># 查找 JavaScript/TypeScript 项目
+gh repo search --language JavaScript --stars "&gt;1000" --topic "web"
+
+# 查找 Python 项目
+gh repo search --language Python --stars "&gt;1000" --topic "machine-learning"</code></pre>
+
+  <p><strong>按领域筛选：</strong></p>
+
+  <ul>
+<li><strong>Web 框架</strong>: React, Vue, Next.js</li>
+<li><strong>工具库</strong>: Lodash, RxJS</li>
+<li><strong>DevOps</strong>: Docker, Kubernetes</li>
+<li><strong>AI/ML</strong>: TensorFlow, PyTorch</li>
+</ul>
+
+  <h3>贡献流程详解</h3>
+
+  <p><strong>1. 准备工作：</strong></p>
+
+  <pre><code># 安装必要工具
+sudo apt install git python3-pip
+pip install pre-commit
+
+# 配置 Git
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"</code></pre>
+
+  <p><strong>2. Fork 项目：</strong></p>
+
+  <pre><code># 在 GitHub 上点击 Fork 按钮
+# 然后克隆自己的仓库
+git clone https://github.com/your-username/project.git
+cd project
+
+# 添加原仓库作为上游
+git remote add upstream https://github.com/original-owner/project.git</code></pre>
+
+  <p><strong>3. 创建分支：</strong></p>
+
+  <pre><code># 创建 feature 分支
+git checkout -b feature/your-feature-name
+
+# 创建 bugfix 分支
+git checkout -b bugfix/issue-number</code></pre>
+
+  <p><strong>4. 编写代码：</strong></p>
+
+  <pre><code># 安装依赖
+npm install
+
+# 运行测试
+npm test
+
+# 使用 pre-commit 检查
+pre-commit run --all-files</code></pre>
+
+  <p><strong>5. 提交代码：</strong></p>
+
+  <pre><code># 添加修改
+git add .
+
+# 提交（遵循 Conventional Commits）
+git commit -m "feat: add new feature"
+git commit -m "fix: resolve bug in login"
+git commit -m "docs: update documentation"</code></pre>
+
+  <p><strong>6. 推送并创建 PR：</strong></p>
+
+  <pre><code># 推送到自己的仓库
+git push origin feature/your-feature-name
+
+# 在 GitHub 上创建 Pull Request</code></pre>
+
+  <h3>贡献类型详解</h3>
+
+  <table class="reading-path-table"><thead><tr><th>类型</th><th>描述</th><th>难度</th><th>示例</th></tr></thead><tbody><tr><td>Bug Fix</td><td>修复 bug</td><td>低</td><td>修复拼写错误、修复功能缺陷</td></tr><tr><td>Documentation</td><td>改进文档</td><td>低</td><td>更新 README、添加示例代码</td></tr><tr><td>Feature</td><td>添加新功能</td><td>中</td><td>实现新的 API、添加新组件</td></tr><tr><td>Refactor</td><td>重构代码</td><td>中</td><td>优化代码结构、提高可读性</td></tr><tr><td>Test</td><td>添加测试</td><td>低</td><td>为现有代码添加测试用例</td></tr><tr><td>Translation</td><td>翻译</td><td>低</td><td>翻译文档、界面文本</td></tr></tbody></table>
+
+  <div class="title-divider"></div>
+
+  <h2>面试准备进阶</h2>
+
+  <h3>算法面试</h3>
+
+  <p><strong>准备计划：</strong></p>
+
+  <pre><code>第 1-2 周：基础数据结构（数组、链表、栈、队列、哈希表）
+第 3-4 周：树和图（二叉树、BST、图遍历）
+第 5-6 周：排序和搜索算法
+第 7-8 周：动态规划和回溯
+第 9-10 周：综合练习和模拟面试</code></pre>
+
+  <p><strong>高频题型：</strong></p>
+
+  <ul>
+<li>数组：两数之和、三数之和、最长子数组</li>
+<li>链表：反转链表、合并链表、环形链表</li>
+<li>树：遍历、深度/广度优先搜索、BST 操作</li>
+<li>动态规划：背包问题、最长递增子序列</li>
+</ul>
+
+  <p><strong>面试技巧：</strong></p>
+
+  <ol>
+<li>先理解问题，不要急于写代码</li>
+<li>分析时间复杂度和空间复杂度</li>
+<li>考虑边界情况</li>
+<li>写出清晰的代码结构</li>
+<li>测试代码逻辑</li>
+</ol>
+
+  <h3>系统设计面试</h3>
+
+  <p><strong>准备步骤：</strong></p>
+
+  <ol>
+<li><strong>需求分析</strong>：明确功能需求和约束</li>
+<li><strong>架构设计</strong>：选择合适的架构模式</li>
+<li><strong>组件划分</strong>：拆分系统组件</li>
+<li><strong>数据存储</strong>：选择数据库和存储方案</li>
+<li><strong>API 设计</strong>：设计接口规范</li>
+<li><strong>扩展性考虑</strong>：考虑高可用和扩展性</li>
+</ol>
+
+  <p><strong>常用模式：</strong></p>
+
+  <ul>
+<li><strong>微服务架构</strong>：拆分服务边界</li>
+<li><strong>消息队列</strong>：异步处理和解耦</li>
+<li><strong>缓存策略</strong>：Redis、CDN</li>
+<li><strong>负载均衡</strong>：Nginx、LVS</li>
+<li><strong>数据库分片</strong>：水平和垂直拆分</li>
+</ul>
+
+  <p><strong>案例练习：</strong></p>
+
+  <ul>
+<li>设计 Twitter 类似系统</li>
+<li>设计 URL 短服务</li>
+<li>设计分布式缓存系统</li>
+<li>设计秒杀系统</li>
+</ul>
+
+  <h3>行为面试</h3>
+
+  <p><strong>STAR 方法：</strong></p>
+
+  <ul>
+<li><strong>Situation</strong>：描述场景</li>
+<li><strong>Task</strong>：说明任务</li>
+<li><strong>Action</strong>：描述行动</li>
+<li><strong>Result</strong>：说明结果</li>
+</ul>
+
+  <p><strong>常见问题：</strong></p>
+
+  <ol>
+<li>介绍一下你自己</li>
+<li>你最大的优点/缺点是什么</li>
+<li>你遇到过的最大挑战是什么</li>
+<li>你为什么想加入我们公司</li>
+<li>你未来的职业规划是什么</li>
+</ol>
+
+  <div class="title-divider"></div>
+
+  <h2>职业发展进阶</h2>
+
+  <h3>建立个人品牌</h3>
+
+  <p><strong>技术博客：</strong></p>
+
+  <ul>
+<li>在 Dev.to、Hashnode、Medium 上写技术文章</li>
+<li>分享项目经验和技术见解</li>
+<li>参与技术讨论和评论</li>
+</ul>
+
+  <p><strong>开源贡献：</strong></p>
+
+  <ul>
+<li>定期贡献开源项目</li>
+<li>创建自己的开源项目</li>
+<li>维护技术社区</li>
+</ul>
+
+  <p><strong>社交媒体：</strong></p>
+
+  <ul>
+<li>在 Twitter/X 上分享技术动态</li>
+<li>参与技术讨论</li>
+<li>关注行业专家和公司</li>
+</ul>
+
+  <p><strong>技术演讲：</strong></p>
+
+  <ul>
+<li>在本地 Meetup 分享</li>
+<li>在技术会议演讲</li>
+<li>录制技术视频</li>
+</ul>
+
+  <h3>持续学习策略</h3>
+
+  <p><strong>订阅技术通讯：</strong></p>
+
+  <ul>
+<li><strong>ByteByteGo</strong> - 系统设计通讯</li>
+<li><strong>JavaScript Weekly</strong> - JavaScript 资讯</li>
+<li><strong>Python Weekly</strong> - Python 资讯</li>
+<li><strong>Hacker Newsletter</strong> - 黑客新闻精选</li>
+</ul>
+
+  <p><strong>学习平台：</strong></p>
+
+  <ul>
+<li><strong>Coursera</strong> - 大学课程</li>
+<li><strong>edX</strong> - 名校课程</li>
+<li><strong>Pluralsight</strong> - 技术课程订阅</li>
+<li><strong>Frontend Masters</strong> - 前端进阶课程</li>
+</ul>
+
+  <p><strong>实践方法：</strong></p>
+
+  <ul>
+<li><strong>项目驱动学习</strong>：通过项目学习新技术</li>
+<li><strong>代码阅读</strong>：阅读优秀开源项目代码</li>
+<li><strong>技术分享</strong>：向他人讲解技术</li>
+<li><strong>复盘总结</strong>：定期总结学习成果</li>
+</ul>
+
+  <h3>职业晋升路径</h3>
+
+  <p><strong>初级工程师 → 中级工程师：</strong></p>
+
+  <ul>
+<li>独立完成功能开发</li>
+<li>理解代码架构</li>
+<li>编写单元测试</li>
+</ul>
+
+  <p><strong>中级工程师 → 高级工程师：</strong></p>
+
+  <ul>
+<li>主导技术方案设计</li>
+<li>解决复杂技术问题</li>
+<li>指导初级工程师</li>
+</ul>
+
+  <p><strong>高级工程师 → 技术负责人：</strong></p>
+
+  <ul>
+<li>制定技术路线图</li>
+<li>团队技术管理</li>
+<li>跨团队协作</li>
+</ul>
+
+  <p><strong>技术负责人 → 架构师：</strong></p>
+
+  <ul>
+<li>系统架构设计</li>
+<li>技术决策</li>
+<li>技术战略规划</li>
+</ul>
+
+  <div class="title-divider"></div>
+
+  <h2>工具推荐</h2>
+
+  <h3>代码编辑器</h3>
+
+  <table class="reading-path-table"><thead><tr><th>工具</th><th>特点</th><th>适用场景</th></tr></thead><tbody><tr><td><strong>VS Code</strong></td><td>插件丰富、轻量</td><td>通用开发</td></tr><tr><td><strong>Cursor</strong></td><td>AI 集成、代码理解</td><td>AI 辅助开发</td></tr><tr><td><strong>PyCharm</strong></td><td>Python 支持好</td><td>Python 开发</td></tr><tr><td><strong>GoLand</strong></td><td>Go 语言支持</td><td>Go 开发</td></tr></tbody></table>
+
+  <h3>协作工具</h3>
+
+  <table class="reading-path-table"><thead><tr><th>工具</th><th>用途</th></tr></thead><tbody><tr><td><strong>GitHub</strong></td><td>代码托管、PR 协作</td></tr><tr><td><strong>GitLab</strong></td><td>代码托管、CI/CD</td></tr><tr><td><strong>Slack</strong></td><td>团队沟通</td></tr><tr><td><strong>Discord</strong></td><td>社区交流</td></tr></tbody></table>
+
+  <h3>效率工具</h3>
+
+  <table class="reading-path-table"><thead><tr><th>工具</th><th>用途</th></tr></thead><tbody><tr><td><strong>Notion</strong></td><td>笔记、文档管理</td></tr><tr><td><strong>Obsidian</strong></td><td>知识管理</td></tr><tr><td><strong>Trello</strong></td><td>项目管理</td></tr><tr><td><strong>Jira</strong></td><td>敏捷项目管理</td></tr></tbody></table>
+
+  <div class="title-divider"></div>
+
+  <h2>C.14 深入学习路线图</h2>
+
+  <h3>C.14.1 前端深入路线</h3>
+
+  <pre><code>第一阶段：基础巩固（1-2个月）
+├── HTML5 语义化、可访问性（ARIA）
+├── CSS3 动画、Grid、自定义属性
+├── JavaScript 深入：闭包、原型链、Event Loop
+├── TypeScript 高级类型
+└── 构建工具：Vite、Webpack 原理
+
+第二阶段：框架进阶（2-3个月）
+├── React 深入：Fiber 架构、Hooks 原理
+├── 状态管理：Zustand、Jotai、XState
+├── 路由管理：React Router 数据加载
+├── 性能优化：Code Splitting、SSR、ISR
+└── 测试：Vitest、Testing Library、Cypress
+
+第三阶段：工程化（2-3个月）
+├── Monorepo 管理：Turborepo、Nx
+├── CI/CD：GitHub Actions 高级
+├── 监控：Sentry、Web Vitals
+├── 微前端：Module Federation、qiankun
+└── 设计系统：Storybook、Radix UI
+
+第四阶段：跨平台与全栈（2-3个月）
+├── React Native / Tauri 桌面应用
+├── Next.js 全栈开发
+├── tRPC / GraphQL 数据层
+├── Edge Computing：Cloudflare Workers
+└── WASM 与 WebGL 基础</code></pre>
+
+  <h3>C.14.2 后端深入路线</h3>
+
+  <pre><code>第一阶段：语言深入（1-2个月）
+├── Node.js 深入：Stream、Buffer、Cluster
+├── TypeScript 装饰器、条件类型
+├── 设计模式在实际中的应用
+├── 并发编程基础
+└── 函数式编程范式
+
+第二阶段：数据库进阶（2-3个月）
+├── PostgreSQL 高级：窗口函数、CTE
+├── 查询优化与索引策略
+├── Redis 高级：数据结构、管道、集群
+├── MongoDB 聚合管道
+└── ORM 深入：Prisma、Drizzle
+
+第三阶段：架构设计（2-3个月）
+├── 微服务架构：拆分策略、通信
+├── 消息队列：RabbitMQ、Kafka
+├── Docker Compose 编排
+├── Kubernetes 基础
+└── API 网关与负载均衡
+
+第四阶段：高阶架构（2-3个月）
+├── 分布式系统理论
+├── CAP 理论与最终一致性
+├── 服务网格：Istio
+├── 可观测性：OpenTelemetry
+└── 事件驱动架构</code></pre>
+
+  <h3>C.14.3 AI/ML 入门路线</h3>
+
+  <pre><code>第一阶段：基础（2-3个月）
+├── Python 数据处理：Pandas、NumPy
+├── 数学基础：线性代数、概率统计
+├── 机器学习基础：Scikit-learn
+├── 深度学习基础：PyTorch / TensorFlow
+└── Jupyter Notebook 环境搭建
+
+第二阶段：实践（2-3个月）
+├── 自然语言处理：Transformers
+├── 计算机视觉：OpenCV、YOLO
+├── 模型部署：ONNX、TensorRT
+├── LLM 应用开发：LangChain
+└── RAG 应用构建
+
+第三阶段：LLM 工程（2-3个月）
+├── Prompt Engineering 进阶
+├── Fine-tuning 技术：LoRA、QLoRA
+├── AI Agent 框架：AutoGen、CrewAI
+├── 向量数据库：Pinecone、Weaviate
+└── AI 应用评估与监控</code></pre>
+
+  <h3>C.14.4 DevOps/SRE 路线</h3>
+
+  <pre><code>第一阶段：基础（1-2个月）
+├── Linux 系统管理
+├── 网络基础与安全
+├── Shell 脚本编程
+├── Git 高级操作
+└── 基础监控概念
+
+第二阶段：容器化（2-3个月）
+├── Docker 深入：多阶段构建、网络
+├── Docker Compose 编排
+├── Kubernetes 核心概念
+├── Helm 包管理
+└── K8s 安全与网络策略
+
+第三阶段：CI/CD 与 IaC（2-3个月）
+├── GitHub Actions / GitLab CI
+├── Terraform 基础设施即代码
+├── Ansible 配置管理
+├── ArgoCD GitOps
+└── 云原生安全
+
+第四阶段：SRE 实践（2-3个月）
+├── 可观测性：Prometheus + Grafana
+├── 日志管理：ELK Stack / Loki
+├── 链路追踪：Jaeger / Zipkin
+├── 容量规划与成本优化
+└── 故障演练与灾备方案</code></pre>
+
+  <div class="title-divider"></div>
+
+  <h2>C.15 认证路径指南</h2>
+
+  <h3>C.15.1 云服务认证</h3>
+
+  <table class="reading-path-table"><thead><tr><th>认证</th><th>难度</th><th>准备时间</th><th>费用</th><th>价值</th></tr></thead><tbody><tr><td>AWS Certified Cloud Practitioner</td><td>入门</td><td>1-2个月</td><td>$100</td><td>基础概念</td></tr><tr><td>AWS Solutions Architect Associate</td><td>中级</td><td>2-3个月</td><td>$150</td><td>高</td></tr><tr><td>AWS Developer Associate</td><td>中级</td><td>2-3个月</td><td>$150</td><td>中高</td></tr><tr><td>AWS DevOps Engineer Professional</td><td>高级</td><td>3-4个月</td><td>$300</td><td>高</td></tr><tr><td>Google Cloud Associate</td><td>入门</td><td>1-2个月</td><td>$125</td><td>基础</td></tr><tr><td>Google Professional Data Engineer</td><td>高级</td><td>3-4个月</td><td>$200</td><td>高</td></tr><tr><td>Azure AZ-900</td><td>入门</td><td>1个月</td><td>$99</td><td>基础</td></tr></tbody></table>
+
+  <h3>C.15.2 通用技术认证</h3>
+
+  <table class="reading-path-table"><thead><tr><th>认证</th><th>领域</th><th>推荐指数</th><th>说明</th></tr></thead><tbody><tr><td>Certified Kubernetes Admin (CKA)</td><td>容器编排</td><td>⭐⭐⭐⭐⭐</td><td>K8s 运维必备</td></tr><tr><td>Certified Kubernetes Developer (CKAD)</td><td>应用开发</td><td>⭐⭐⭐⭐⭐</td><td>K8s 应用开发</td></tr><tr><td>Terraform Associate</td><td>IaC</td><td>⭐⭐⭐⭐</td><td>基础设施即代码</td></tr><tr><td>Linux Foundation Certified Sysadmin</td><td>系统管理</td><td>⭐⭐⭐⭐</td><td>Linux 基础</td></tr><tr><td>PMP (Project Management)</td><td>项目管理</td><td>⭐⭐⭐</td><td>技术管理转型</td></tr></tbody></table>
+
+  <h3>C.15.3 认证备考建议</h3>
+
+  <pre><code>## 认证备考策略
+
+### 备考流程
+1. **学习阶段（60% 时间）**
+   - 官方文档 + 视频课程
+   - 动手实验（最重要）
+   - 做笔记整理知识点
+
+2. **练习阶段（30% 时间）**
+   - 模拟考试题
+   - 实操模拟环境
+   - 错题回顾
+
+3. **冲刺阶段（10% 时间）**
+   - 重点知识点回顾
+   - 时间管理练习
+   - 考试环境熟悉
+
+### 资源推荐
+- **AWS**: ACloudGuru, Tutorials Dojo
+- **K8s**: KodeKloud, killer.sh
+- **Terraform**: HashiCorp Learn Platform
+- **通用**: Udemy, Coursera, Pluralsight</code></pre>
+
+  <div class="title-divider"></div>
+
+  <h2>C.16 技术社区与资源</h2>
+
+  <h3>C.16.1 国内外技术社区</h3>
+
+  <table class="reading-path-table"><thead><tr><th>社区</th><th>类型</th><th>特点</th><th>适合人群</th></tr></thead><tbody><tr><td>GitHub</td><td>开源社区</td><td>代码托管、开源协作</td><td>所有开发者</td></tr><tr><td>Stack Overflow</td><td>Q&A</td><td>技术问题解答</td><td>遇到问题的开发者</td></tr><tr><td>Dev.to</td><td>博客社区</td><td>开发者博客</td><td>喜欢写作的技术人</td></tr><tr><td>Hacker News</td><td>新闻社区</td><td>技术新闻、讨论</td><td>关注行业趋势的开发者</td></tr><tr><td>Reddit (r/programming)</td><td>讨论社区</td><td>专题讨论</td><td>技术讨论爱好者</td></tr><tr><td>掘金</td><td>中文博客</td><td>高质量技术文章</td><td>中文开发者</td></tr><tr><td>知乎（技术区）</td><td>问答社区</td><td>深度技术讨论</td><td>中文开发者</td></tr><tr><td>V2EX</td><td>讨论社区</td><td>技术话题、工作交流</td><td>中文开发者</td></tr><tr><td>思否 SegmentFault</td><td>Q&A</td><td>中文技术问答</td><td>中文开发者</td></tr><tr><td>开源中国</td><td>开源社区</td><td>国产开源项目</td><td>关注开源的技术人</td></tr></tbody></table>
+
+  <h3>C.16.2 优质技术博客与 Newsletter</h3>
+
+  <table class="reading-path-table"><thead><tr><th>资源</th><th>类型</th><th>内容方向</th></tr></thead><tbody><tr><td>ByteByteGo</td><td>Newsletter/视频</td><td>系统设计（图解风格）</td></tr><tr><td>The Pragmatic Engineer</td><td>Newsletter</td><td>工程实践、职业发展</td></tr><tr><td>Engineering Blogs (企业)</td><td>博客集合</td><td>GitHub、Netflix、Uber 等技术博客</td></tr><tr><td>阮一峰的网络日志</td><td>中文博客</td><td>每周科技周刊、基础知识</td></tr><tr><td>酷壳 CoolShell</td><td>中文博客</td><td>技术深度文章</td></tr><tr><td>云风的 BLOG</td><td>中文博客</td><td>游戏、AI、底层技术</td></tr><tr><td>小胡子哥的博客</td><td>中文博客</td><td>前端、工程化</td></tr><tr><td>张鑫旭的博客</td><td>中文博客</td><td>CSS、前端技术</td></tr></tbody></table>
+
+  <h3>C.16.3 技术播客推荐</h3>
+
+  <table class="reading-path-table"><thead><tr><th>播客</th><th>语言</th><th>内容方向</th></tr></thead><tbody><tr><td>Software Engineering Daily</td><td>英文</td><td>软件工程全领域</td></tr><tr><td>Syntax.fm</td><td>英文</td><td>Web 开发（前端为主）</td></tr><tr><td>Changelog</td><td>英文</td><td>开源、技术趋势</td></tr><tr><td>Kubernetes Podcast</td><td>英文</td><td>云原生</td></tr><tr><td>捕蛇者说</td><td>中文</td><td>Python、后端</td></tr><tr><td>Teahour.fm</td><td>中文</td><td>程序员访谈</td></tr><tr><td>代码研究会</td><td>中文</td><td>前端、全栈</td></tr></tbody></table>
+
+  <div class="title-divider"></div>
+
+  <h2>C.17 开发者工具精选</h2>
+
+  <h3>C.17.1 编辑器与 IDE</h3>
+
+  <table class="reading-path-table"><thead><tr><th>工具</th><th>类型</th><th>特点</th><th>适合场景</th></tr></thead><tbody><tr><td>VS Code</td><td>编辑器</td><td>插件丰富、轻量</td><td>前端、全栈、Python</td></tr><tr><td>Cursor</td><td>AI 编辑器</td><td>VS Code 基础 + 深度 AI 集成</td><td>AI 辅助开发</td></tr><tr><td>Windsurf</td><td>AI IDE</td><td>原生 AI 构建</td><td>AI 原生的全栈开发</td></tr><tr><td>JetBrains IDEs</td><td>IDE</td><td>企业级、语言特化</td><td>Java（IntelliJ）、Python（PyCharm）</td></tr><tr><td>Zed</td><td>编辑器</td><td>高性能、协作</td><td>Rust、全栈开发</td></tr><tr><td>Neovim</td><td>终端编辑器</td><td>极速、可定制</td><td>终端开发、Vim 用户</td></tr></tbody></table>
+
+  <h3>C.17.2 效率工具</h3>
+
+  <table class="reading-path-table"><thead><tr><th>工具</th><th>类别</th><th>说明</th></tr></thead><tbody><tr><td><strong>Raycast</strong></td><td>启动器/效率</td><td>macOS 效率工具，支持插件</td></tr><tr><td><strong>Alfred</strong></td><td>启动器</td><td>macOS 经典效率工具</td></tr><tr><td><strong>PowerToys</strong></td><td>Windows 工具集</td><td>微软官方效率工具箱</td></tr><tr><td><strong>iTerm2 / Warp</strong></td><td>终端</td><td>macOS 增强终端</td></tr><tr><td><strong>Windows Terminal</strong></td><td>终端</td><td>Windows 现代终端</td></tr><tr><td><strong>tmux</strong></td><td>终端复用</td><td>会话保持、分屏</td></tr><tr><td><strong>Lazygit</strong></td><td>Git GUI</td><td>终端下的 Git 可视化</td></tr><tr><td><strong>Figma</strong></td><td>设计</td><td>UI/UX 协作设计</td></tr><tr><td><strong>DevDocs</strong></td><td>API 文档</td><td>离线文档聚合</td></tr><tr><td><strong>Dash / Zeal</strong></td><td>API 文档浏览器</td><td>离线文档速查</td></tr></tbody></table>
+
+  <h3>C.17.3 开发数据库工具</h3>
+
+  <table class="reading-path-table"><thead><tr><th>工具</th><th>类型</th><th>特点</th></tr></thead><tbody><tr><td>TablePlus</td><td>数据库 GUI</td><td>轻量、支持多种数据库</td></tr><tr><td>DBeaver</td><td>数据库 GUI</td><td>开源、功能全面</td></tr><tr><td>DataGrip</td><td>数据库 IDE</td><td>JetBrains 出品，智能提示</td></tr><tr><td>Prisma Studio</td><td>ORM GUI</td><td>Prisma 配套的数据浏览器</td></tr><tr><td>Redis Insight</td><td>Redis GUI</td><td>Redis 官方 GUI 工具</td></tr><tr><td>MongoDB Compass</td><td>MongoDB GUI</td><td>MongoDB 官方工具</td></tr></tbody></table>
+
+  <h3>C.17.4 API 测试与调试</h3>
+
+  <table class="reading-path-table"><thead><tr><th>工具</th><th>类别</th><th>特点</th></tr></thead><tbody><tr><td>Bruno</td><td>API 客户端</td><td>开源、离线、Git 友好</td></tr><tr><td>HTTPie</td><td>CLI 工具</td><td>命令行 HTTP 客户端</td></tr><tr><td>Postman</td><td>API 客户端</td><td>功能全面、团队协作</td></tr><tr><td>Hoppscotch</td><td>Web 工具</td><td>开源、浏览器端</td></tr><tr><td>Proxyman / Charles</td><td>代理调试</td><td>HTTP/HTTPS 抓包调试</td></tr><tr><td>ngrok</td><td>内网穿透</td><td>本地服务公网访问</td></tr></tbody></table>
+
+  <h3>C.17.5 容器与运维</h3>
+
+  <table class="reading-path-table"><thead><tr><th>工具</th><th>类别</th><th>说明</th></tr></thead><tbody><tr><td>Docker Desktop</td><td>容器管理</td><td>桌面 Docker 环境</td></tr><tr><td>OrbStack</td><td>Docker 替代</td><td>macOS 上更快的 Docker</td></tr><tr><td>Podman</td><td>容器引擎</td><td>Docker 替代（无守护进程）</td></tr><tr><td>k9s</td><td>K8s 管理</td><td>终端 Kubernetes UI</td></tr><tr><td>Lens</td><td>K8s IDE</td><td>桌面 Kubernetes 管理</td></tr><tr><td>Portainer</td><td>容器管理 UI</td><td>Web 端 Docker/K8s 管理</td></tr><tr><td>1Panel</td><td>服务器管理</td><td>Linux 服务器管理面板</td></tr></tbody></table>
+
+  <div class="title-divider"></div>
+
+  <h2>C.18 技术面试准备指南</h2>
+
+  <h3>C.18.1 面试流程概览</h3>
+
+  <pre><code>┌─────────────────────────────────────┐
+│          简历筛选                    │
+└─────────────────┬───────────────────┘
+                  ▼
+┌─────────────────────────────────────┐
+│          HR 初筛                     │
+│   (背景了解、薪资期望、时间安排)      │
+└─────────────────┬───────────────────┘
+                  ▼
+┌─────────────────────────────────────┐
+│        技术面 - 第一轮               │
+│   (算法与数据结构、编程题)            │
+└─────────────────┬───────────────────┘
+                  ▼
+┌─────────────────────────────────────┐
+│        技术面 - 第二轮               │
+│   (系统设计、项目深挖)               │
+└─────────────────┬───────────────────┘
+                  ▼
+┌─────────────────────────────────────┐
+│        技术面 - 第三轮               │
+│   (综合能力、架构、技术深度)          │
+└─────────────────┬───────────────────┘
+                  ▼
+┌─────────────────────────────────────┐
+│          HR 终面 / 交叉面            │
+│   (行为问题、文化匹配、Offer 沟通)    │
+└─────────────────────────────────────┘</code></pre>
+
+  <h3>C.18.2 算法面试准备</h3>
+
+  <pre><code>// 高频算法题分类
+
+// 1. 数组与哈希表（30%）
+// - 两数之和、三数之和
+// - 最长连续序列
+// - 合并区间
+
+// 2. 字符串（15%）
+// - 最长无重复子串
+// - 回文子串
+// - 字符串排列
+
+// 3. 链表（10%）
+// - 反转链表（多种变体）
+// - 环形链表检测
+// - 合并有序链表
+
+// 4. 树与图（20%）
+// - 二叉树遍历（前/中/后/层序）
+// - 二叉搜索树验证
+// - 最近公共祖先
+
+// 5. 动态规划（20%）
+// - 背包问题
+// - 最长递增子序列
+// - 编辑距离
+
+// 6. 其他（5%）
+// - 二分查找
+// - 排序
+// - 位运算</code></pre>
+
+  <p><strong>面试算法准备计划：</strong></p>
+
+  <table class="reading-path-table"><thead><tr><th>阶段</th><th>时长</th><th>内容</th><th>目标</th></tr></thead><tbody><tr><td>基础</td><td>2周</td><td>LeetCode Easy 100题</td><td>掌握基本数据结构和常见算法</td></tr><tr><td>进阶</td><td>3周</td><td>LeetCode Medium 150题</td><td>培养解题思路和模式识别</td></tr><tr><td>强化</td><td>2周</td><td>LeetCode Hard 50题</td><td>突破难点，提升解题能力</td></tr><tr><td>冲刺</td><td>1周</td><td>模拟面试 + 错题回顾</td><td>时间管理 + 查漏补缺</td></tr></tbody></table>
+
+  <h3>C.18.3 系统设计面试</h3>
+
+  <p><strong>常见系统设计题：</strong></p>
+
+  <pre><code>1. 设计 URL Shortener (tinyurl)
+2. 设计聊天系统 (WhatsApp/微信)
+3. 设计社交信息流 (Twitter/微博)
+4. 设计视频平台 (YouTube/B站)
+5. 设计电商系统 (Amazon/淘宝)
+6. 设计打车系统 (Uber/滴滴)
+7. 设计实时排行榜
+8. 设计分布式 ID 生成器
+9. 设计限流系统
+10. 设计秒杀系统</code></pre>
+
+  <p><strong>系统设计答题框架：</strong></p>
+
+  <pre><code>## 系统设计面试框架
+
+### 1. 需求澄清（2-3分钟）
+- 功能需求：核心功能有哪些？
+- 非功能需求：DAU、QPS、延迟、可用性要求
+- 约束条件：预算、技术栈、团队规模
+
+### 2. 估算（2-3分钟）
+- 日活用户：如 100M DAU
+- QPS 估算：峰值/平均读写
+- 存储估算：每日数据增量
+- 带宽估算：网络流量
+
+### 3. 数据模型（3-5分钟）
+- 核心实体和关系
+- Schema 设计
+- 数据存储选择（SQL/NoSQL）
+
+### 4. 高层设计（5分钟）
+- 系统架构图
+- 核心组件：负载均衡、缓存、数据库
+- 请求流程
+
+### 5. 深入设计（10-15分钟）
+- 具体组件选型与理由
+- 数据一致性方案
+- 容错与高可用
+- 性能优化
+
+### 6. 总结（2-3分钟）
+- 设计权衡
+- 可能的优化方向
+- 扩展性考虑</code></pre>
+
+  <h3>C.18.4 行为面试准备</h3>
+
+  <pre><code>## STAR 法则
+
+S - Situation（情境）：在什么背景下
+T - Task（任务）：需要完成什么
+A - Action（行动）：你做了什么
+R - Result（结果）：取得了什么成果
+
+### 常见行为面试题
+
+1. **领导力**："描述一次你带领团队解决困难问题的经历"
+2. **冲突处理**："描述一次与技术方向不同的同事合作的经历"
+3. **失败经历**："描述一次项目失败的经历，你学到了什么"
+4. **成就**："最让你自豪的技术成就是什么"
+5. **学习能力**："描述一次快速学习新技术并应用的经历"
+6. **影响力**："你是如何影响团队技术决策的"
+7. **跨团队协作**："描述一次与其他团队合作的项目"
+
+### 准备建议
+
+- 准备 5-7 个核心故事，每个故事能用 STAR 法讲清楚
+- 故事涵盖不同场景：技术成就、团队协作、解决问题
+- 量化结果，用数据说话（"性能提升了 40%"）
+- 练习口语表达，录音回放改进</code></pre>
+
+  <h3>C.18.5 面试资源汇总</h3>
+
+  <table class="reading-path-table"><thead><tr><th>资源</th><th>类型</th><th>适合场景</th><th>链接/说明</th></tr></thead><tbody><tr><td>LeetCode</td><td>算法练习</td><td>算法面试</td><td>leetcode.com</td></tr><tr><td>NeetCode.io</td><td>算法教程</td><td>系统学习</td><td>视频 + 题解</td></tr><tr><td>Pramp</td><td>模拟面试</td><td>实战练习</td><td>免费模拟面试</td></tr><tr><td>System Design Primer</td><td>系统设计</td><td>系统设计入门</td><td>GitHub 仓库</td></tr><tr><td>ByteByteGo</td><td>系统设计</td><td>图解系统设计</td><td>博客 + 视频</td></tr><tr><td>Awesome Interviews</td><td>面试汇总</td><td>面试资源大全</td><td>GitHub 仓库</td></tr><tr><td>Interviewing.io</td><td>模拟面试</td><td>匿名模拟面试</td><td>有 FAANG 面试官</td></tr></tbody></table>
+
+  <div class="title-divider"></div>
+
+  <h2>C.19 职业发展指南</h2>
+
+  <h3>C.19.1 技术职业发展路径</h3>
+
+  <pre><code>技术路线（IC - Individual Contributor）
+┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐
+│  初级    │ → │  中级    │ → │  高级    │ → │  专家    │
+│  Junior  │   │  Mid     │   │  Senior  │   │  Staff   │
+└─────────┘   └─────────┘   └─────────┘   └─────────┘
+                              ↘
+                               ┌─────────┐   ┌─────────┐
+                               │  架构师   │ → │  首席     │
+                               │  Architect│   │  Principal│
+                               └─────────┘   └─────────┘
+
+管理路线（Management）
+┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐
+│  技术组长 │ → │  工程经理 │ → │  高级经理 │ → │  技术总监 │
+│  Tech Lead│  │  EM      │   │  Sr. EM  │   │  Director│
+└─────────┘   └─────────┘   └─────────┘   └─────────┘
+
+创业路线
+┌─────────┐   ┌─────────┐   ┌─────────┐
+│  独立开发者│ → │  初创CTO  │ → │  创始人  │
+│  Indie Dev│   │  Startup  │   │  Founder │
+└─────────┘   └─────────┘   └─────────┘</code></pre>
+
+  <h3>C.19.2 各阶段能力要求</h3>
+
+  <table class="reading-path-table"><thead><tr><th>级别</th><th>经验</th><th>核心能力</th><th>薪资范围（参考）</th></tr></thead><tbody><tr><td>初级 Junior</td><td>0-2年</td><td>能独立完成分配的任务</td><td>低</td></tr><tr><td>中级 Mid</td><td>2-5年</td><td>能独立负责模块设计</td><td>中</td></tr><tr><td>高级 Senior</td><td>5-8年</td><td>能主导技术方案、指导他人</td><td>中高</td></tr><tr><td>专家 Staff</td><td>8-12年</td><td>能跨团队影响技术决策</td><td>高</td></tr><tr><td>架构师</td><td>10-15年</td><td>负责系统级架构设计</td><td>很高</td></tr><tr><td>首席 Principal</td><td>15年+</td><td>技术战略、行业影响力</td><td>极高</td></tr></tbody></table>
+
+  <h3>C.19.3 跳槽与涨薪策略</h3>
+
+  <pre><code>## 职业发展建议
+
+### 跳槽时机
+- 在当前岗位学习曲线变平
+- 技术成长停滞超过 6 个月
+- 薪酬远低于市场平均水平（30%+）
+- 项目没有挑战性或影响力有限
+- 公司/团队文化不适配
+
+### 谈薪策略
+1. **了解市场行情**：Levels.fyi、Glassdoor、脉脉
+2. **准备多个 Offer**：有竞争 Offer 是最大筹码
+3. **考虑总包**：底薪 + 股票 + 奖金 + 福利
+4. **不要先报底价**：让招聘方先出价
+5. **谈判要点**：底薪 &gt; 签字费 &gt; 股票 &gt; 奖金
+
+### 简历优化
+1. **量化成果**：用数据说话
+   - ❌ "优化了系统性能"
+   - ✅ "将 API 响应时间从 500ms 降低到 50ms，提升 90%"
+2. **STAR 格式**：每个项目用情境-任务-行动-结果格式
+3. **关键词匹配**：根据目标岗位定制关键词
+4. **一页原则**：3-5 年以下经验不超过一页
+5. **GitHub/博客**：展示技术热情和写作能力</code></pre>
+
+  <h3>C.19.4 远程工作与自由职业</h3>
+
+  <table class="reading-path-table"><thead><tr><th>平台</th><th>类型</th><th>适合人群</th><th>特点</th></tr></thead><tbody><tr><td>Upwork</td><td>自由职业</td><td>经验丰富的开发者</td><td>项目类型丰富</td></tr><tr><td>Toptal</td><td>高端自由职业</td><td>顶级开发者</td><td>严选、高薪</td></tr><tr><td>Remote OK</td><td>远程工作</td><td>专职远程</td><td>全球远程职位</td></tr><tr><td>电鸭社区</td><td>远程工作（中文）</td><td>中文开发者</td><td>远程社区</td></tr><tr><td>Deel</td><td>全球雇佣</td><td>跨境工作者</td><td>合同+薪酬管理</td></tr><tr><td>猪八戒</td><td>众包（中文）</td><td>初级开发者</td><td>国内众包</td></tr></tbody></table>
+
+  <h3>C.19.5 建立个人品牌</h3>
+
+  <pre><code>## 技术人品牌建设
+
+### 1. 技术博客（长期投入）
+- 建立个人博客或使用掘金/Medium
+- 保持每月 2-4 篇文章输出
+- 内容类型：技术教程、踩坑记录、思考总结
+- 坚持比质量更重要
+
+### 2. 开源贡献（高效杠杆）
+- 从文档翻译开始
+- 修复小 bug 建立信心
+- 维护自己的小工具库
+- 参与知名项目的 feature 开发
+
+### 3. 社交媒体
+- Twitter/X：关注技术领袖，参与讨论
+- LinkedIn：完善 Profile，连接同行业
+- GitHub：完善 Profile，Pin 重点项目
+- 知乎/掘金：回答问题，输出技术文章
+
+### 4. 社区分享
+- 参加 Meetup 做分享
+- 投稿技术大会（JSConf、React Conf）
+- 组织本地开发者社区
+- 录制技术视频/直播</code></pre>
+
+  <div class="title-divider"></div>
+
+  <h2>C.20 推荐书目</h2>
+
+  <h3>C.20.1 编程基础与思维</h3>
+
+  <table class="reading-path-table"><thead><tr><th>书名</th><th>作者</th><th>推荐理由</th><th>难度</th></tr></thead><tbody><tr><td>《代码大全》</td><td>Steve McConnell</td><td>软件构建百科全书</td><td>入门-中级</td></tr><tr><td>《程序员修炼之道》</td><td>Andy Hunt</td><td>编程哲学与实践</td><td>入门</td></tr><tr><td>《重构：改善既有代码的设计》</td><td>Martin Fowler</td><td>代码优化必读</td><td>中级</td></tr><tr><td>《代码整洁之道》</td><td>Robert C. Martin</td><td>编写可读代码</td><td>入门-中级</td></tr><tr><td>《计算机程序的构造和解释》(SICP)</td><td>Harold Abelson</td><td>编程思维奠基</td><td>高级</td></tr></tbody></table>
+
+  <h3>C.20.2 系统设计</h3>
+
+  <table class="reading-path-table"><thead><tr><th>书名</th><th>作者</th><th>推荐理由</th><th>难度</th></tr></thead><tbody><tr><td>《设计数据密集型应用》(DDIA)</td><td>Martin Kleppmann</td><td>分布式系统必读</td><td>高级</td></tr><tr><td>《系统设计面试》</td><td>Alex Xu</td><td>面试实战</td><td>中级</td></tr><tr><td>《领域驱动设计》</td><td>Eric Evans</td><td>复杂业务建模</td><td>高级</td></tr><tr><td>《企业应用架构模式》</td><td>Martin Fowler</td><td>架构模式参考</td><td>中级</td></tr></tbody></table>
+
+  <h3>C.20.3 前端开发</h3>
+
+  <table class="reading-path-table"><thead><tr><th>书名</th><th>作者</th><th>推荐理由</th><th>难度</th></tr></thead><tbody><tr><td>《JavaScript高级程序设计》</td><td>Nicholas C. Zakas</td><td>JS 权威指南</td><td>中级</td></tr><tr><td>《你不知道的JavaScript》系列</td><td>Kyle Simpson</td><td>JS 深入理解</td><td>中级-高级</td></tr><tr><td>《CSS权威指南》</td><td>Eric Meyer</td><td>CSS 全面参考</td><td>中级</td></tr><tr><td>《React设计原理》</td><td>卡辛</td><td>React 核心思想</td><td>中级</td></tr></tbody></table>
+
+  <h3>C.20.4 后端开发</h3>
+
+  <table class="reading-path-table"><thead><tr><th>书名</th><th>作者</th><th>推荐理由</th><th>难度</th></tr></thead><tbody><tr><td>《深入理解Node.js》</td><td>朴灵</td><td>Node.js 原理</td><td>高级</td></tr><tr><td>《高性能MySQL》</td><td>Baron Schwartz</td><td>数据库优化</td><td>中级-高级</td></tr><tr><td>《Redis设计与实现》</td><td>黄健宏</td><td>Redis 原理</td><td>中级</td></tr><tr><td>《Kubernetes权威指南》</td><td>龚正</td><td>K8s 实战</td><td>中级-高级</td></tr></tbody></table>
+
+  <h3>C.20.5 AI/机器学习</h3>
+
+  <table class="reading-path-table"><thead><tr><th>书名</th><th>作者</th><th>推荐理由</th><th>难度</th></tr></thead><tbody><tr><td>《机器学习》（西瓜书）</td><td>周志华</td><td>ML 理论入门</td><td>中级</td></tr><tr><td>《深度学习》</td><td>Ian Goodfellow</td><td>DL 经典教材</td><td>高级</td></tr><tr><td>《动手学深度学习》</td><td>李沐</td><td>实践导向</td><td>中级</td></tr><tr><td>《自然语言处理综论》</td><td>Daniel Jurafsky</td><td>NLP 基础</td><td>中级</td></tr></tbody></table>
+
+  <h3>C.20.6 软技能与职业</h3>
+
+  <table class="reading-path-table"><thead><tr><th>书名</th><th>作者</th><th>推荐理由</th></tr></thead><tbody><tr><td>《软技能：代码之外的生存指南》</td><td>John Sonmez</td><td>程序员职业发展指南</td></tr><tr><td>《人性的弱点》</td><td>Dale Carnegie</td><td>人际沟通经典</td></tr><tr><td>《深度工作》</td><td>Cal Newport</td><td>专注力提升</td></tr><tr><td>《原子习惯》</td><td>James Clear</td><td>习惯养成方法论</td></tr><tr><td>《非暴力沟通》</td><td>Marshall Rosenberg</td><td>高效沟通</td></tr></tbody></table>
+
+  <div class="title-divider"></div>
+
+  <h2>C.21 学习资源平台</h2>
+
+  <table class="reading-path-table"><thead><tr><th>平台</th><th>类型</th><th>特点</th><th>适合人群</th></tr></thead><tbody><tr><td><strong>freeCodeCamp</strong></td><td>免费课程</td><td>全栈开发、互动式</td><td>零基础入门</td></tr><tr><td><strong>The Odin Project</strong></td><td>免费课程</td><td>全栈 JavaScript 路径</td><td>自学入门</td></tr><tr><td><strong>Harvard CS50</strong></td><td>免费大学课</td><td>计算机科学基础</td><td>零基础转行</td></tr><tr><td><strong>MIT OpenCourseWare</strong></td><td>免费大学课</td><td>顶级大学课程</td><td>进阶学习者</td></tr><tr><td><strong>Frontend Masters</strong></td><td>付费课程</td><td>前端专家授课</td><td>中高级前端</td></tr><tr><td><strong>Egghead.io</strong></td><td>付费课程</td><td>前端/React 精讲</td><td>中级前端</td></tr><tr><td><strong>Epic React</strong></td><td>付费课程</td><td>Kent C. Dodds 主讲</td><td>前端进阶</td></tr><tr><td><strong>Full Stack Open</strong></td><td>免费课程</td><td>赫尔辛基大学课程</td><td>全栈学习</td></tr><tr><td><strong>Roadmap.sh</strong></td><td>免费路线图</td><td>可视化学习路径</td><td>规划学习方向</td></tr><tr><td><strong>Exercism</strong></td><td>免费练习</td><td>编程练习+导师</td><td>提升编程技能</td></tr><tr><td><strong>Codewars</strong></td><td>免费挑战</td><td>编程挑战社区</td><td>算法练习</td></tr><tr><td><strong>MIT Missing Semester</strong></td><td>免费课程</td><td>计算机教育缺失的一课</td><td>工具技能提升</td></tr></tbody></table>
+
+  <div class="title-divider"></div>
+
+  <h2>C.22 顶尖科技公司技术博客</h2>
+
+  <table class="reading-path-table"><thead><tr><th>公司</th><th>博客地址</th><th>主要内容</th></tr></thead><tbody><tr><td><strong>Netflix</strong></td><td>techblog.netflix.com</td><td>微服务、内容分发、系统可靠性</td></tr><tr><td><strong>Uber</strong></td><td>uber.com/blog/engineering</td><td>微服务、数据平台、机器学习</td></tr><tr><td><strong>Airbnb</strong></td><td>medium.com/airbnb-engineering</td><td>前端架构、设计系统、数据科学</td></tr><tr><td><strong>Stripe</strong></td><td>stripe.com/blog/engineering</td><td>API 设计、支付系统、分布式系统</td></tr><tr><td><strong>GitHub</strong></td><td>github.blog/engineering</td><td>开发者工具、协作平台、安全</td></tr><tr><td><strong>Cloudflare</strong></td><td>blog.cloudflare.com</td><td>网络性能、安全、边缘计算</td></tr><tr><td><strong>Meta</strong></td><td>engineering.fb.com</td><td>大规模系统、AI、基础设施</td></tr><tr><td><strong>Google</strong></td><td>research.google/blog</td><td>AI、系统设计、编程语言</td></tr><tr><td><strong>Apple</strong></td><td>developer.apple.com</td><td>平台开发、硬件集成</td></tr><tr><td><strong>字节跳动</strong></td><td>toutiao.io</td><td>推荐系统、短视频、大规模应用</td></tr></tbody></table>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>对 Claude Code 说：</p>
+  <div class="vibe-prompt">
+  <p>"帮我根据我的当前水平（[描述你的经验和技能]）和目标（[描述你想达成的目标]），生成一个个性化的学习路径，包括接下来要做的三个具体项目。"</p>
+  <p>"帮我推荐适合我的开源项目，我想开始贡献代码。"</p>
+  <p>"帮我模拟一次技术面试，包括算法题、系统设计和行为问题。"</p>
+  <p>"帮我分析这个开源项目的架构，并给我推荐一个适合新手的贡献任务。"</p>
+  <p>"帮我分析我的简历，指出需要改进的地方。"</p>
+  <p>"帮我准备行为面试，用 STAR 法则帮我构建回答。"</p>
+  <p>"帮我制定一份学习计划，目标是 [具体目标]，时间安排为 [时间段]。"</p>
+  <p>"推荐适合我当前技术栈的认证路径。"</p>
+  <p>"帮我列出一个系统设计面试的 checklist，包含需要准备的所有知识点。"</p>
+  <p>"推荐一些我当前技术水平可以参与的开源项目，并说明如何开始贡献。"</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

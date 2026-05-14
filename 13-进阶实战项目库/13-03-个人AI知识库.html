@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13.3 个人 AI 知识库（RAG 入门）</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #7a6a8a, #a898b8, #7a6a8a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #7a6a8a; }
+  .title-divider { background: #a898b8; }
+  strong { color: #7a6a8a; }
+  .img-icon { color: #a898b8; }
+  .img-label { color: #7a6a8a; }
+  .img-caption { color: #7a6a8a; }
+  .takeaways-title { color: #7a6a8a; }
+  .takeaways li::before { color: #a898b8; }
+  .vibe-label { color: #7a6a8a; }
+  .vibe-prompt::before { color: #a898b8; }
+  blockquote { border-left-color: #a898b8; }
+  th { color: #7a6a8a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第十三章 · 进阶实战项目库</div>
+  <h1>13.3 个人 AI 知识库（RAG 入门）</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-13<br>  验证环境：Node.js v22.x, Claude Code v1.x, Python 3.12, ChromaDB</div>
+
+  <h2>项目概述</h2>
+
+  <p>构建一个个人 AI 知识库：你把文档（PDF、Markdown、文本）放进去，然后用自然语言提问，AI 根据文档内容回答。</p>
+
+  <p>这个项目背后的技术叫做 <strong>RAG（Retrieval-Augmented Generation，检索增强生成）</strong>——目前最实用的大模型应用模式之一。你不需要理解它的全部原理，你只需要知道：<strong>给 AI 配一个"参考书"，它就能基于你给的资料回答问题。</strong></p>
+
+  <p>为什么 RAG 有用？因为通用 AI 模型只训练到某个时间点，而且对私人文档一无所知。如果你让它"根据我的运维手册回答如何部署服务"，它要么说"我不知道"，要么编造答案。RAG 解决的就是这个"知识鸿沟"问题——它让 AI 在回答前先检索你的文档，找到相关内容，然后基于这些内容生成答案。每个回答都有出处。</p>
+
+  <h2>推荐技术栈</h2>
+
+  <ul>
+<li><strong>后端</strong>：Python + FastAPI</li>
+<li><strong>向量数据库</strong>：ChromaDB（轻量级、Python 原生、零配置）</li>
+<li><strong>Embedding 模型</strong>：text-embedding-3-small（OpenAI）或本地模型</li>
+<li><strong>LLM</strong>：Claude API / OpenAI API</li>
+<li><strong>文档解析</strong>：PyMuPDF（PDF 解析）、python-docx（Word 文档）</li>
+</ul>
+
+  <h2>分步 Vibe 流程</h2>
+
+  <p><strong>第 1 步：初始化项目</strong></p>
+
+  <pre><code>创建一个 Python 项目，实现一个简单的 RAG 知识库。
+使用 FastAPI 做后端，ChromaDB 做向量存储，支持上传文档和基于文档提问。</code></pre>
+
+  <p>AI 会创建项目结构、安装依赖、配置 FastAPI 和 ChromaDB。这是"搭架子"的一步——还没有实际功能，但基础环境就绪。</p>
+
+  <blockquote>
+
+  <p><strong>Python 项目的注意事项：</strong> 如果你刚接触 Python 开发，AI 可能会创建虚拟环境或安装依赖。不用担心——AI 会处理这些。如果你看到的命令报错了（比如 pip 安装失败），把错误复制给 AI。</p>
+
+  </blockquote>
+
+  <p><strong>第 2 步：实现文档处理流程</strong></p>
+
+  <pre><code>实现文档上传和处理接口：
+1. 接收上传的 PDF 或 Markdown 文件
+2. 将文档内容按段落分割（每段 500 个字符，重叠 50 字符）
+3. 为每个段落生成向量嵌入
+4. 将嵌入向量存入 ChromaDB，同时保存原始文本</code></pre>
+
+  <p>如果你不理解"向量嵌入""分段重叠"这些术语——别担心，你不需要理解。AI 会处理这些技术细节。你只需要验证最终结果：文档上传后能否正确回答问题。</p>
+
+  <blockquote>
+
+  <p><strong>什么是向量嵌入？</strong> 简单理解：把一段文字转换成一个"数字指纹"（几百个数字组成的向量）。内容相似的文字会有相似的"数字指纹"。这样当用户提问时，AI 把你的问题也转成"数字指纹"，然后去数据库里找指纹最接近的文档段落。这就是"检索"的工作原理。</p>
+
+  </blockquote>
+
+  <blockquote>
+
+  <p><strong>为什么分段时要有重叠？</strong> 想象你把一篇文章一刀切成 500 字一段——如果刚好在段落中间切断了，这段文字的意义就不完整。重叠策略让相邻段落共享 50 个字符，确保即使重要信息恰好在切断处，也能落在至少一个完整段落中。</p>
+
+  </blockquote>
+
+  <p><strong>第 3 步：实现问答接口</strong></p>
+
+  <pre><code>实现问答接口：接收用户问题 → 在 ChromaDB 中搜索最相关的 3 个段落 → 将段落作为上下文发送给大模型 → 返回基于上下文的回答。
+确保在回答中引用来源段落（显示"基于文档第 X 段"）。</code></pre>
+
+  <p>这就是 RAG 的核心流程。技术上说，它是：</p>
+
+  <pre><code>question → embedding → vector search → top-k context → LLM prompt → answer</code></pre>
+
+  <p>你可以直接把这个流程复制给 AI 作为技术需求。AI 会理解每一步的含义。</p>
+
+  <p><strong>第 4 步：构建前端</strong></p>
+
+  <pre><code>创建一个简易的 Web 界面：左侧是文档上传区，右侧是问答聊天界面。
+上传文档后显示"处理完成"；提问后在右侧显示回答，并标注引用了文档的哪个部分。</code></pre>
+
+  <p>你可以选择 Streamlit（最快出界面，不需要写 HTML）或纯 HTML。Streamlit 是 Python 生态中最快的 UI 方案：</p>
+
+  <pre><code>用 Streamlit 做前端，不需要写 HTML。
+左侧上传文件，右侧聊天界面，上传后显示文档列表。</code></pre>
+
+  <p><strong>第 5 步：优化与调试</strong></p>
+
+  <pre><code>如果我上传了一份中文 PDF，回答时总是引用不准确，可能是因为中文分词的问题。
+帮我检查检索效果并优化。</code></pre>
+
+  <p>AI 可能会建议更换 Embedding 模型（使用支持多语言的模型，如 <code>BGE-M3</code> 或 <code>text-embedding-3-small</code>），调整分段大小（中文文档通常需要更小的 chunk），或者添加中文分词预处理。</p>
+
+  <h2>扩展方向</h2>
+
+  <p><strong>方向一：多文档管理。</strong></p>
+
+  <pre><code>支持上传多个文档，并能在对话中指定"仅从文档 A 中查找答案"。
+在界面上显示已上传的文档列表，支持删除。</code></pre>
+
+  <p><strong>方向二：对话历史。</strong></p>
+
+  <pre><code>保存对话历史：每个对话包含多个问答对。在侧边栏显示历史会话列表，点击可以回顾之前的问答。</code></pre>
+
+  <p><strong>方向三：文档预览。</strong></p>
+
+  <pre><code>在回答中引用某段落时，点击"查看原文"可以展开该段落所在的完整上下文。</code></pre>
+
+  <h2>RAG 的关键：检索质量</h2>
+
+  <p>RAG 系统的瓶颈通常不在于 AI 的回答能力，而在于<strong>检索质量</strong>——能不能找到真正相关的文档片段。影响检索质量的因素主要有：</p>
+
+  <ol>
+<li><strong>分段策略</strong>：段落太长会包含噪声，太短会丢失上下文（AI 默认策略通常就可用了）</li>
+<li><strong>Embedding 模型的选择</strong>：大规模使用可以考虑 BGE-M3 等中文优化模型</li>
+<li><strong>检索数量</strong>：返回 Top-3 还是 Top-5 需要根据文档情况测试</li>
+<li><strong>查询重写</strong>：用户问题可能不够精确，AI 可以先改写问题再检索</li>
+</ol>
+
+  <p>如果你不想深入研究这些，记住一句话：<strong>先用默认配置跑通，遇到检索不准再优化。</strong> 不要一开始就追求完美。</p>
+
+  <h2>常见问题与 AI 修复</h2>
+
+  <p><strong>问题 1：PDF 解析乱码。</strong></p>
+
+  <p>"上传的中文 PDF 解析后全是乱码。"</p>
+
+  <p>AI 会检查 PyMuPDF 的编码设置，或者建议使用 OCR 引擎（如 PaddleOCR）处理扫描版 PDF。</p>
+
+  <p><strong>问题 2：处理时间太长。</strong></p>
+
+  <p>"上传了一个 50 页的 PDF，但处理时间太长了。"</p>
+
+  <p>AI 会将串行处理改为并行处理，同时控制并发数以节省 API 调用成本。</p>
+
+  <p><strong>问题 3：引用位置不精确。</strong></p>
+
+  <p>"回答中引用来源时只显示了'来源：文档'，没有具体位置。"</p>
+
+  <p>AI 会改进元数据存储，记录每个段落的页码和段落序号，并在回答中标注。</p>
+
+  <h2>关键决策点</h2>
+
+  <table class="reading-path-table"><thead><tr><th>决策点</th><th>可选方案</th><th>说明</th></tr></thead><tbody><tr><td>向量数据库</td><td>ChromaDB / Pinecone / Qdrant</td><td>本地原型用 ChromaDB，生产用 Pinecone</td></tr><tr><td>Embedding 模型</td><td>OpenAI / 本地模型</td><td>原型阶段用 OpenAI 最简单，后期可换本地</td></tr><tr><td>分段策略</td><td>固定长度 / 语义分割 / 按标题</td><td>固定长度最通用，语义分割更精确但更慢</td></tr><tr><td>前端方案</td><td>纯 HTML / React / Streamlit</td><td>快速验证用 Streamlit，正式用 React</td></tr><tr><td>LLM</td><td>Claude / GPT-4 / 本地模型</td><td>质量优先用 Claude，成本敏感用本地模型</td></tr></tbody></table>
+
+  <pre><code>你：上传了一个 50 页的 PDF，但处理时间太长了。
+
+AI：当前是逐页串行处理的。改为并行处理，同时控制并发数以节省 API 调用成本。</code></pre>
+
+  <pre><code>你：回答中引用来源时只显示了"来源：文档"，没有具体位置。
+
+AI：改进了元数据存储，现在每个段落记录其页码和段落序号，并在回答中标注。</code></pre>
+
+  <pre><code>你：上传的中文 PDF 解析后全是乱码。
+
+AI：检测到 PDF 编码问题。已将 PyMuPDF 的文本提取编码设置为 UTF-8，并添加了编码自动检测逻辑。</code></pre>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>RAG = 检索 + 生成：让 AI 基于你给的资料回答问题，而不是依赖它的训练数据。每个回答都有出处。</li>
+<li>核心流程：文档分段 → 向量化 → 检索 → 让 AI 基于检索结果回答。流程中的每一步 AI 都熟悉。</li>
+<li>ChromaDB 是零配置的向量数据库，适合本地原型和入门学习。向量嵌入可以理解为"数字指纹"。</li>
+<li>检索质量是 RAG 系统的瓶颈——先用默认配置跑通，再优化分段和检索策略。</li>
+<li>RAG 是目前实际工作中最常用的大模型应用模式，掌握它等于打开了一个新的能力维度。你的个人文档因此变得"可对话"。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>对 Claude Code 说：</p>
+  <div class="vibe-prompt">
+  <p>"帮我创建一个 RAG 知识库原型。使用 Python + FastAPI + ChromaDB，支持上传 Markdown 或 TXT 文件，然后基于文档内容回答问题。先搭一个最小可用版本。"</p>
+  </div>
+  <p>进阶练习：</p>
+  <p>完成基础 RAG 原型后，问 AI "如何评估这个 RAG 系统的检索质量？" 让 AI 解释评估方法，然后说 "帮我实现一个简单的评估：准备 5 个问题和对应的正确答案，运行测试后报告检索准确率。" 观察 AI 如何创建评估数据集并运行测试。</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

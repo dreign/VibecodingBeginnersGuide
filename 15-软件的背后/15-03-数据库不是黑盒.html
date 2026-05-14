@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15.3 数据库不是黑盒</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #7a8a6a, #a8b898, #7a8a6a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #7a8a6a; }
+  .title-divider { background: #a8b898; }
+  strong { color: #7a8a6a; }
+  .img-icon { color: #a8b898; }
+  .img-label { color: #7a8a6a; }
+  .img-caption { color: #7a8a6a; }
+  .takeaways-title { color: #7a8a6a; }
+  .takeaways li::before { color: #a8b898; }
+  .vibe-label { color: #7a8a6a; }
+  .vibe-prompt::before { color: #a8b898; }
+  blockquote { border-left-color: #a8b898; }
+  th { color: #7a8a6a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第十五章 · 软件的背后</div>
+  <h1>15.3 数据库不是黑盒</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-13<br>  验证环境：无（原理章节，不依赖特定工具版本）</div>
+
+  <h2>为什么需要理解数据库</h2>
+
+  <p>在 Vibe Coding 中，AI 会替你写所有 SQL 语句。你可以永远不学 SQL 语法。</p>
+
+  <p>但是，当你的应用变得很慢（加载一个页面要 5 秒），90% 的可能是数据库查询的问题。这时候如果你对数据库有一个简单的心理模型，就能准确地向 AI 描述问题并快速修复。</p>
+
+  <p>这个心理模型不需要多深——你只需要知道"数据库是一堆表格"和"索引像书的目录"这两个概念，就能解决 80% 的性能问题。</p>
+
+  <h2>数据库是怎么工作的</h2>
+
+  <p>你可以把数据库想象成一个<strong>超大型的 Excel 表格集合</strong>：</p>
+
+  <ul>
+<li>每个"表"（Table）就像 Excel 中的一个 Sheet</li>
+<li>每"行"（Row）是一行数据</li>
+<li>每"列"（Column）是一种数据类型</li>
+</ul>
+
+  <p>当你执行一个查询：</p>
+
+  <pre><code>SELECT * FROM users WHERE email = 'alice@example.com';</code></pre>
+
+  <p>数据库会做：</p>
+
+  <ol>
+<li>找到 <code>users</code> 这个"表格"</li>
+<li>遍历每一行，检查 <code>email</code> 列是否等于 <code>alice@example.com</code></li>
+<li>返回所有匹配的行</li>
+</ol>
+
+  <p><strong>如果没有索引</strong>，数据库要<strong>扫描整个表</strong>——就像你在 Excel 里从上到下逐行查找。如果表里有 100 万行用户数据，这个查询可能需要几秒钟。</p>
+
+  <p><strong>一个重要的认知：数据库不像人类那样"聪明"。</strong> 人类看到"找 alice@example.com"会自然地从字母 A 开头的区域开始找。但数据库不会——它会老老实实地从第 1 行开始逐行扫描到最后一行。除非你（或 AI 帮你）告诉它"在 email 列上建一个索引"。</p>
+
+  <h2>索引：加速查询的关键</h2>
+
+  <p><strong>索引</strong>是数据库最核心的优化手段——也是 AI 生成的代码中经常遗漏的东西。</p>
+
+  <p>索引的概念和书的目录一样：没有目录，你要翻遍整本书才能找到"Vibe Coding"这个词出现在哪一页。有目录，直接翻到对应页码。</p>
+
+  <pre><code>-- 创建索引——告诉数据库"经常要用 email 查用户，帮我记住每个 email 在哪一行"
+CREATE INDEX idx_users_email ON users (email);</code></pre>
+
+  <p>创建索引后，上面的 <code>WHERE email = 'alice@example.com'</code> 查询从"扫描 100 万行"变成了"直接跳到对应的那一行"，时间从秒级降到毫秒级。</p>
+
+  <p><strong>在 Vibe Coding 中检查索引：</strong></p>
+
+  <p>你不需要自己写 <code>CREATE INDEX</code> 语句。当你发现页面加载慢时，直接问 AI：</p>
+
+  <blockquote>
+
+  <p>"这个页面加载很慢，是不是数据库缺少索引？帮我检查一下需要在哪里加索引。"</p>
+
+  </blockquote>
+
+  <p>AI 会检查你的 Prisma Schema 或 SQL 查询，在需要的地方添加索引定义。</p>
+
+  <p><strong>什么时候需要索引：</strong></p>
+
+  <ul>
+<li>经常出现在 <code>WHERE</code> 子句中的列（筛选条件）</li>
+<li>经常出现在 <code>ORDER BY</code> 中的列（排序）</li>
+<li>经常用于 JOIN 的列（表关联）</li>
+</ul>
+
+  <p><strong>什么时候不需要索引：</strong></p>
+
+  <ul>
+<li>数据量很小的表（几百行，全表扫描比查索引更快）</li>
+<li>频繁写入但很少查询的列（索引会减慢写入速度）</li>
+</ul>
+
+  <p><strong>复合索引（索引进阶）：</strong></p>
+
+  <p>有时候你经常组合使用两个列来查询：</p>
+
+  <pre><code>SELECT * FROM orders WHERE user_id = 123 ORDER BY created_at DESC LIMIT 20;</code></pre>
+
+  <p>这时 AI 可能创建一个复合索引（包含两列）：</p>
+
+  <pre><code>CREATE INDEX idx_orders_user_created ON orders (user_id, created_at);</code></pre>
+
+  <p>这个索引同时加速了"按 user_id 筛选"和"按 created_at 排序"两个操作。如果你告诉 AI "查询还是很慢"，它可能会建议复合索引。</p>
+
+  <h2>常见的性能问题模式</h2>
+
+  <p><strong>N+1 查询问题</strong></p>
+
+  <p>这是最常见的性能陷阱：</p>
+
+  <pre><code># 伪代码
+posts = db.query("SELECT * FROM posts")  # 1 次查询
+for post in posts:
+    comments = db.query("SELECT * FROM comments WHERE post_id = ?", post.id)  # N 次查询</code></pre>
+
+  <p>如果有 100 篇文章，这个循环会产生 1 + 100 = 101 次查询。用 JOIN 一次就能完成：</p>
+
+  <pre><code>SELECT posts.*, comments.*
+FROM posts
+LEFT JOIN comments ON posts.id = comments.post_id;</code></pre>
+
+  <p><strong>AI 经常犯 N+1 错误吗？</strong> 是的，尤其在生成 ORM 代码时。解决方案：遇到页面加载慢时，直接问 AI "这个页面是不是有 N+1 查询问题？"</p>
+
+  <p>AI 会识别出 ORM 代码中的循环查询模式，并用 <code>include</code>（Prisma）或 JOIN 替换。</p>
+
+  <p><strong>N+1 问题的典型症状：</strong></p>
+
+  <ul>
+<li>页面加载随着数据量增加线性变慢</li>
+<li>看 Network 面板，发现发了几十上百个 API 请求</li>
+<li>服务器日志中有大量结构相似的数据库查询</li>
+</ul>
+
+  <p>如果你怀疑有 N+1 问题，告诉 AI：</p>
+
+  <blockquote>
+
+  <p>"加载用户列表页面时，Network 面板显示发了 50 个请求，每个请求都是查一个用户的订单数据。这是不是 N+1 问题？"</p>
+
+  </blockquote>
+
+  <p>AI 会确认并修复。</p>
+
+  <p><strong>缺少索引</strong></p>
+
+  <p>场景：应用刚上线时数据少，一切正常。运行一个月后，数据量增长了 100 倍，页面加载越来越慢。</p>
+
+  <p>原因：AI 生成数据表时可能没有考虑你未来的数据量。当数据量增长后，<code>EXPLAIN QUERY PLAN</code> 一看——全是全表扫描。</p>
+
+  <p><strong>数据量增长的三个典型阶段：</strong></p>
+
+  <table class="reading-path-table"><thead><tr><th>数据量</th><th>表现</th><th>对策</th></tr></thead><tbody><tr><td>< 1 万行</td><td>不管有没有索引，查询都很快</td><td>不需要索引</td></tr><tr><td>1 万 ~ 10 万行</td><td>没有索引时查询变慢</td><td>在常用查询字段上加索引</td></tr><tr><td>> 10 万行</td><td>必须要有索引，否则查询以秒计</td><td>检查所有查询的索引覆盖</td></tr></tbody></table>
+
+  <h2>如何向 AI 描述数据库问题</h2>
+
+  <pre><code>我的应用首页加载非常慢（约 5 秒），数据表大概有 10 万条记录。
+主要的查询是：SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC LIMIT 20。
+帮我检查这个查询是否需要加索引。</code></pre>
+
+  <p>AI 会建议在 <code>user_id</code> 和 <code>created_at</code> 上创建复合索引。创建后，查询时间会降到十几毫秒。</p>
+
+  <p><strong>更完整的描述模板：</strong></p>
+
+  <pre><code>页面：[页面名称] 加载慢，耗时约 [X] 秒。
+哪个操作慢：[点击按钮/打开页面/提交表单]。
+数据量：orders 表约 [X] 万条记录。
+慢的查询（如果知道）：[把 SQL 或 ORM 查询贴出来]。
+什么时候开始变慢：[一直慢 / 最近数据量大了才慢]。</code></pre>
+
+  <p>不需要把所有字段都填满——填你知道的就行。AI 会追问不清楚的细节。</p>
+
+  <h2>数据库类型的不同</h2>
+
+  <p>不同类型的数据库在一些细节上不同，但核心概念相同：</p>
+
+  <table class="reading-path-table"><thead><tr><th>数据库</th><th>适合场景</th><th>在 Vibe Coding 中</th></tr></thead><tbody><tr><td>SQLite</td><td>本地开发、数据量小</td><td>默认选择——零配置，文件级数据库</td></tr><tr><td>PostgreSQL</td><td>生产环境、数据量大</td><td>Prisma 连接，Vercel/ Railway 部署</td></tr><tr><td>MySQL</td><td>传统 Web 应用</td><td>不推荐——易用性不如 PostgreSQL</td></tr><tr><td>MongoDB</td><td>文档型数据</td><td>AI 也很熟悉，但查询模式不同</td></tr></tbody></table>
+
+  <p>你不需要自己选——告诉 AI "这个项目要用什么数据库"，AI 会根据项目需求推荐。大多数情况 AI 会推荐 SQLite（开发阶段）+ PostgreSQL（生产环境）的组合。</p>
+
+  <h2>理解 vs 不必理解</h2>
+
+  <p>关于数据库，你不需要知道：</p>
+
+  <ul>
+<li>B+ 树的内部结构（索引的实现原理）</li>
+<li>事务的隔离级别（除非你在做金融系统）</li>
+<li>查询优化器的成本计算</li>
+</ul>
+
+  <p>关于数据库，你最好知道：</p>
+
+  <ul>
+<li>索引 = 书的目录，能加速查询</li>
+<li>JOIN 比 N 次单独查询更高效</li>
+<li>数据量大到一定程度（万级以上）时，查询速度会明显下降</li>
+</ul>
+
+  <p>这三个"最好知道"的点，能帮你解决 80% 的数据库性能问题。把症状告诉 AI，AI 做诊断，你做验证。</p>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>数据库像超大型 Excel 表——表 = Sheet，行 = 一行数据，列 = 一种数据类型。数据不会像人类那样"聪明地"查找，需要索引指引。</li>
+<li>索引 = 书的目录——没有索引时数据库要扫描整个表。需要告诉 AI "帮我检查缺少索引"。</li>
+<li>N+1 查询是最常见的性能问题——用 JOIN 替代循环查询。症状是数据量增加时页面线性变慢。</li>
+<li>数据量增长的三个阶段：< 1 万行不需要索引，1 万~10 万行需要索引，> 10 万行必须索引。</li>
+<li>数据库类型不同但核心概念相同：开发用 SQLite，生产用 PostgreSQL。AI 会自动选择。</li>
+<li>你不需要懂 B+ 树，但最好知道索引、JOIN、数据量增长这三个概念。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>对 Claude Code 说：</p>
+  <div class="vibe-prompt">
+  <p>"我有一个 SQLite 数据库，orders 表有 50 万条数据。查询 SELECT * FROM orders WHERE status = 'pending' ORDER BY created_at DESC 需要 3 秒。请帮我诊断并提供优化方案。"</p>
+  </div>
+  <p>进阶练习：</p>
+  <p>让 AI "在我的项目中创建一个简单的演示：创建 10000 条测试数据插入 orders 表，然后分别用有索引和无索引的情况下执行同一个查询，展示查询时间差异。" 这个练习会让你亲眼看到索引的效果——从"秒级"到"毫秒级"的差异。</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13.4 浏览器自动化代理</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #7a6a8a, #a898b8, #7a6a8a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #7a6a8a; }
+  .title-divider { background: #a898b8; }
+  strong { color: #7a6a8a; }
+  .img-icon { color: #a898b8; }
+  .img-label { color: #7a6a8a; }
+  .img-caption { color: #7a6a8a; }
+  .takeaways-title { color: #7a6a8a; }
+  .takeaways li::before { color: #a898b8; }
+  .vibe-label { color: #7a6a8a; }
+  .vibe-prompt::before { color: #a898b8; }
+  blockquote { border-left-color: #a898b8; }
+  th { color: #7a6a8a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第十三章 · 进阶实战项目库</div>
+  <h1>13.4 浏览器自动化代理</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-13<br>  验证环境：Node.js v22.x, Python 3.12, Playwright v1.40+</div>
+
+  <h2>项目概述</h2>
+
+  <p>构建一个浏览器自动化工具：用 Playwright 控制浏览器，AI 根据你的自然语言指令自动执行网页操作。</p>
+
+  <p>比如你说"帮我登录 Gmail，找到昨天来自某某的邮件，把附件下载下来"，AI 会生成 Playwright 脚本并执行。</p>
+
+  <p>这个项目的核心价值：<strong>AI 不再是"建议你怎么做"，而是"替你做"。</strong> 它帮你操作浏览器、填写表单、提取数据。它从"写代码的工具"变成了"执行任务的工具"。</p>
+
+  <h2>推荐技术栈</h2>
+
+  <ul>
+<li><strong>自动化引擎</strong>：Playwright（比 Puppeteer 更现代、更稳定）</li>
+<li><strong>语言</strong>：Python 或 Node.js（Playwright 两者都支持）</li>
+<li><strong>AI 集成</strong>：Claude API（用于理解指令和生成脚本）</li>
+<li><strong>数据输出</strong>：CSV / JSON</li>
+</ul>
+
+  <h2>分步 Vibe 流程</h2>
+
+  <p><strong>第 1 步：安装和初始化</strong></p>
+
+  <pre><code>帮我安装 Playwright，并创建一个脚本：打开浏览器，访问 https://news.ycombinator.com，截取全页面截图。
+先验证这一步能正常运行。</code></pre>
+
+  <p>这一步的目的是验证 Playwright 在你的机器上能正常工作，包括浏览器驱动、中文字体渲染等。</p>
+
+  <blockquote>
+
+  <p><strong>Windows 用户的注意事项：</strong> Playwright 安装时会自动下载 Chromium 浏览器（约 200MB）。如果你的网络环境下载慢，AI 可以配置使用已安装的浏览器。安装完成后，运行截图脚本验证——能看到一张完整页面截图，说明所有组件工作正常。</p>
+
+  </blockquote>
+
+  <p><strong>第 2 步：实现简单的数据抓取</strong></p>
+
+  <pre><code>访问 https://books.toscrape.com（一个专门用来练习抓取的网站），
+提取页面上所有书籍的名称、价格和评分，保存到 CSV 文件中。</code></pre>
+
+  <p>这个网站是专门为爬虫练习设计的——不会触发反爬虫机制。适合作为第一步练习。</p>
+
+  <blockquote>
+
+  <p><strong>为什么从练习网站开始？</strong> 真实网站可能随时改变结构、有反爬虫机制、甚至法律限制。先在一个安全的环境中验证 Playwright 的数据提取能力。当你确认了"AI 能正确提取数据"后，再切换到真实场景。</p>
+
+  </blockquote>
+
+  <p><strong>第 3 步：让 AI 根据指令生成脚本</strong></p>
+
+  <pre><code>实现一个功能：我输入自然语言指令（如"搜索 AI 编程工具的最新文章"），
+你生成对应的 Playwright 脚本并执行，返回结果。</code></pre>
+
+  <p>这一步是项目的核心——让 AI 从"执行固定脚本"升级为"根据指令动态生成脚本"。你可以让 AI 自己实现这个功能：</p>
+
+  <pre><code>帮我写一个函数，接收自然语言指令作为输入：
+1. 将指令发送给大模型，生成 Playwright 代码
+2. 将生成的代码保存到临时文件
+3. 执行该脚本
+4. 返回执行结果（截图或数据）
+5. 如果执行出错，自动修复并重试一次</code></pre>
+
+  <p>是的——你可以在"AI 写代码"之上再加一层：让 AI 写一个"AI 自动写代码并执行"的系统。这就是 AI Native 开发中的<strong>元编程</strong>（meta-programming）模式。</p>
+
+  <blockquote>
+
+  <p><strong>元编程的威力：</strong> 你在"编程"的层面上又封装了一层。你不是让 AI 写一个固定的脚本，而是让 AI 写一个"能根据输入动态写脚本的系统"。这个系统本身能理解自然语言指令、生成代码、执行代码、出错时自动修复。你从"告诉 AI 具体写什么代码"变成了"告诉 AI 你想要什么结果"。</p>
+
+  </blockquote>
+
+  <p><strong>第 4 步：添加安全性</strong></p>
+
+  <p>浏览器自动化有一个安全隐患——AI 生成的代码可能执行危险操作（如自动提交表单、删除账户等）。</p>
+
+  <pre><code>添加安全保护机制：
+1. 执行前先让用户确认"即将执行的操作：[描述]"
+2. 限制只允许 HTTP/HTTPS 访问，禁止 file:// 协议
+3. 设置操作白名单（只允许读取操作，不允许写入/删除操作）</code></pre>
+
+  <p>安全保护不是可有可无的——它是让"AI 自动操作浏览器"变得可信赖的关键。每次执行前弹出一个确认框，显示"即将执行：访问 xxx 网站并提取 xxx 数据"，你确认后才执行。</p>
+
+  <h2>一个更安全的替代方案</h2>
+
+  <p>如果你担心 AI 直接控制浏览器的风险，可以改用 <strong>"人机协作"</strong> 模式：</p>
+
+  <ul>
+<li>AI 生成 Playwright 脚本，但不自动执行</li>
+<li>你检查脚本后手动运行</li>
+<li>确认无误后再开启自动执行模式</li>
+</ul>
+
+  <p>这在自动化测试中尤其常见——AI 生成测试用例，你审核后运行。</p>
+
+  <h2>扩展方向</h2>
+
+  <p><strong>方向一：定时自动化。</strong></p>
+
+  <p>"让脚本每天早上 8 点自动运行，抓取某网站的最新数据，并发送摘要邮件。"</p>
+
+  <p>AI 会配置 cron 作业或用 Python 的 schedule 库实现定时功能。</p>
+
+  <p><strong>方向二：多步骤工作流。</strong></p>
+
+  <p>"做一个工作流：1）打开新闻网站 → 2）提取头条新闻 → 3）用 AI 总结每篇新闻 → 4）生成日报邮件草稿。"</p>
+
+  <p><strong>方向三：表单自动填写。</strong></p>
+
+  <p>"自动填写这份 Google 表单：字段 A = 今天的日期，字段 B = 昨天的销售额，字段 C = 从数据库读取的客户数。"</p>
+
+  <h2>关键决策点</h2>
+
+  <table class="reading-path-table"><thead><tr><th>决策点</th><th>可选方案</th><th>说明</th></tr></thead><tbody><tr><td>浏览器引擎</td><td>Chromium / Firefox / WebKit</td><td>Playwright 默认 Chromium，兼容性最好</td></tr><tr><td>执行模式</td><td>有头 / 无头</td><td>调试时有头，正式运行可无头</td></tr><tr><td>脚本生成</td><td>固定模板 / AI 动态生成</td><td>先做固定模板，再做动态生成</td></tr><tr><td>安全策略</td><td>用户确认 / 操作白名单 / 沙箱</td><td>至少加上用户确认，不可完全自动化</td></tr><tr><td>数据输出</td><td>CSV / JSON / 数据库</td><td>CSV 最简单，结构化数据用 JSON</td></tr></tbody></table>
+
+  <h2>常见问题与 AI 修复</h2>
+
+  <p><strong>问题 1：反爬虫机制。</strong></p>
+
+  <p>"抓取淘宝商品数据时被反爬了。"</p>
+
+  <p>AI 会添加随机 User-Agent、等待时间随机化、浏览器指纹伪装。如果还是被限制，建议使用官方 API 或增加代理 IP。</p>
+
+  <blockquote>
+
+  <p><strong>关于反爬虫的道德提醒：</strong> 不要用这个工具抓取需要登录才能访问的内容、不要高频请求同一个网站、尊重网站的 robots.txt。这个工具的价值在于"自动执行你做起来很繁琐的操作"（比如每周手动从几个网站收集数据），而不是"大规模数据窃取"。</p>
+
+  </blockquote>
+
+  <p><strong>问题 2：元素选择器失效。</strong></p>
+
+  <p>"AI 生成的脚本在点击按钮时总是找不到元素。"</p>
+
+  <p>AI 会将选择器策略从按 text 匹配改为按 placeholder 和 role 匹配，同时添加了等待元素可见的步骤。网页结构变化时这是一个常见问题——AI 可以切换选择器策略来应对。</p>
+
+  <p><strong>问题 3：登录态失效。</strong></p>
+
+  <p>"脚本需要登录才能操作，但登录状态在第二天就过期了。"</p>
+
+  <p>AI 会添加 cookie 持久化功能，将登录后的 cookie 保存到本地文件，下次运行时加载。如果 cookie 过期，再重新执行登录流程。</p>
+
+  <pre><code>你：抓取淘宝商品数据时被反爬了。
+
+AI：添加了随机 User-Agent、等待时间随机化、浏览器指纹伪装。如果还是被限制，建议使用官方 API 或增加代理 IP。</code></pre>
+
+  <pre><code>你：AI 生成的脚本在点击按钮时总是找不到元素。
+
+AI：将选择器策略从按 text 匹配改为按 placeholder 和 role 匹配，同时添加了等待元素可见的步骤。</code></pre>
+
+  <pre><code>你：脚本每次运行都要重新登录，太慢了。
+
+AI：添加了 cookie 持久化功能。首次登录后保存 cookie，后续运行直接加载，跳过登录步骤。设置了 24 小时过期检测。</code></pre>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>Playwright 是 AI 最熟悉的浏览器自动化工具，适合数据抓取和自动化测试。验证环境从截图开始。</li>
+<li>核心模式：AI 根据自然语言指令动态生成 Playwright 脚本并执行。从练习网站开始，再切换到真实场景。</li>
+<li>可以在"AI 写代码"之上构建"AI 写代码并自动执行"的元编程系统——你从告诉 AI"写什么代码"变成了告诉 AI"要什么结果"。</li>
+<li>安全保护必不可少——至少要有用户确认机制。人机协作模式（AI 生成脚本，你审核后执行）是更安全的选择。</li>
+<li>如果目标网站有反爬机制，AI 可以调整策略（更换 User-Agent、随机延迟等）。但要遵守道德规范——不高频请求、不抓取需登录的内容。</li>
+<li>element selector 失效时 AI 会切换策略，登录状态过期时 AI 可以持久化 cookie。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>对 Claude Code 说：</p>
+  <div class="vibe-prompt">
+  <p>"安装 Playwright 并帮我创建一个自动化脚本，打开 https://news.ycombinator.com，提取当前页面上所有文章的标题和链接，保存到 CSV 文件中。"</p>
+  </div>
+  <p>进阶练习：</p>
+  <p>完成基础抓取后，让 AI "创建一个'自动巡检'脚本：每天早上访问你的网站（或其他公共服务），检查页面是否正常加载（状态码 200，包含特定关键词）。如果发现异常，发送桌面通知。" 观察 AI 如何组合浏览器自动化、定时任务和通知功能。</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

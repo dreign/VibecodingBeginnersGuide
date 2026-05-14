@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7.5 Vibe Coding 的适用范围</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #7a6a8a, #a898b8, #7a6a8a);
+    z-index: 100;
+  }
+  .chapter-meta { color: #7a6a8a; }
+  .title-divider { background: #a898b8; }
+  strong { color: #7a6a8a; }
+  .img-icon { color: #a898b8; }
+  .img-label { color: #7a6a8a; }
+  .img-caption { color: #7a6a8a; }
+  .takeaways-title { color: #7a6a8a; }
+  .takeaways li::before { color: #a898b8; }
+  .vibe-label { color: #7a6a8a; }
+  .vibe-prompt::before { color: #a898b8; }
+  blockquote { border-left-color: #a898b8; }
+  th { color: #7a6a8a; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="chapter-meta">第七章 · Vibe-Coding核心概念</div>
+  <h1>7.5 Vibe Coding 的适用范围</h1>
+  <div class="title-divider"></div>
+
+  <div class="section-meta">本节最后更新：2026-05-12<br>  验证环境：无（纯理论章节）</div>
+
+  <h2>能做什么，不能做什么</h2>
+
+  <p>Vibe Coding 能做的事情比你想象的多——在正确的场景下，它是一种超级生产力。但它也有明确的边界。你不是每件事都应该用 Vibe Coding 来做的。</p>
+
+  <p>这一节我们来画出它的适用范围——哪些事你应该放心交给 AI，哪些事你需要带着审慎去做，哪些事你根本不应该让 AI 碰。</p>
+
+  <h2>最适合做的（高收益、低风险）</h2>
+
+  <p>这些场景中，Vibe Coding 的效果最好——你的效率提升最大，出错的风险最低，AI 的表现最稳定。</p>
+
+  <p><strong>脚本与自动化工具</strong></p>
+
+  <p>写一个批量重命名文件的 Python 脚本、做一个从网页抓取数据的爬虫、写一个将 Excel 转换成 PDF 的命令行工具。这些任务的边界清晰、复杂度适中，AI 生成效率极高。</p>
+
+  <p>典型例子：</p>
+
+  <ul>
+<li>"写一个 Python 脚本，遍历当前目录下的所有 .jpg 文件，按照创建日期重命名为 YYYY-MM-DD-序号.jpg。"</li>
+<li>"做一个命令行工具，读取一个 CSV 文件，按指定的列进行分组统计，输出到新的 CSV。"</li>
+<li>"写一个脚本，把某个文件夹中所有 Markdown 文件中的图片链接下载到本地并替换路径。"</li>
+</ul>
+
+  <p>这些任务的共同特征：输入明确、输出明确、逻辑清晰、不涉及复杂的 UI 或状态管理。AI 对这种"纯逻辑"的任务把握最大。</p>
+
+  <p><strong>Web 应用原型和 MVP</strong></p>
+
+  <p>这是 Vibe Coding 目前最强大、最成熟的领域。用 Next.js + Supabase 或类似的组合，你可以在极短时间内构建出一个全栈应用。包括前端界面、后端 API、数据库操作、用户认证。</p>
+
+  <p>典型例子：</p>
+
+  <ul>
+<li>"做一个 todo App，支持增删改查，用 React + Tailwind。" —— 30 分钟搞定。</li>
+<li>"做一个个人博客系统，Markdown 渲染、标签分类、 RSS 订阅。" —— 2~3 小时。</li>
+<li>"做一个 AI 聊天记录管理工具，支持搜索、标签、导出。" —— 半天。</li>
+</ul>
+
+  <p>为什么 Web 应用最适合？因为 AI 的训练数据中有海量的 Web 开发代码。React、Vue、Next.js、Tailwind 等现代框架的代码在训练数据中占比极高，AI 对这些技术的掌握程度最好。同时 Web 应用的运行环境相对简单（浏览器或 Node.js），调试和验证都很方便。</p>
+
+  <p><strong>AI 智能体和集成</strong></p>
+
+  <p>调用大模型 API 做文本分析、对话机器人、文档问答等应用。AI 对 AI 相关的 API（OpenAI、Anthropic 等）非常熟悉，生成相关代码的准确率很高。</p>
+
+  <p>典型例子：</p>
+
+  <ul>
+<li>"用 OpenAI API 做一个文本摘要工具，输入长文章输出 200 字摘要。"</li>
+<li>"做一个 PDF 文档问答工具，用户上传 PDF 后可以提问，AI 在文档中查找答案。"</li>
+<li>"用 Anthropic API 写一个代码审查助手，分析 PR 中的代码变更并给出改进建议。"</li>
+</ul>
+
+  <p>有趣的是，AI 最擅长的事情之一就是"调用 AI"——因为它的训练数据中包含了大量的 AI API 文档和示例代码。这是 Vibe Coding 的"元优势"：你让 AI 帮你写调用 AI 的代码。</p>
+
+  <p><strong>数据可视化看板</strong></p>
+
+  <p>连接 API 或数据库，用 Chart.js、ECharts、D3.js 生成图表。图表类的需求标准化程度高，AI 生成效果好。</p>
+
+  <p>典型例子：</p>
+
+  <ul>
+<li>"用 Chart.js 做一个股票走势图，数据从 Yahoo Finance API 获取。"</li>
+<li>"做一个 GitHub 仓库的贡献统计看板——展示 Star 趋势、PR 数量、Issue 分布。"</li>
+<li>"用 ECharts 做一个中国地图的省级数据热力图。"</li>
+</ul>
+
+  <p>图表是现代 Web 开发中一个"半标准化"的领域——每个图表形态（折线图、柱状图、饼图、地图）都有成熟的模板，AI 对这些模板的把握很好。但具体的配色、交互细节、数据格式转换，需要你来指定。</p>
+
+  <h2>可以做但有挑战的（收益高但风险中等）</h2>
+
+  <p>这些场景不是不能做——事实上很多开发者每天都在做。但它们对你有更高的要求：需要更精细的提示词、更频繁的审查、更深入的技术判断。</p>
+
+  <p><strong>需要复杂状态管理的应用</strong></p>
+
+  <p>比如多人实时协作编辑器、复杂的游戏逻辑、大型企业级系统。不是不能做，但需要你把需求拆得很细、分步迭代，而且对 AI 生成代码的审查要求更高。</p>
+
+  <p>挑战在哪？</p>
+
+  <ul>
+<li>状态管理的复杂性：多个用户同时编辑时如何避免冲突？离线时数据怎么缓存？这些涉及复杂的逻辑设计，AI 可能没有考虑所有边缘情况。</li>
+<li>性能要求：实时协作场景下，AI 生成的代码可能在性能上不够优化——比如不必要的重渲染、低效的数据同步策略。</li>
+<li>架构设计：这些应用需要合理的模块拆分和数据流设计。AI 可能给出一个"能运行但不好维护"的方案。</li>
+</ul>
+
+  <p>应对策略：</p>
+
+  <ul>
+<li>让 AI 先出架构方案，你评审后再开始写代码。</li>
+<li>把复杂功能拆成多个小功能，每个功能独立验证。</li>
+<li>在关键的性能路径上进行代码审查和手动优化。</li>
+</ul>
+
+  <p><strong>依赖最新或小众技术的项目</strong></p>
+
+  <p>如果一个框架刚发布一个月，或者一个库的文档很少、使用人数不多，AI 可能没有充分的训练数据来准确生成代码。这时候你需要在 AI 生成的基础上做更多的手动调整。</p>
+
+  <p>哪些技术 AI 最熟悉？</p>
+
+  <ul>
+<li>🟢 高度熟悉：React、Vue、Next.js、Express、FastAPI、Tailwind、Prisma、Supabase、Python 标准库。</li>
+<li>🟡 中等熟悉：Svelte、Solid.js、tRPC、GraphQL、Redis、Docker、Kubernetes。</li>
+<li>🔴 不太熟悉：最新的框架（如刚发布的）、偏门语言（如 COBOL）、内部工具或公司自研框架。</li>
+</ul>
+
+  <p>应对策略：</p>
+
+  <ul>
+<li>对于 AI 不太熟悉的技术，在提示词中附上技术文档或 API 参考。</li>
+<li>如果项目依赖了新技术，先让 AI 写一个小例子验证它能正确理解。</li>
+<li>对于关键代码，不要完全信任 AI 的实现——查阅官方文档做对比。</li>
+</ul>
+
+  <p><strong>需要高度安全和合规的项目</strong></p>
+
+  <p>医疗数据处理、金融交易系统、以及任何涉及大量用户隐私的领域。AI 可以帮你写代码，但安全审计和法律合规的责任完全在你。在这些领域，Vibe Coding 更适合做"辅助"而不是"主力"。</p>
+
+  <p>需要注意什么？</p>
+
+  <ul>
+<li>数据验证：AI 生成的代码可能没有充分考虑输入校验——这可能导致 SQL 注入、XSS 攻击等安全问题。</li>
+<li>访问控制：AI 可能忽略了权限检查——"读"和"写"的权限应该分开控制。</li>
+<li>加密和存储：AI 可能没有使用最佳实践来处理敏感数据——比如密码用明文存储而不是 hash。</li>
+<li>合规要求：GDPR、CCPA、HIPAA 等合规要求——AI 不会自动遵守，你需要自己确保。</li>
+</ul>
+
+  <p>应对策略：</p>
+
+  <ul>
+<li>绝对不要在 Vibe Coding 中跳过安全审查。每一段 AI 生成的代码都要过安全的"脑子"。</li>
+<li>使用 AI 做"辅助"：让 AI 生成代码框架，然后你在关键的安全环节上手动编写或严格审查。</li>
+<li>让 AI 扮演"安全顾问"角色：告诉 AI"这是一个涉及医疗数据的应用，请帮我检查现有代码在 HIPAA 合规方面的问题"——AI 可以识别出一些明显的问题，但最终责任在你。</li>
+</ul>
+
+  <h2>目前不太适合的（低收益或高风险）</h2>
+
+  <p>这些场景中，Vibe Coding 的效率优势不大，或者风险太高。如果你不是专业开发者，这些领域建议谨慎。</p>
+
+  <p><strong>硬件编程和嵌入式系统</strong></p>
+
+  <p>写单片机代码、FPGA 逻辑、底层驱动。这些领域 AI 的训练数据相对较少，生成的代码质量不稳定。</p>
+
+  <p>为什么不太适合？</p>
+
+  <ul>
+<li>硬件代码对精确度的要求极高——一个寄存器设置错误可能导致硬件损坏。</li>
+<li>硬件平台种类繁多（ARM、AVR、ESP32、RISC-V……），每种平台的 SDK 和 API 不同，AI 的训练数据覆盖不全面。</li>
+<li>调试硬件代码需要特殊的设备和环境（逻辑分析仪、示波器、JTAG 调试器），AI 无法帮你排查硬件级别的问题。</li>
+</ul>
+
+  <p>如果在做嵌入式开发，AI 更适合做"辅助"——帮你写文档、生成配置文件、转换数据结构格式——而不是直接生成控制硬件的核心代码。</p>
+
+  <p><strong>需要极致性能的底层优化</strong></p>
+
+  <p>手写汇编级别的性能优化、操作系统内核的特定模块、高频交易系统的核心算法。AI 可以生成一个版本，但离"性能极致"通常还有距离。</p>
+
+  <p>为什么不太适合？</p>
+
+  <ul>
+<li>这些领域需要对硬件架构、缓存层级、指令流水线有极深的理解——AI 的"知识"是统计性的，不是经验性的。</li>
+<li>性能优化的判断标准是具体的数字（延迟降低了多少微秒），需要实际的基准测试来验证。AI 无法替代这种测试。</li>
+</ul>
+
+  <p>在这些领域，AI 更适合做"思路参考"——"帮我列出 5 种优化这段汇编代码的方向"——而不是直接生成生产代码。</p>
+
+  <p><strong>与物理世界交互的实时系统</strong></p>
+
+  <p>飞行控制、医疗设备控制、工业 PLC。这些场景中一个代码错误可能造成物理损害。AI 生成代码在这里只能作为参考，不能替代专业的审查和测试。</p>
+
+  <p>为什么不太适合？</p>
+
+  <ul>
+<li>安全关键系统有严格的质量标准和认证流程——ISO 26262（汽车）、DO-178C（航空）、IEC 62304（医疗）。AI 生成的代码不符合这些标准。</li>
+<li>这些系统的开发流程和 Vibe Coding 的理念存在根本冲突——它们要求每一步都有文档、有追溯、有验证。Vibe Coding 的"快速迭代"在这里不适用。</li>
+<li>错误成本太高——Web 应用的一个 bug 可能只是"页面崩溃"，但在飞机控制系统中的一个 bug 可能是机毁人亡。</li>
+</ul>
+
+  <h2>选型指南</h2>
+
+  <p>当你启动一个项目时，问自己三个问题：</p>
+
+  <p><strong>问题 1：项目的核心复杂度在哪？</strong></p>
+
+  <ul>
+<li>如果核心复杂度是"业务逻辑"——规则多、条件判断多、流程复杂 → Vibe Coding 非常合适。</li>
+<li>如果核心复杂度是"技术实现"——需要极致的性能、深度的硬件交互、复杂的算法优化 → Vibe Coding 适合做辅助，主力还得你自己来。</li>
+</ul>
+
+  <p><strong>问题 2：如果 AI 生成的代码有 bug，后果是什么？</strong></p>
+
+  <ul>
+<li>温和后果：应用闪退、数据再次输入 → Vibe Coding 放心用，小问题无所谓。</li>
+<li>中等后果：数据丢失、系统短暂不可用 → 需要建立测试和审查机制。</li>
+<li>严重后果：经济损失、人身伤害、法律风险 → Vibe Coding 只能做"辅助"，不能做"主力"。</li>
+</ul>
+
+  <p><strong>问题 3：这个技术栈 AI 熟悉吗？</strong></p>
+
+  <ul>
+<li>主流框架（React、Next.js、Express、FastAPI）→ AI 非常熟悉，信任度可以高。</li>
+<li>中等流行的技术 → 让 AI 先写一个小例子验证。</li>
+<li>小众或新技术 → 提供官方文档，并在关键环节上手动审查。</li>
+</ul>
+
+  <p>这三个问题的答案组合起来，形成一个 Vibe Coding 的"信任评分"：</p>
+
+  <table class="reading-path-table"><thead><tr><th>业务逻辑复杂度</th><th>Bug 后果严重程度</th><th>技术栈熟悉度</th><th>建议</th></tr></thead><tbody><tr><td>简单</td><td>温和</td><td>熟悉</td><td>✅ 全力使用 Vibe Coding</td></tr><tr><td>中等</td><td>温和</td><td>熟悉</td><td>✅ 大部分使用 Vibe Coding</td></tr><tr><td>中等</td><td>中等</td><td>熟悉</td><td>⚠️ Vibe Coding + 严格审查</td></tr><tr><td>复杂</td><td>严重</td><td>熟悉</td><td>⚠️ Vibe Coding 做辅助</td></tr><tr><td>复杂</td><td>严重</td><td>不熟悉</td><td>❌ 不适合 Vibe Coding</td></tr></tbody></table>
+
+  <h2>Vibe Coding 的角色光谱</h2>
+
+  <p>最后，不要认为 Vibe Coding 是一个"全有或全无"的选择。它在不同的项目中可以扮演不同的角色：</p>
+
+  <ul>
+<li><strong>主力</strong>（适合 Web 应用 MVP、脚本工具）：你用 Vibe Coding 完成 80% 以上的代码。</li>
+<li><strong>副手</strong>（适合中等复杂度、有小众技术的项目）：你用 Vibe Coding 做框架生成和快速原型，然后在关键模块上手动优化。</li>
+<li><strong>顾问</strong>（适合安全关键、硬件、高性能项目）：你用 Vibe Coding 来讨论方案、写文档、生成测试代码，但生产代码由你手动编写。</li>
+<li><strong>助手</strong>（适合任何领域的学习和探索）：你用 Vibe Coding 来了解一个领域、验证想法、生成示例代码。</li>
+</ul>
+
+  <p>理解"Vibe Coding 在不同的项目中担任不同的角色"，比"Vibe Coding 能不能做这个"更有用。</p>
+
+  <div class="title-divider"></div>
+
+  <div class="takeaways">
+<div class="takeaways-title">本节要点</div>
+<ul>
+<li>Vibe Coding 最擅长的领域：Web 应用 MVP、脚本工具、AI 集成、数据看板。这些场景边界清晰、技术栈主流，AI 的训练数据覆盖充分。</li>
+<li>有挑战的领域：复杂状态应用、小众技术、高安全场景——可以做但需要更多人工审查，且需要你有能力判断 AI 输出的质量。</li>
+<li>不太适合的领域：硬件编程、极致性能优化、实时控制系统——不是绝对不能做，但效率和安全性都不如传统方式。</li>
+<li>选型指南：看核心复杂度（业务逻辑 → 适合，技术实现 → 需要谨慎）、看失败后果（温和 → 放心，严重 → 只能辅助）、看技术栈熟悉度（主流 → 高信任）。</li>
+<li>Vibe Coding 的角色光谱：从"主力"到"副手"到"顾问"到"助手"，在不用项目中扮演不用角色。</li>
+</ul>
+</div>
+
+  <div class="title-divider"></div>
+
+  <div class="vibe-section">
+  <div class="vibe-label">Vibe 练习</div>
+  <p>问你的 AI：</p>
+  <div class="vibe-prompt">
+  <p>"我正要做一个新项目：[简单描述你的项目想法]。请从 Vibe Coding 的适合度角度给我打个分（1-10），并解释为什么。我需要了解在这个项目中，哪些部分可以放心交给 AI，哪些部分需要我自己多留意的。"</p>
+  </div>
+  <p>然后，用本节学到"三个问题"框架自己做一次评估：</p>
+  </div>
+  <p>1. 这个项目的核心复杂度在"业务逻辑"还是"技术实现"？</p>
+  </div>
+  <p>2. 如果 AI 出 bug，后果是什么？</p>
+  </div>
+  <p>3. AI 对这个技术栈的熟悉度怎么样？</p>
+  </div>
+  <p>比较你和 AI 的评估结果——两者差异最大的地方，就是你最需要关注和手动控制的地方。</p>
+</div>
+
+</div>
+</body>
+</html>
