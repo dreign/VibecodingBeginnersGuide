@@ -4,6 +4,8 @@
 
 一本面向非程序员的 AI 开发实战指南，带你开启 Vibe Coding 之旅，用自然语言创造软件。
 
+在线阅读：https://dreign.github.io/VibecodingBeginnersGuide/
+
 ---
 
 ## 📚 关于本书
